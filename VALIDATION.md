@@ -142,3 +142,12 @@ Added Dockerfile, docker-compose.yml and ignore rules for key-free local startup
 Added configurable Postgres/file storage, lazy durable local signing key, validated records/revisions, parameterized queries, row locks, atomic status/timeline updates, idempotent submission and stale-write conflicts. HTTP role/source/verification protections remain. Local file-mode test verifies concurrent saves, cross-workspace denial, duplicate submission, acknowledgements, follow-up/close and reads from another Node process. Local HTTP referral flow passed.
 
 Deployment dry inspection: 344 source files; zero environment files/local draft data/node_modules/generated builds in upload. Credential-pattern scan results are recorded in the execution transcript; this is not a full security audit. Hosted build must migrate and pass real Postgres tests before release. Live deployment outcomes will be appended below. Actual Wispr dictation, hardware microphone, rendered mobile/desktop and keyboard interaction still require manual testing.
+
+Live deployment verification:
+- Production commit dbc1630 deployed to Vercel project sehatrelay, Node 22; public URL https://sehatrelay-avinash-yadav103s-projects.vercel.app.
+- Vercel SSO protection was disabled for judges; anonymous homepage returned HTTP 200.
+- Hosted build applied the schema and its REAL Postgres test passed: concurrent saves, stale-write conflicts, idempotent submission, workspace isolation, acknowledgement/follow-up/closed timeline, and independent-process durability.
+- Live HTTP suite passed all 38 pages and the ASHA/clinician referral journey through the public URL.
+- Vercel build: READY. One Postgres URL sslmode warning appeared in the runtime log; code now explicitly requests sslmode=verify-full on Vercel. Rebuild/redeploy required to verify warning removal.
+- The currently live commit predates this logging cleanup/documentation update. The Docker command remains untested because Docker Engine is absent. Public source was pushed at dbc1630; follow-up source must be pushed after a final verification pass.
+- Live tests used synthetic sample content and created one synthetic referral in the connected database.

@@ -166,7 +166,7 @@ Configured AI can now extract new Hindi, English and Hinglish synthetic narrativ
 
 See [structured extraction setup, error contract and actual test scope](docs/structured-extraction.md). New required server configuration: `SEHAT_AI_PROVIDER`, `SEHAT_AI_MODEL`, and either `AI_GATEWAY_API_KEY` (gateway) or `SEHAT_AI_API_KEY` + `SEHAT_AI_ENDPOINT` (compatible provider). No real key/model was available here; the three-language tests use a mock HTTP service, not a live model.
 
-The persistence proposal is now implemented in `lib/relay/store.ts`, with runnable schema in `db/migrations/001-synthetic-referrals.sql`. Local JSON remains available for key-free startup. [Hosted configuration, release gate and limitations](docs/hosted-demo.md) describe the migration and actual validation scope.
+The persistence adapter is implemented in `lib/relay/store.ts`, with schema in `db/migrations/001-synthetic-referrals.sql`. Vercel uses a connected Neon Postgres database, and the hosted migration plus real Postgres checks passed during the production build. Public production routes and the referral flow passed live HTTP integration tests. Local JSON remains available for key-free startup. See [hosted configuration and limitations](docs/hosted-demo.md).
 
 ## Hosted demo and submission
 

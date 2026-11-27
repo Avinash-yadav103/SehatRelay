@@ -12,7 +12,7 @@ let queue:Promise<unknown>=Promise.resolve();
 function postgres(){const mode=process.env.RELAY_STORAGE||'file';if(!['file','postgres'].includes(mode))throw new StoreError('Unknown storage configuration.',503);if(process.env.VERCEL&&mode!=='postgres')throw new StoreError('Hosted storage is not configured.',503);return mode==='postgres';}
 function database(){
  if(!process.env.DATABASE_URL)throw new StoreError('Database key not set. Local drafts are preserved.',503);
- if(!pool){pool=new Pool({connectionString:process.env.DATABASE_URL,max:3,connectionTimeoutMillis:10000,idleTimeoutMillis:30000,allowExitOnIdle:true,statement_timeout:10000});pool.on('error',()=>{});}return pool;
+ if(!pool){const connectionString=process.env.DATABASE_URL;pool=new Pool({connectionString:process.env.VERCEL&&!/sslmode=/i.test(connectionString)?connectionString+(connectionString.includes('?')?'&':'?')+'sslmode=verify-full':connectionString,max:3,connectionTimeoutMillis:10000,idleTimeoutMillis:30000,allowExitOnIdle:true,statement_timeout:10000});pool.on('error',()=>{});}return pool;
 }
 async function measured<T>(action:'list'|'save'|'review',fn:()=>Promise<T>):Promise<T>{const start=performance.now();let outcome='error';try{const result=await fn();outcome='ok';return result;}finally{try{metric('referrals.storage',1,{action,outcome});metric('referrals.storage.duration_ms',performance.now()-start,{action});}catch{}}}
 async function local<T>(write:boolean,fn:(records:RecordData[])=>T):Promise<T>{

@@ -42,3 +42,5 @@ The legacy Firebase/MongoDB/Express services were not provisioned by this deploy
 - Live link is optional; this task prepares and verifies it.
 - One submission, deadline supplied as 30 November, 11:59 pm. Confirm timezone/year with organizers; the text supplied does not specify them.
 - Whether this round accepts installed-app Wispr text insertion as evidence of building with Flow remains unverified. Browser microphone is not Wispr.
+
+Deployment notes: Vercel project `sehatrelay`, production URL https://sehatrelay-avinash-yadav103s-projects.vercel.app. SSO Deployment Protection is disabled so judges can open the link. Hosted DB build gate passed. Latest live HTTP checks cover 38 routes and the referral handoff. User supplied requested Next.js version upgrade approval. See VALIDATION.md for the deployed commit and follow-up status.
