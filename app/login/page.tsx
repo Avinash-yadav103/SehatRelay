@@ -21,13 +21,13 @@ export default function LoginPage() {
   const { login, isAuthenticated } = useAuth()
 
   const API_BASE = 'http://localhost:8881/api'
-  
+
   const [activeTab, setActiveTab] = useState<"login" | "register">("login")
   const [userType, setUserType] = useState<"patient" | "doctor" | "government" | "student" | null>("patient")
   const [verificationMethod, setVerificationMethod] = useState<"aadhar" | "mobile" | "doctorId" | "governmentId">(
     "aadhar",
   )
-  
+
   // Form fields
   const [aadharNumber, setAadharNumber] = useState("1234 5678 9012")
   const [mobileNumber, setMobileNumber] = useState("9876543210")
@@ -41,14 +41,14 @@ export default function LoginPage() {
     allergies: [],
     chronicConditions: []
   }, null, 2))
-  
+
   // Authentication states
   const [password, setPassword] = useState("")
   const [otp, setOtp] = useState("")
   const [otpSent, setOtpSent] = useState(false)
   const [generatedOtp, setGeneratedOtp] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  
+
   // Form validation errors
   const [aadharError, setAadharError] = useState("")
   const [mobileError, setMobileError] = useState("")
@@ -60,7 +60,7 @@ export default function LoginPage() {
   const [ageError, setAgeError] = useState("")
   const [contactError, setContactError] = useState("")
   const [medicalInfoError, setMedicalInfoError] = useState("")
-  
+
   // Registration status
   const [registrationStatus, setRegistrationStatus] = useState<{ message: string; success: boolean; walletAddress?: string } | null>(null)
   const [loginStatus, setLoginStatus] = useState<{ message: string; success: boolean; patientData?: any } | null>(null)
@@ -121,24 +121,24 @@ export default function LoginPage() {
     setPassword(e.target.value)
     setPasswordError("")
   }
-  
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFullName(e.target.value)
     setNameError("")
   }
-  
+
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 3)
     setAge(value)
     setAgeError("")
   }
-  
+
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10)
     setContactNumber(value)
     setContactError("")
   }
-  
+
   const handleMedicalInfoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMedicalInfo(e.target.value)
     setMedicalInfoError("")
@@ -191,7 +191,7 @@ const handlePatientLogin = async () => {
         success: true,
         patientData: result.user
       });
-      
+
       // Create a user object with MongoDB data
       const mongoUser = {
         id: result.user._id,
@@ -201,13 +201,13 @@ const handlePatientLogin = async () => {
         aadhaarId: result.user.aadhaarId,
         // Add other fields from MongoDB user as needed
       };
-      
+
       // Set the user in context
       setUser(mongoUser);
-      
+
       // Use the existing login function to maintain app state
       login(mongoUser);
-      
+
       toast.success(result.message || "Login successful!");
       router.push(redirect);
     } else {
@@ -387,7 +387,7 @@ const handlePatientLogin = async () => {
           Medical Information (JSON Format)
         </label>
         <textarea
-          className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-700 dark:bg-gray-800"
+          className="w-full p-2 border border-input rounded-md dark:border-gray-700 dark:bg-gray-800"
           value={medicalInfo}
           onChange={handleMedicalInfoChange}
           rows={4}
@@ -395,7 +395,7 @@ const handlePatientLogin = async () => {
         />
         {medicalInfoError && <p className="text-sm text-red-600">{medicalInfoError}</p>}
       </div>
-      
+
       {registrationStatus && (
         <div className={`p-3 rounded-md ${registrationStatus.success ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'}`}>
           <p>{registrationStatus.message}</p>
@@ -406,7 +406,7 @@ const handlePatientLogin = async () => {
       )}
        */}
       <Button
-        className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+        className="w-full mt-4 z-50 bg-primary hover:bg-primary"
         onClick={() => router.push("/register")}
         disabled={isLoading}
       >
@@ -427,7 +427,7 @@ const handlePatientLogin = async () => {
     if (activeTab === "register" && userType === "patient") {
       return renderPatientRegistrationForm();
     }
-    
+
     if (userType === "patient") {
       return (
         <div className="space-y-4">
@@ -435,14 +435,14 @@ const handlePatientLogin = async () => {
           <div className="flex space-x-4">
             <Button
               variant={verificationMethod === "aadhar" ? "default" : "outline"}
-              className={verificationMethod === "aadhar" ? "bg-sky-600 hover:bg-sky-700 flex-1" : "flex-1"}
+              className={verificationMethod === "aadhar" ? "bg-primary hover:bg-primary flex-1" : "flex-1"}
               onClick={() => setVerificationMethod("aadhar")}
             >
               Aadhar Number
             </Button>
             <Button
               variant={verificationMethod === "mobile" ? "default" : "outline"}
-              className={verificationMethod === "mobile" ? "bg-sky-600 hover:bg-sky-700 flex-1" : "flex-1"}
+              className={verificationMethod === "mobile" ? "bg-primary hover:bg-primary flex-1" : "flex-1"}
               onClick={() => setVerificationMethod("mobile")}
             >
               Mobile Number
@@ -467,7 +467,7 @@ const handlePatientLogin = async () => {
                   placeholder="Enter your password"
                   error={passwordError}
                 />
-                
+
                 {loginStatus && (
                   <div className={`p-3 rounded-md ${loginStatus.success ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'}`}>
                     <p>{loginStatus.message}</p>
@@ -480,9 +480,9 @@ const handlePatientLogin = async () => {
                     )}
                   </div>
                 )}
-                
+
                 <Button
-                  className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+                  className="w-full mt-4 z-50 bg-primary hover:bg-primary"
                   onClick={handlePatientLogin}
                   disabled={isLoading}
                 >
@@ -505,9 +505,9 @@ const handlePatientLogin = async () => {
                   placeholder="10-digit mobile number"
                   error={mobileError}
                 />
-                
+
                 <Button
-                  className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+                  className="w-full mt-4 z-50 bg-primary hover:bg-primary"
                   onClick={handleSendOtp}
                   disabled={isLoading}
                 >
@@ -532,14 +532,14 @@ const handlePatientLogin = async () => {
           <div className="flex space-x-4">
             <Button
               variant={verificationMethod === "aadhar" ? "default" : "outline"}
-              className={verificationMethod === "aadhar" ? "bg-sky-600 hover:bg-sky-700 flex-1" : "flex-1"}
+              className={verificationMethod === "aadhar" ? "bg-primary hover:bg-primary flex-1" : "flex-1"}
               onClick={() => setVerificationMethod("aadhar")}
             >
               Aadhar Number
             </Button>
             <Button
               variant={verificationMethod === "mobile" ? "default" : "outline"}
-              className={verificationMethod === "mobile" ? "bg-sky-600 hover:bg-sky-700 flex-1" : "flex-1"}
+              className={verificationMethod === "mobile" ? "bg-primary hover:bg-primary flex-1" : "flex-1"}
               onClick={() => setVerificationMethod("mobile")}
             >
               Mobile Number
@@ -565,9 +565,9 @@ const handlePatientLogin = async () => {
               />
             )}
           </div>
-          
+
           <Button
-            className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+            className="w-full mt-4 z-50 bg-primary hover:bg-primary"
             onClick={handleSendOtp}
             disabled={isLoading}
           >
@@ -601,7 +601,7 @@ const handlePatientLogin = async () => {
             placeholder="Enter your password"
             error={passwordError}
           />
-          
+
           {loginStatus && (
             <div className={`p-3 rounded-md ${loginStatus.success ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'}`}>
               <p>{loginStatus.message}</p>
@@ -614,9 +614,9 @@ const handlePatientLogin = async () => {
               )}
             </div>
           )}
-          
+
           <Button
-            className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+            className="w-full mt-4 z-50 bg-primary hover:bg-primary"
             onClick={handleDoctorLogin}
             disabled={isLoading}
           >
@@ -642,9 +642,9 @@ const handlePatientLogin = async () => {
             placeholder="Enter your Government ID"
             error={governmentIdError}
           />
-          
+
           <Button
-            className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+            className="w-full mt-4 z-50 bg-primary hover:bg-primary"
             onClick={handleSendOtp}
             disabled={isLoading}
           >
@@ -681,7 +681,7 @@ const handlePatientLogin = async () => {
       <Input label="Enter OTP" value={otp} onChange={handleOtpChange} placeholder="6-digit OTP" error={otpError} />
 
       <Button
-        className="w-full mt-4 z-50 bg-sky-600 hover:bg-sky-700"
+        className="w-full mt-4 z-50 bg-primary hover:bg-primary"
         onClick={handleOtherUserLogin}
         disabled={isLoading}
       >
@@ -699,7 +699,7 @@ const handlePatientLogin = async () => {
 
       <p className="text-center text-sm text-gray-500 dark:text-gray-400">
         Didn&apos;t receive OTP?
-        <button className="ml-1 text-sky-600 hover:text-sky-700" onClick={handleSendOtp}>
+        <button className="ml-1 text-primary hover:text-primary" onClick={handleSendOtp}>
           Resend
         </button>
       </p>
@@ -708,11 +708,11 @@ const handlePatientLogin = async () => {
 
   // For demo purposes, add a direct login button
   const renderDirectLoginButton = () => (
-    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div className="mt-4 pt-4 border-t border-border dark:border-gray-700">
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">For demonstration purposes:</p>
-      <Button 
-        variant="outline" 
-        className="w-full" 
+      <Button
+        variant="outline"
+        className="w-full"
         onClick={() => {
           if (userType === "patient") {
             login(mockUsers.patient);
@@ -725,7 +725,7 @@ const handlePatientLogin = async () => {
           }
           toast.success("Direct login successful!");
           router.push(redirect);
-        }} 
+        }}
         disabled={isLoading}
       >
         {isLoading ? (
@@ -780,7 +780,7 @@ const handleDoctorLogin = async () => {
         success: true,
         patientData: result.user // Using patientData to store doctor data too
       });
-      
+
       // Create a user object with MongoDB data
       const mongoUser = {
         id: result.user._id,
@@ -791,13 +791,13 @@ const handleDoctorLogin = async () => {
         specialization: result.user.specialization,
         hospital: result.user.hospital
       };
-      
+
       // Set the user in context
       setUser(mongoUser);
-      
+
       // Use the existing login function
       login(mongoUser);
-      
+
       toast.success(result.message || "Login successful!");
       router.push(redirect);
     } else {
@@ -817,12 +817,12 @@ const handleDoctorLogin = async () => {
 };
 
   return (
-    <main className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-screen flex flex-col bg-background dark:bg-gray-900">
       <FloatingNavbar navItems={navItems} />
 
       <div className="flex-grow flex items-center justify-center p-4 mt-16">
         <div className="w-full max-w-4xl">
-          <Card3D className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-xl">
+          <Card3D className="bg-card dark:bg-gray-900 rounded-xl p-8 shadow-xl">
             <div className="flex flex-col md:flex-row gap-8">
               {/* User Type Selection - Always visible */}
               <div className="md:w-1/3 space-y-6">
@@ -830,7 +830,7 @@ const handleDoctorLogin = async () => {
                 <div className="grid grid-cols-1 gap-4">
                   <Button
                     variant={userType === "patient" ? "default" : "outline"}
-                    className={userType === "patient" ? "bg-sky-600 hover:bg-sky-700" : ""}
+                    className={userType === "patient" ? "bg-primary hover:bg-primary" : ""}
                     onClick={() => {
                       setUserType("patient")
                       setVerificationMethod("aadhar")
@@ -841,7 +841,7 @@ const handleDoctorLogin = async () => {
                   </Button>
                   <Button
                     variant={userType === "doctor" ? "default" : "outline"}
-                    className={userType === "doctor" ? "bg-sky-600 hover:bg-sky-700" : ""}
+                    className={userType === "doctor" ? "bg-primary hover:bg-primary" : ""}
                     onClick={() => {
                       setUserType("doctor")
                       setVerificationMethod("doctorId")
@@ -852,7 +852,7 @@ const handleDoctorLogin = async () => {
                   </Button>
                   <Button
                     variant={userType === "government" ? "default" : "outline"}
-                    className={userType === "government" ? "bg-sky-600 hover:bg-sky-700" : ""}
+                    className={userType === "government" ? "bg-primary hover:bg-primary" : ""}
                     onClick={() => {
                       setUserType("government")
                       setVerificationMethod("governmentId")
@@ -863,7 +863,7 @@ const handleDoctorLogin = async () => {
                   </Button>
                   <Button
                     variant={userType === "student" ? "default" : "outline"}
-                    className={userType === "student" ? "bg-sky-600 hover:bg-sky-700" : ""}
+                    className={userType === "student" ? "bg-primary hover:bg-primary" : ""}
                     onClick={() => {
                       setUserType("student")
                       setVerificationMethod("aadhar")
@@ -877,11 +877,11 @@ const handleDoctorLogin = async () => {
 
               {/* Login/Register Form */}
               <div className="md:w-2/3 space-y-6">
-                <div className="flex border-b border-gray-200 dark:border-gray-700">
+                <div className="flex border-b border-border dark:border-gray-700">
                   <button
                     className={`px-4 py-2 font-medium text-sm ${
                       activeTab === "login"
-                        ? "text-sky-600 border-b-2 border-sky-600"
+                        ? "text-primary border-b-2 border-sky-600"
                         : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     }`}
                     onClick={() => {
@@ -896,7 +896,7 @@ const handleDoctorLogin = async () => {
                   <button
                     className={`px-4 py-2 font-medium text-sm ${
                       activeTab === "register"
-                        ? "text-sky-600 border-b-2 border-sky-600"
+                        ? "text-primary border-b-2 border-sky-600"
                         : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     }`}
                     onClick={() => {

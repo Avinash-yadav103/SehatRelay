@@ -15,7 +15,7 @@ export default function MedicalRecordsLoading() {
         {Array(5)
           .fill(0)
           .map((_, i) => (
-            <div key={i} className="border rounded-lg p-6 bg-white shadow-sm">
+            <div key={i} className="border rounded-lg p-6 bg-card shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <Skeleton className="h-6 w-1/4" />
                 <Skeleton className="h-6 w-1/6" />

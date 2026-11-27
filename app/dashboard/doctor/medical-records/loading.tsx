@@ -16,13 +16,13 @@ export default function MedicalRecordsLoading() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar skeleton */}
           <div className="space-y-6">
-            <div className="bg-white/80 rounded-xl p-4 h-96"></div>
-            <div className="bg-white/80 rounded-xl p-4 h-48"></div>
+            <div className="bg-card/80 rounded-xl p-4 h-96"></div>
+            <div className="bg-card/80 rounded-xl p-4 h-48"></div>
           </div>
 
           {/* Main content skeleton */}
           <div className="lg:col-span-3">
-            <div className="bg-white/80 rounded-xl overflow-hidden">
+            <div className="bg-card/80 rounded-xl overflow-hidden">
               <div className="p-4 bg-indigo-50/80 border-b border-indigo-100">
                 <div className="h-6 w-48 bg-indigo-200 rounded"></div>
               </div>

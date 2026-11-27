@@ -59,11 +59,11 @@ const MedicalRecordsPage: React.FC = () => {
   ]);
 
   const [medicalRecords, setMedicalRecords] = useState<MedicalRecord[]>([
-    { 
-      id: 'REC001', 
-      patientId: 'PAT001', 
-      doctorId: 'DOC001', 
-      date: '2025-03-15', 
+    {
+      id: 'REC001',
+      patientId: 'PAT001',
+      doctorId: 'DOC001',
+      date: '2025-03-15',
       title: 'Annual Checkup',
       recordType: 'Clinical Notes',
       category: 'Preventive Care',
@@ -73,11 +73,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['EKG_PAT001_20250315.pdf', 'Lab_Results_PAT001_20250315.pdf'],
       lastUpdated: '2025-03-15T14:30:00'
     },
-    { 
-      id: 'REC002', 
-      patientId: 'PAT002', 
-      doctorId: 'DOC001', 
-      date: '2025-03-18', 
+    {
+      id: 'REC002',
+      patientId: 'PAT002',
+      doctorId: 'DOC001',
+      date: '2025-03-18',
       title: 'Diabetes Management Review',
       recordType: 'Clinical Notes',
       category: 'Chronic Disease Management',
@@ -87,11 +87,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['Lab_Results_PAT002_20250318.pdf', 'Diabetes_Management_Plan_PAT002.pdf'],
       lastUpdated: '2025-03-18T10:15:00'
     },
-    { 
-      id: 'REC003', 
-      patientId: 'PAT003', 
-      doctorId: 'DOC002', 
-      date: '2025-03-20', 
+    {
+      id: 'REC003',
+      patientId: 'PAT003',
+      doctorId: 'DOC002',
+      date: '2025-03-20',
       title: 'Asthma Follow-up',
       recordType: 'Clinical Notes',
       category: 'Respiratory',
@@ -101,11 +101,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['PFT_Results_PAT003_20250320.pdf'],
       lastUpdated: '2025-03-20T11:45:00'
     },
-    { 
-      id: 'REC004', 
-      patientId: 'PAT004', 
-      doctorId: 'DOC003', 
-      date: '2025-03-22', 
+    {
+      id: 'REC004',
+      patientId: 'PAT004',
+      doctorId: 'DOC003',
+      date: '2025-03-22',
       title: 'Neurological Assessment',
       recordType: 'Specialist Consultation',
       category: 'Neurology',
@@ -115,11 +115,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['Neurology_Assessment_PAT004_20250322.pdf'],
       lastUpdated: '2025-03-22T16:20:00'
     },
-    { 
-      id: 'REC005', 
-      patientId: 'PAT005', 
-      doctorId: 'DOC001', 
-      date: '2025-03-25', 
+    {
+      id: 'REC005',
+      patientId: 'PAT005',
+      doctorId: 'DOC001',
+      date: '2025-03-25',
       title: 'Hypertension Follow-up',
       recordType: 'Clinical Notes',
       category: 'Cardiovascular',
@@ -129,11 +129,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['BP_Chart_PAT005_20250325.pdf'],
       lastUpdated: '2025-03-25T09:30:00'
     },
-    { 
-      id: 'REC006', 
-      patientId: 'PAT006', 
-      doctorId: 'DOC004', 
-      date: '2025-03-27', 
+    {
+      id: 'REC006',
+      patientId: 'PAT006',
+      doctorId: 'DOC004',
+      date: '2025-03-27',
       title: 'Dermatology Consultation',
       recordType: 'Specialist Consultation',
       category: 'Dermatology',
@@ -143,11 +143,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['Dermatology_Photos_PAT006_20250327.pdf', 'Allergy_Referral_PAT006.pdf'],
       lastUpdated: '2025-03-27T13:15:00'
     },
-    { 
-      id: 'REC007', 
-      patientId: 'PAT007', 
-      doctorId: 'DOC002', 
-      date: '2025-03-29', 
+    {
+      id: 'REC007',
+      patientId: 'PAT007',
+      doctorId: 'DOC002',
+      date: '2025-03-29',
       title: 'Allergy Assessment',
       recordType: 'Clinical Notes',
       category: 'Immunology',
@@ -157,11 +157,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['Allergy_Test_Results_PAT007_20250329.pdf', 'Allergen_Management_Plan_PAT007.pdf'],
       lastUpdated: '2025-03-29T10:45:00'
     },
-    { 
-      id: 'REC008', 
-      patientId: 'PAT008', 
-      doctorId: 'DOC005', 
-      date: '2025-04-01', 
+    {
+      id: 'REC008',
+      patientId: 'PAT008',
+      doctorId: 'DOC005',
+      date: '2025-04-01',
       title: 'Orthopedic Assessment',
       recordType: 'Specialist Consultation',
       category: 'Musculoskeletal',
@@ -171,11 +171,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['Knee_XRay_PAT008_20250401.pdf', 'PT_Referral_PAT008.pdf'],
       lastUpdated: '2025-04-01T15:30:00'
     },
-    { 
-      id: 'REC009', 
-      patientId: 'PAT009', 
-      doctorId: 'DOC005', 
-      date: '2025-04-03', 
+    {
+      id: 'REC009',
+      patientId: 'PAT009',
+      doctorId: 'DOC005',
+      date: '2025-04-03',
       title: 'Back Pain Treatment',
       recordType: 'Treatment Plan',
       category: 'Pain Management',
@@ -185,11 +185,11 @@ const MedicalRecordsPage: React.FC = () => {
       attachments: ['Spine_MRI_PAT009_20250403.pdf', 'PT_Progress_Report_PAT009.pdf'],
       lastUpdated: '2025-04-03T11:20:00'
     },
-    { 
-      id: 'REC010', 
-      patientId: 'PAT010', 
-      doctorId: 'DOC003', 
-      date: '2025-04-05', 
+    {
+      id: 'REC010',
+      patientId: 'PAT010',
+      doctorId: 'DOC003',
+      date: '2025-04-05',
       title: 'Anxiety Management Session',
       recordType: 'Mental Health',
       category: 'Psychiatry',
@@ -220,10 +220,10 @@ const MedicalRecordsPage: React.FC = () => {
 
   // Extract unique categories from records
   const categories = Array.from(new Set(medicalRecords.map(record => record.category)));
-  
+
   // Extract unique record types from records
   const recordTypes = Array.from(new Set(medicalRecords.map(record => record.recordType)));
-  
+
   // Extract unique statuses from records
   const statuses = Array.from(new Set(medicalRecords.map(record => record.status)));
 
@@ -252,7 +252,7 @@ const MedicalRecordsPage: React.FC = () => {
       filtered = filtered.filter(record => {
         const patient = getPatientById(record.patientId);
         const doctor = getDoctorById(record.doctorId);
-        
+
         return (
           record.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           record.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -291,7 +291,7 @@ const MedicalRecordsPage: React.FC = () => {
     // Sort records
     filtered = filtered.sort((a, b) => {
       if (sortField === 'date') {
-        return sortDirection === 'asc' 
+        return sortDirection === 'asc'
           ? new Date(a.date).getTime() - new Date(b.date).getTime()
           : new Date(b.date).getTime() - new Date(a.date).getTime();
       } else if (sortField === 'title') {
@@ -342,7 +342,7 @@ const MedicalRecordsPage: React.FC = () => {
       case 'Completed':
         return 'bg-green-100 text-green-800';
       case 'In Progress':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-secondary text-blue-800';
       case 'Pending Review':
         return 'bg-yellow-100 text-yellow-800';
       case 'Cancelled':
@@ -357,7 +357,7 @@ const MedicalRecordsPage: React.FC = () => {
       case 'Cardiovascular':
         return 'bg-red-100 text-red-800';
       case 'Respiratory':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-secondary text-blue-800';
       case 'Neurology':
         return 'bg-purple-100 text-purple-800';
       case 'Dermatology':
@@ -404,19 +404,19 @@ const MedicalRecordsPage: React.FC = () => {
           <h1 className="text-3xl font-bold text-indigo-800">Medical Records</h1>
           <p className="text-indigo-600 font-medium">Access and manage patient medical information</p>
         </div>
-        
+
         <div className="flex gap-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400" size={18} />
             <input
               type="text"
               placeholder="Search records..."
-              className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/70 backdrop-filter backdrop-blur-lg shadow-md"
+              className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/70 backdrop-filter backdrop-blur-lg shadow-md"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
+
           <button
             className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all shadow-md font-bold"
             onClick={() => setShowAddModal(true)}
@@ -426,23 +426,23 @@ const MedicalRecordsPage: React.FC = () => {
           </button>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sidebar - Filters */}
         <div className="space-y-6">
           {/* Filter Panel */}
-          <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+          <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
             <h2 className="text-lg font-bold text-indigo-800 mb-4 flex items-center">
               <Filter className="mr-2" size={18} />
               Filters
             </h2>
-            
+
             <div className="space-y-4">
               {/* Patient Filter */}
               <div>
                 <label className="block text-sm font-medium text-indigo-700 mb-1">Patient</label>
                 <select
-                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                   value={selectedPatient}
                   onChange={(e) => setSelectedPatient(e.target.value)}
                 >
@@ -452,12 +452,12 @@ const MedicalRecordsPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               {/* Doctor Filter */}
               <div>
                 <label className="block text-sm font-medium text-indigo-700 mb-1">Doctor</label>
                 <select
-                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                   value={selectedDoctor}
                   onChange={(e) => setSelectedDoctor(e.target.value)}
                 >
@@ -467,12 +467,12 @@ const MedicalRecordsPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               {/* Category Filter */}
               <div>
                 <label className="block text-sm font-medium text-indigo-700 mb-1">Category</label>
                 <select
-                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
@@ -482,12 +482,12 @@ const MedicalRecordsPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               {/* Status Filter */}
               <div>
                 <label className="block text-sm font-medium text-indigo-700 mb-1">Status</label>
                 <select
-                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                  className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                   value={selectedStatus}
                   onChange={(e) => setSelectedStatus(e.target.value)}
                 >
@@ -497,27 +497,27 @@ const MedicalRecordsPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               {/* Date Range Filter */}
               <div>
                 <label className="block text-sm font-medium text-indigo-700 mb-1">Date Range</label>
                 <div className="flex gap-2 items-center">
                   <input
                     type="date"
-                    className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                    className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     value={dateRange.start}
                     onChange={(e) => setDateRange({...dateRange, start: e.target.value})}
                   />
                   <span className="text-indigo-600">to</span>
                   <input
                     type="date"
-                    className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                    className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     value={dateRange.end}
                     onChange={(e) => setDateRange({...dateRange, end: e.target.value})}
                   />
                 </div>
               </div>
-              
+
               {/* Clear Filters Button */}
               <button
                 className="w-full py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors font-medium mt-2"
@@ -537,9 +537,9 @@ const MedicalRecordsPage: React.FC = () => {
               </button>
             </div>
           </div>
-          
+
           {/* Quick Stats */}
-          <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+          <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
             <h2 className="text-lg font-bold text-indigo-800 mb-3">Records Summary</h2>
             <div className="space-y-2">
               <div className="flex justify-between items-center p-2 rounded-lg bg-indigo-50">
@@ -554,17 +554,17 @@ const MedicalRecordsPage: React.FC = () => {
                 <span className="text-yellow-700">Pending Review</span>
                 <span className="font-bold text-yellow-900">{medicalRecords.filter(r => r.status === 'Pending Review').length}</span>
               </div>
-              <div className="flex justify-between items-center p-2 rounded-lg bg-blue-50">
-                <span className="text-blue-700">In Progress</span>
+              <div className="flex justify-between items-center p-2 rounded-lg bg-background">
+                <span className="text-primary">In Progress</span>
                 <span className="font-bold text-blue-900">{medicalRecords.filter(r => r.status === 'In Progress').length}</span>
               </div>
             </div>
           </div>
         </div>
-        
+
         {/* Main Records Table */}
         <div className="lg:col-span-3">
-          <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 overflow-hidden">
+          <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 overflow-hidden">
             <div className="p-4 bg-indigo-50/80 border-b border-indigo-100 flex justify-between items-center">
               <h2 className="text-xl font-bold text-indigo-800">Medical Records</h2>
               <div className="flex items-center gap-2">
@@ -635,7 +635,7 @@ const MedicalRecordsPage: React.FC = () => {
                           <td className="px-4 py-2">
                             <div className="flex items-center gap-2">
                               <button
-                                className="text-blue-600 hover:text-blue-800 transition-colors"
+                                className="text-primary hover:text-blue-800 transition-colors"
                                 onClick={() => handleViewRecord(record)}
                               >
                                 <Eye size={16} />
@@ -683,7 +683,7 @@ const MedicalRecordsPage: React.FC = () => {
       {/* Record Modal */}
       {showRecordModal && selectedRecord && (
         <div className="fixed inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
+          <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-2xl">
             <h2 className="text-xl font-bold text-indigo-800 mb-4">{selectedRecord.title}</h2>
             <p className="text-sm text-gray-600 mb-2">
               <strong>Date:</strong> {selectedRecord.date}

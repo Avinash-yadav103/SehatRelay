@@ -220,7 +220,7 @@ export default function ProfilePage() {
                     placeholder="Tell us about yourself"
                   />
                 </div>
-                <Button onClick={handleSaveProfile} className="bg-sky-600 hover:bg-sky-700">
+                <Button onClick={handleSaveProfile} className="bg-primary hover:bg-primary">
                   Save Changes
                 </Button>
               </div>

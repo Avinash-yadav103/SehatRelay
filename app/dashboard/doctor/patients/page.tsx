@@ -422,7 +422,7 @@ const PatientsPage: React.FC = () => {
       case "stable":
         return "bg-green-100 text-green-800"
       case "improving":
-        return "bg-blue-100 text-blue-800"
+        return "bg-secondary text-blue-800"
       case "worsening":
         return "bg-red-100 text-red-800"
       default:
@@ -536,7 +536,7 @@ const PatientsPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search patients..."
-                className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/70 backdrop-filter backdrop-blur-lg shadow-md"
+                className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/70 backdrop-filter backdrop-blur-lg shadow-md"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -552,7 +552,7 @@ const PatientsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-xl border border-white/50">
+        <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-xl border border-white/50">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -588,7 +588,7 @@ const PatientsPage: React.FC = () => {
                       <td className="px-6 py-4">{patient.medicalRecords?.length || 0}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <button className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors shadow-sm">
+                          <button className="flex items-center gap-1 bg-primary text-white px-3 py-1 rounded-md hover:bg-primary transition-colors shadow-sm">
                             <Eye size={16} />
                             View
                           </button>
@@ -618,7 +618,7 @@ const PatientsPage: React.FC = () => {
         {/* Add Patient Modal */}
         {showAddModal && (
           <div className="fixed inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white/90 backdrop-filter backdrop-blur-md rounded-xl shadow-2xl p-6 w-full max-w-md border border-white/50">
+            <div className="bg-card/90 backdrop-filter backdrop-blur-md rounded-xl shadow-2xl p-6 w-full max-w-md border border-white/50">
               <h2 className="text-xl font-bold mb-4 text-indigo-800">Add New Patient</h2>
 
               <div className="space-y-4">
@@ -629,7 +629,7 @@ const PatientsPage: React.FC = () => {
                     name="name"
                     value={newPatient.name}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/80 backdrop-filter backdrop-blur-sm"
+                    className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/80 backdrop-filter backdrop-blur-sm"
                     required
                   />
                 </div>
@@ -642,7 +642,7 @@ const PatientsPage: React.FC = () => {
                       name="age"
                       value={newPatient.age}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/80 backdrop-filter backdrop-blur-sm"
+                      className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/80 backdrop-filter backdrop-blur-sm"
                       required
                     />
                   </div>
@@ -653,7 +653,7 @@ const PatientsPage: React.FC = () => {
                       name="gender"
                       value={newPatient.gender}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/80 backdrop-filter backdrop-blur-sm"
+                      className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/80 backdrop-filter backdrop-blur-sm"
                     >
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
@@ -669,7 +669,7 @@ const PatientsPage: React.FC = () => {
                     name="condition"
                     value={newPatient.condition}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/80 backdrop-filter backdrop-blur-sm"
+                    className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/80 backdrop-filter backdrop-blur-sm"
                     required
                   />
                 </div>
@@ -680,7 +680,7 @@ const PatientsPage: React.FC = () => {
                     name="status"
                     value={newPatient.status}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/80 backdrop-filter backdrop-blur-sm"
+                    className="w-full px-3 py-2 border border-indigo-200 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/80 backdrop-filter backdrop-blur-sm"
                   >
                     <option value="stable">Stable</option>
                     <option value="improving">Improving</option>
@@ -851,7 +851,7 @@ const PatientsPage: React.FC = () => {
                   Cancel
                 </button>
                 <button
-                  className="flex-1 py-2 bg-white text-black rounded-md hover:bg-gray-200 transition-colors font-medium"
+                  className="flex-1 py-2 bg-card text-black rounded-md hover:bg-gray-200 transition-colors font-medium"
                   onClick={handleAddMedicalRecord}
                 >
                   Add Medical Record

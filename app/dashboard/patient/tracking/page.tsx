@@ -74,78 +74,78 @@ export default function TrackingPage() {
 
   // Health activities
   const healthActivities = [
-    { 
-      category: "meditation", 
+    {
+      category: "meditation",
       items: [
-        "5-minute breathing exercise", 
-        "10-minute guided meditation", 
+        "5-minute breathing exercise",
+        "10-minute guided meditation",
         "Body scan relaxation (15 min)"
-      ] 
+      ]
     },
-    { 
-      category: "yoga", 
+    {
+      category: "yoga",
       items: [
-        "Morning sun salutations (10 min)", 
-        "Office chair yoga stretches", 
+        "Morning sun salutations (10 min)",
+        "Office chair yoga stretches",
         "Bedtime relaxation yoga"
-      ] 
+      ]
     },
-    { 
-      category: "exercise", 
+    {
+      category: "exercise",
       items: [
-        "10-minute brisk walking", 
-        "Quick home workout (no equipment)", 
+        "10-minute brisk walking",
+        "Quick home workout (no equipment)",
         "Desk stretches for better posture"
-      ] 
+      ]
     },
-    { 
-      category: "nutrition", 
+    {
+      category: "nutrition",
       items: [
-        "Drink an extra glass of water", 
-        "Add one extra vegetable to your meal", 
+        "Drink an extra glass of water",
+        "Add one extra vegetable to your meal",
         "Replace a processed snack with fruit"
-      ] 
+      ]
     },
-    { 
-      category: "mindfulness", 
+    {
+      category: "mindfulness",
       items: [
-        "Practice gratitude - list 3 things", 
-        "Technology break - 30 minutes screen-free", 
+        "Practice gratitude - list 3 things",
+        "Technology break - 30 minutes screen-free",
         "Mindful eating practice"
-      ] 
+      ]
     }
   ]
 
   // Get random health suggestion
   useEffect(() => {
     generateDailySuggestion()
-    
+
     // Load saved data from localStorage
     const savedMedications = localStorage.getItem('medications')
     if (savedMedications) {
       setMedications(JSON.parse(savedMedications))
     }
-    
+
     const savedDates = localStorage.getItem('medicationDates')
     if (savedDates) {
       setSelectedDates(JSON.parse(savedDates))
     }
-    
+
     const savedActivities = localStorage.getItem('completedActivities')
     if (savedActivities) {
       setCompletedActivities(JSON.parse(savedActivities))
     }
-    
+
     const savedPoints = localStorage.getItem('activityPoints')
     if (savedPoints) {
       setActivityPoints(Number(savedPoints))
     }
-    
+
     const savedStreak = localStorage.getItem('streakDays')
     if (savedStreak) {
       setStreakDays(Number(savedStreak))
     }
-    
+
     const savedGoals = localStorage.getItem('healthGoals')
     if (savedGoals) {
       setHealthGoals(JSON.parse(savedGoals))
@@ -156,23 +156,23 @@ export default function TrackingPage() {
   useEffect(() => {
     localStorage.setItem('medications', JSON.stringify(medications))
   }, [medications])
-  
+
   useEffect(() => {
     localStorage.setItem('medicationDates', JSON.stringify(selectedDates))
   }, [selectedDates])
-  
+
   useEffect(() => {
     localStorage.setItem('completedActivities', JSON.stringify(completedActivities))
   }, [completedActivities])
-  
+
   useEffect(() => {
     localStorage.setItem('activityPoints', String(activityPoints))
   }, [activityPoints])
-  
+
   useEffect(() => {
     localStorage.setItem('streakDays', String(streakDays))
   }, [streakDays])
-  
+
   useEffect(() => {
     localStorage.setItem('healthGoals', JSON.stringify(healthGoals))
   }, [healthGoals])
@@ -182,7 +182,7 @@ export default function TrackingPage() {
     const randomCategory = categories[Math.floor(Math.random() * categories.length)]
     const categoryActivities = healthActivities.find(a => a.category === randomCategory)
     const randomActivity = categoryActivities.items[Math.floor(Math.random() * categoryActivities.items.length)]
-    
+
     setDailySuggestion({
       category: randomCategory,
       activity: randomActivity
@@ -199,7 +199,7 @@ export default function TrackingPage() {
     // Validate dates
     const startDate = parseISO(newMedication.startDate)
     const endDate = parseISO(newMedication.endDate)
-    
+
     if (!isValid(startDate) || !isValid(endDate) || endDate < startDate) {
       toast.error("Please enter valid date range")
       return
@@ -215,7 +215,7 @@ export default function TrackingPage() {
 
     // Add to medications list
     setMedications([...medications, medicationToAdd])
-    
+
     // Reset form and close dialog
     setNewMedication({
       name: "",
@@ -228,56 +228,56 @@ export default function TrackingPage() {
       daysOfWeek: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     })
     setIsAddMedicationOpen(false)
-    
+
     toast.success("Medication added successfully")
   }
 
   const handleDeleteMedication = (id) => {
     setMedications(medications.filter(med => med.id !== id))
-    
+
     // Clean up selected dates related to this medication
     setSelectedDates(selectedDates.filter(date => date.medicationId !== id))
-    
+
     toast.success("Medication removed")
   }
 
   const handleToggleDate = (date, medicationId) => {
     const dateStr = format(date, "yyyy-MM-dd")
-    const existingDate = selectedDates.find(d => 
+    const existingDate = selectedDates.find(d =>
       d.date === dateStr && d.medicationId === medicationId
     )
-    
+
     if (existingDate) {
       // Remove date if already selected
-      setSelectedDates(selectedDates.filter(d => 
+      setSelectedDates(selectedDates.filter(d =>
         !(d.date === dateStr && d.medicationId === medicationId)
       ))
     } else {
       // Add date if not selected
       setSelectedDates([
-        ...selectedDates, 
+        ...selectedDates,
         { date: dateStr, medicationId, timestamp: new Date().toISOString() }
       ])
-      
+
       toast.success("Medication marked as taken")
     }
   }
 
   const isDoseMarked = (date, medicationId) => {
     const dateStr = format(date, "yyyy-MM-dd")
-    return selectedDates.some(d => 
+    return selectedDates.some(d =>
       d.date === dateStr && d.medicationId === medicationId
     )
   }
 
   const daysInRange = (medication) => {
     if (!medication) return []
-    
+
     const startDate = parseISO(medication.startDate)
     const endDate = parseISO(medication.endDate)
-    
+
     if (!isValid(startDate) || !isValid(endDate)) return []
-    
+
     return eachDayOfInterval({ start: startDate, end: endDate })
   }
 
@@ -293,33 +293,33 @@ export default function TrackingPage() {
         date: format(now, "yyyy-MM-dd")
       }
     ])
-    
+
     // Add points and update streak
     setActivityPoints(prev => prev + 10)
-    
+
     // Check if already completed activity today
     const today = format(now, "yyyy-MM-dd")
     const completedToday = completedActivities.some(a => a.date === today)
-    
+
     if (!completedToday) {
       const yesterday = format(addDays(now, -1), "yyyy-MM-dd")
       const completedYesterday = completedActivities.some(a => a.date === yesterday)
-      
+
       if (completedYesterday) {
         setStreakDays(prev => prev + 1)
       } else {
         setStreakDays(1)
       }
     }
-    
+
     // Generate a new suggestion
     generateDailySuggestion()
-    
+
     toast.success("Activity completed! +10 points")
   }
 
   const handleToggleGoal = (id) => {
-    setHealthGoals(healthGoals.map(goal => 
+    setHealthGoals(healthGoals.map(goal =>
       goal.id === id ? { ...goal, completed: !goal.completed } : goal
     ))
   }
@@ -396,7 +396,7 @@ export default function TrackingPage() {
               Health Tracker
             </TabsTrigger>
           </TabsList>
-          
+
           {/* Medications Tab */}
           <TabsContent value="medications">
             <Card>
@@ -405,12 +405,12 @@ export default function TrackingPage() {
                   <CardTitle className="text-2xl">My Medications</CardTitle>
                   <CardDescription>Track and manage your medication schedule</CardDescription>
                 </div>
-                <Button onClick={() => setIsAddMedicationOpen(true)} className="bg-sky-600 hover:bg-sky-700">
+                <Button onClick={() => setIsAddMedicationOpen(true)} className="bg-primary hover:bg-primary">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Medication
                 </Button>
               </CardHeader>
-              
+
               <CardContent>
                 {medications.length > 0 ? (
                   <div className="space-y-6">
@@ -425,18 +425,18 @@ export default function TrackingPage() {
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* Medication cards */}
                     {medications.map((medication) => (
-                      <Card key={medication.id} className="border border-gray-200">
+                      <Card key={medication.id} className="border border-border">
                         <CardHeader className="pb-2">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Pill className="h-5 w-5 text-sky-600" />
+                              <Pill className="h-5 w-5 text-primary" />
                               <CardTitle>{medication.name} {medication.dosage}</CardTitle>
                             </div>
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="icon"
                               onClick={() => handleDeleteMedication(medication.id)}
                               className="text-gray-500 hover:text-red-600 hover:bg-red-50"
@@ -453,7 +453,7 @@ export default function TrackingPage() {
                               <CalendarDays className="h-3 w-3 mr-1" />
                               {medication.frequency}
                             </Badge>
-                            <Badge className="bg-sky-100 text-sky-800">
+                            <Badge className="bg-secondary text-sky-800">
                               {format(parseISO(medication.startDate), "MMM d")} - {format(parseISO(medication.endDate), "MMM d, yyyy")}
                             </Badge>
                           </div>
@@ -461,7 +461,7 @@ export default function TrackingPage() {
                             <p className="text-sm text-gray-600 mt-2">{medication.instructions}</p>
                           )}
                         </CardHeader>
-                        
+
                         <CardContent>
                           <h3 className="font-medium text-sm mb-2">Tracking Calendar</h3>
                           <div className="flex flex-wrap gap-2">
@@ -469,9 +469,9 @@ export default function TrackingPage() {
                               <button
                                 key={i}
                                 className={`
-                                  w-10 h-10 rounded-full flex items-center justify-center text-sm 
-                                  ${isDoseMarked(date, medication.id) 
-                                    ? 'bg-green-100 text-green-800 ring-2 ring-green-600 ring-offset-1' 
+                                  w-10 h-10 rounded-full flex items-center justify-center text-sm
+                                  ${isDoseMarked(date, medication.id)
+                                    ? 'bg-green-100 text-green-800 ring-2 ring-green-600 ring-offset-1'
                                     : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}
                                   ${isWeekend(date) ? 'font-medium' : ''}
                                 `}
@@ -481,14 +481,14 @@ export default function TrackingPage() {
                               </button>
                             ))}
                           </div>
-                          
+
                           <div className="mt-4 flex justify-end">
-                            <Button 
-                              variant="outline" 
+                            <Button
+                              variant="outline"
                               className="text-sm"
                               onClick={() => handleToggleDate(new Date(), medication.id)}
                             >
-                              {isDoseMarked(new Date(), medication.id) 
+                              {isDoseMarked(new Date(), medication.id)
                                 ? <><Check className="h-4 w-4 mr-1 text-green-600" /> Taken Today</>
                                 : <>Mark as Taken Today</>
                               }
@@ -503,9 +503,9 @@ export default function TrackingPage() {
                     <Pill className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-800 mb-1">No medications added yet</h3>
                     <p className="text-gray-500 mb-4">Add your first medication to start tracking</p>
-                    <Button 
+                    <Button
                       onClick={() => setIsAddMedicationOpen(true)}
-                      className="bg-sky-600 hover:bg-sky-700"
+                      className="bg-primary hover:bg-primary"
                     >
                       <Plus className="mr-2 h-4 w-4" />
                       Add Medication
@@ -515,7 +515,7 @@ export default function TrackingPage() {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Health Tracker Tab */}
           <TabsContent value="wellness">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -528,7 +528,7 @@ export default function TrackingPage() {
                 <CardContent>
                   {dailySuggestion && (
                     <div className="bg-gradient-to-r from-sky-50 to-indigo-50 p-6 rounded-lg border border-sky-100">
-                      <Badge className="bg-sky-100 text-sky-800 mb-3 capitalize">
+                      <Badge className="bg-secondary text-sky-800 mb-3 capitalize">
                         {dailySuggestion.category}
                       </Badge>
                       <h3 className="text-xl font-semibold text-gray-800 mb-3">{dailySuggestion.activity}</h3>
@@ -536,8 +536,8 @@ export default function TrackingPage() {
                         Taking a small break for your health can significantly improve your well-being and productivity.
                       </p>
                       <div className="flex flex-wrap gap-3">
-                        <Button 
-                          className="bg-sky-600 hover:bg-sky-700"
+                        <Button
+                          className="bg-primary hover:bg-primary"
                           onClick={() => handleMarkActivity(dailySuggestion.activity)}
                         >
                           <Check className="mr-2 h-4 w-4" />
@@ -551,7 +551,7 @@ export default function TrackingPage() {
                   )}
                 </CardContent>
               </Card>
-              
+
               {/* Activity Stats */}
               <Card>
                 <CardHeader>
@@ -573,13 +573,13 @@ export default function TrackingPage() {
                       <p className="text-3xl font-bold text-amber-700">{completedActivities.length}</p>
                     </div>
                   </div>
-                  
+
                   <div className="mt-6">
                     <h3 className="font-medium mb-2">Latest Activities</h3>
                     {completedActivities.length > 0 ? (
                       <div className="space-y-2 max-h-[200px] overflow-y-auto">
                         {completedActivities.slice().reverse().slice(0, 5).map((entry, index) => (
-                          <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-md">
+                          <div key={index} className="flex items-center gap-2 p-2 bg-background rounded-md">
                             <Check className="h-4 w-4 text-green-600" />
                             <div className="flex-1">
                               <p className="text-sm font-medium">{entry.activity}</p>
@@ -599,7 +599,7 @@ export default function TrackingPage() {
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Daily Goals */}
               <Card>
                 <CardHeader>
@@ -609,18 +609,18 @@ export default function TrackingPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {healthGoals.map(goal => (
-                      <div 
-                        key={goal.id} 
+                      <div
+                        key={goal.id}
                         className={`p-4 rounded-lg border flex items-center gap-3 ${
-                          goal.completed ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
+                          goal.completed ? 'bg-green-50 border-green-200' : 'bg-background border-border'
                         }`}
                       >
-                        <Checkbox 
+                        <Checkbox
                           id={`goal-${goal.id}`}
                           checked={goal.completed}
                           onCheckedChange={() => handleToggleGoal(goal.id)}
                         />
-                        <Label 
+                        <Label
                           htmlFor={`goal-${goal.id}`}
                           className={`flex-1 ${goal.completed ? 'line-through text-green-800' : ''}`}
                         >
@@ -628,14 +628,14 @@ export default function TrackingPage() {
                         </Label>
                       </div>
                     ))}
-                    
+
                     <Button variant="outline" className="w-full mt-4">
                       <Plus className="mr-2 h-4 w-4" />
                       Add New Goal
                     </Button>
                   </div>
-                  
-                  <div className="mt-6 bg-sky-50 p-4 rounded-lg border border-sky-100">
+
+                  <div className="mt-6 bg-secondary p-4 rounded-lg border border-sky-100">
                     <h3 className="font-medium text-sky-900 mb-1">Tips for Creating Healthy Habits</h3>
                     <ul className="list-disc pl-5 space-y-1 text-sm text-sky-800">
                       <li>Start with small, achievable goals</li>
@@ -651,7 +651,7 @@ export default function TrackingPage() {
           </TabsContent>
         </Tabs>
       </div>
-      
+
       {/* Add Medication Dialog */}
       <Dialog open={isAddMedicationOpen} onOpenChange={setIsAddMedicationOpen}>
         <DialogContent className="sm:max-w-md">
@@ -682,7 +682,7 @@ export default function TrackingPage() {
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="startDate">Start Date</Label>
@@ -703,11 +703,11 @@ export default function TrackingPage() {
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="frequency">Frequency</Label>
-                <Select 
+                <Select
                   value={newMedication.frequency}
                   onValueChange={(value) => setNewMedication({ ...newMedication, frequency: value })}
                 >
@@ -725,7 +725,7 @@ export default function TrackingPage() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="timeOfDay">Time of Day</Label>
-                <Select 
+                <Select
                   value={newMedication.timeOfDay}
                   onValueChange={(value) => setNewMedication({ ...newMedication, timeOfDay: value })}
                 >
@@ -743,7 +743,7 @@ export default function TrackingPage() {
                 </Select>
               </div>
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="instructions">Special Instructions</Label>
               <Textarea
@@ -758,7 +758,7 @@ export default function TrackingPage() {
             <Button variant="outline" onClick={() => setIsAddMedicationOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleAddMedication} className="bg-sky-600 hover:bg-sky-700">
+            <Button onClick={handleAddMedication} className="bg-primary hover:bg-primary">
               Save Medication
             </Button>
           </DialogFooter>

@@ -164,7 +164,7 @@ export default function SettingsPage() {
               <TabsContent value="profile">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
-                    <div className="h-20 w-20 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 text-2xl font-bold">
+                    <div className="h-20 w-20 rounded-full bg-secondary flex items-center justify-center text-primary text-2xl font-bold">
                       {profile.name
                         .split(" ")
                         .map((n) => n[0])
@@ -219,12 +219,12 @@ export default function SettingsPage() {
                       name="bio"
                       value={profile.bio}
                       onChange={handleProfileChange}
-                      className="w-full min-h-[100px] p-2 border border-gray-300 rounded-md"
+                      className="w-full min-h-[100px] p-2 border border-input rounded-md"
                     />
                   </div>
 
                   <div className="flex justify-end">
-                    <Button className="bg-sky-600 hover:bg-sky-700" onClick={handleSaveProfile} disabled={isSaving}>
+                    <Button className="bg-primary hover:bg-primary" onClick={handleSaveProfile} disabled={isSaving}>
                       {isSaving ? (
                         <>
                           <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -322,7 +322,7 @@ export default function SettingsPage() {
 
                   <div className="flex justify-end">
                     <Button
-                      className="bg-sky-600 hover:bg-sky-700"
+                      className="bg-primary hover:bg-primary"
                       onClick={handleSaveNotifications}
                       disabled={isSaving}
                     >
@@ -398,7 +398,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div className="flex justify-end">
-                    <Button className="bg-sky-600 hover:bg-sky-700" onClick={handleSavePrivacy} disabled={isSaving}>
+                    <Button className="bg-primary hover:bg-primary" onClick={handleSavePrivacy} disabled={isSaving}>
                       {isSaving ? (
                         <>
                           <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -436,7 +436,7 @@ export default function SettingsPage() {
 
                     <div className="flex justify-end">
                       <Button
-                        className="bg-sky-600 hover:bg-sky-700"
+                        className="bg-primary hover:bg-primary"
                         onClick={handleChangePassword}
                         disabled={isSaving}
                       >
@@ -455,7 +455,7 @@ export default function SettingsPage() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-medium">Two-Factor Authentication</h3>
 
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div className="bg-background p-4 rounded-lg border border-border">
                       <div className="flex items-center justify-between">
                         <div>
                           <h4 className="font-medium">Two-Factor Authentication</h4>
@@ -469,7 +469,7 @@ export default function SettingsPage() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-medium">Login Sessions</h3>
 
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div className="bg-background p-4 rounded-lg border border-border">
                       <h4 className="font-medium mb-2">Current Session</h4>
                       <div className="flex items-center justify-between">
                         <div>

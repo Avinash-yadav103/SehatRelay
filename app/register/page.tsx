@@ -165,18 +165,18 @@ export default function RegisterPage() {
 
     // Clean Aadhar number without spaces for API call
     const cleanAadharNumber = aadharNumber.replace(/\s/g, "");
-    
+
     // Create AbortController for timeout handling
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000); // 5 second timeout
-    
+
     // Send to correct endpoint with timeout handling
     fetch(`${API_BASE}/send-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        aadhaarId: cleanAadharNumber, 
-        password: password 
+      body: JSON.stringify({
+        aadhaarId: cleanAadharNumber,
+        password: password
       }),
       signal: controller.signal
     })
@@ -194,7 +194,7 @@ export default function RegisterPage() {
       .catch((err) => {
         clearTimeout(timeoutId);
         console.error("OTP Error:", err);
-        
+
         if (err.name === 'AbortError' || err.message === 'Failed to fetch') {
           // Backend is unreachable, use development mode fallback
           if (IS_DEV_MODE) {
@@ -236,9 +236,9 @@ export default function RegisterPage() {
     fetch(`${API_BASE}/verify-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        otp: otp, 
-        reference_id: generatedOtp 
+      body: JSON.stringify({
+        otp: otp,
+        reference_id: generatedOtp
       }),
       signal: controller.signal
     })
@@ -266,7 +266,7 @@ export default function RegisterPage() {
       .catch((err) => {
         clearTimeout(timeoutId);
         console.error("Verification Error:", err);
-        
+
         if (err.name === 'AbortError' || err.message === 'Failed to fetch') {
           // Backend is unreachable, use development mode fallback
           if (IS_DEV_MODE) {
@@ -300,9 +300,9 @@ export default function RegisterPage() {
 
   const handleConfirmRegister = () => {
     setIsLoading(true);
-    
+
     const cleanAadharNumber = aadharNumber.replace(/\s/g, "");
-    
+
     // Call the MongoDB registration endpoint
     fetch("http://localhost:5000/api/users/register", {
       method: "POST",
@@ -330,7 +330,7 @@ export default function RegisterPage() {
               userData,
             })
           );
-          
+
           // Navigate to medical info page
           router.push("/medical-info");
         } else {
@@ -346,11 +346,11 @@ export default function RegisterPage() {
 
   // For demo purposes, add a direct navigation button
   const renderDirectNavigationButton = () => (
-    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div className="mt-4 pt-4 border-t border-border dark:border-gray-700">
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">For demonstration purposes:</p>
-      <Button 
-        variant="outline" 
-        className="w-full" 
+      <Button
+        variant="outline"
+        className="w-full"
         onClick={() => {
           // Simulate successful registration with test data
           localStorage.setItem(
@@ -375,12 +375,12 @@ export default function RegisterPage() {
   )
 
   return (
-    <main className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-screen flex flex-col bg-background dark:bg-gray-900">
       <FloatingNavbar navItems={navItems} />
 
       <div className="flex-grow flex items-center justify-center p-4 mt-16">
         <div className="w-full max-w-4xl">
-          <Card3D className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-xl">
+          <Card3D className="bg-card dark:bg-gray-900 rounded-xl p-8 shadow-xl">
             <div className="flex flex-col md:flex-row gap-8">
               {/* User Type Selection - Always visible */}
               <div className="md:w-1/3 space-y-6">
@@ -388,7 +388,7 @@ export default function RegisterPage() {
                 <div className="grid grid-cols-1 gap-4">
                   <Button
                     variant={userType === "patient" ? "default" : "outline"}
-                    className={userType === "patient" ? "bg-sky-600 hover:bg-sky-700" : ""}
+                    className={userType === "patient" ? "bg-primary hover:bg-primary" : ""}
                     onClick={() => setUserType("patient")}
                   >
                     Patient
@@ -401,7 +401,7 @@ export default function RegisterPage() {
                   </Button>
                   <Button
                     variant={userType === "student" ? "default" : "outline"}
-                    className={userType === "student" ? "bg-sky-600 hover:bg-sky-700" : ""}
+                    className={userType === "student" ? "bg-primary hover:bg-primary" : ""}
                     onClick={() => setUserType("student")}
                   >
                     Student
@@ -445,7 +445,7 @@ export default function RegisterPage() {
 
                     <Button
                       variant="pill"
-                      className="w-full bg-sky-600 hover:bg-sky-700"
+                      className="w-full bg-primary hover:bg-primary"
                       onClick={handleSendOtp}
                       disabled={isLoading}
                     >
@@ -474,7 +474,7 @@ export default function RegisterPage() {
 
                     <Button
                       variant="pill"
-                      className="w-full bg-sky-600 hover:bg-sky-700"
+                      className="w-full bg-primary hover:bg-primary"
                       onClick={handleVerifyOtp}
                       disabled={isLoading}
                     >
@@ -483,7 +483,7 @@ export default function RegisterPage() {
 
                     <p className="text-center text-sm text-gray-500 dark:text-gray-400">
                       Didn&apos;t receive code?
-                      <button className="ml-1 text-sky-600 hover:text-sky-700" onClick={handleSendOtp}>
+                      <button className="ml-1 text-primary hover:text-primary" onClick={handleSendOtp}>
                         Resend
                       </button>
                     </p>

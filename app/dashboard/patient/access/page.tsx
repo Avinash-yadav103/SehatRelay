@@ -51,7 +51,7 @@ export default function AccessControlPage() {
 
     try {
       await axios.post(`${API_BASE_URL}/revoke/${accessId}`);
-      
+
       // Log this action
       await axios.post(LOGS_API_URL, {
         patientId: user.id,
@@ -169,7 +169,7 @@ export default function AccessControlPage() {
       requiredRole="patient"
     >
       <div className="mb-6">
-        <Card className="bg-white dark:bg-gray-900 shadow-md">
+        <Card className="bg-card dark:bg-gray-900 shadow-md">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <div>
@@ -178,8 +178,8 @@ export default function AccessControlPage() {
                   Control who has access to your medical records
                 </CardDescription>
               </div>
-              <Button 
-                className="bg-sky-600 hover:bg-sky-700 text-white"
+              <Button
+                className="bg-primary hover:bg-primary text-white"
                 onClick={() => setIsModalOpen(true)}
               >
                 Grant Access
@@ -195,8 +195,8 @@ export default function AccessControlPage() {
             ) : accessGrants.length > 0 ? (
               <div className="space-y-4">
                 {accessGrants.map(grant => (
-                  <div 
-                    key={grant._id} 
+                  <div
+                    key={grant._id}
                     className="border rounded-lg p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
                   >
                     <div>
@@ -212,15 +212,15 @@ export default function AccessControlPage() {
                         ))}
                       </div>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Granted: {new Date(grant.grantedAt).toLocaleDateString()} • 
-                        Expires: {grant.accessDuration === 'permanent' 
-                          ? 'Never' 
+                        Granted: {new Date(grant.grantedAt).toLocaleDateString()} •
+                        Expires: {grant.accessDuration === 'permanent'
+                          ? 'Never'
                           : new Date(grant.expiresAt).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="flex gap-2 self-end md:self-auto">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => handleRevokeAccess(grant._id, grant.doctor.name)}
                       >
@@ -237,8 +237,8 @@ export default function AccessControlPage() {
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   You haven't granted access to any healthcare providers yet.
                 </p>
-                <Button 
-                  className="mt-4 bg-sky-600 hover:bg-sky-700 text-white"
+                <Button
+                  className="mt-4 bg-primary hover:bg-primary text-white"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Grant New Access

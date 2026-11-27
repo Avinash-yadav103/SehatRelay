@@ -147,7 +147,7 @@ export default function DoctorProfile() {
                 />
                 <Button
                   size="sm"
-                  className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-sky-600 hover:bg-sky-700"
+                  className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-primary hover:bg-primary"
                 >
                   <User className="h-4 w-4" />
                   <span className="sr-only">Change photo</span>
@@ -272,7 +272,7 @@ export default function DoctorProfile() {
                   <Button
                     onClick={() => handleSave("personal")}
                     disabled={isLoading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                    className="bg-primary hover:bg-primary text-white"
                   >
                     {isLoading ? (
                       <>
@@ -386,7 +386,7 @@ export default function DoctorProfile() {
                   <Button
                     onClick={() => handleSave("professional")}
                     disabled={isLoading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                    className="bg-primary hover:bg-primary text-white"
                   >
                     {isLoading ? (
                       <>
@@ -436,7 +436,7 @@ export default function DoctorProfile() {
                   <Button
                     onClick={() => handleSave("schedule")}
                     disabled={isLoading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                    className="bg-primary hover:bg-primary text-white"
                   >
                     {isLoading ? (
                       <>

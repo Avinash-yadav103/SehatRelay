@@ -236,7 +236,7 @@ export default function AppointmentsPage() {
               <CardTitle className="text-2xl">Appointments</CardTitle>
               <CardDescription>Manage your healthcare appointments</CardDescription>
             </div>
-            <Button className="bg-sky-600 hover:bg-sky-700" onClick={handleBookAppointment}>
+            <Button className="bg-primary hover:bg-primary" onClick={handleBookAppointment}>
               <Plus className="mr-2 h-4 w-4" />
               Book Appointment
             </Button>
@@ -250,11 +250,11 @@ export default function AppointmentsPage() {
                     appointments
                       .filter((a) => a.status === "upcoming")
                       .map((appointment) => (
-                        <div key={appointment.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                        <div key={appointment.id} className="bg-card border border-border rounded-lg p-4 shadow-sm">
                           <div className="flex flex-col md:flex-row gap-4">
                             <div className="md:w-1/4">
                               <div className="flex items-center gap-3">
-                                <div className="h-12 w-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
+                                <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary flex-shrink-0">
                                   <Calendar className="h-6 w-6" />
                                 </div>
                                 <div>
@@ -330,7 +330,7 @@ export default function AppointmentsPage() {
                             <div className="md:w-1/4 flex items-center justify-end gap-2">
                               {appointment.type === "Virtual" && (
                                 <Button
-                                  className="bg-sky-600 hover:bg-sky-700"
+                                  className="bg-primary hover:bg-primary"
                                   onClick={() => handleJoinVirtual(appointment.meetingLink)}
                                 >
                                   <svg
@@ -370,11 +370,11 @@ export default function AppointmentsPage() {
                         </div>
                       ))
                   ) : (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="text-center py-8 bg-background rounded-lg border border-border">
                       <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <h3 className="text-lg font-medium text-gray-900">No Upcoming Appointments</h3>
                       <p className="text-gray-600 mt-1">You don't have any upcoming appointments scheduled.</p>
-                      <Button className="mt-4 bg-sky-600 hover:bg-sky-700" onClick={handleBookAppointment}>
+                      <Button className="mt-4 bg-primary hover:bg-primary" onClick={handleBookAppointment}>
                         Book an Appointment
                       </Button>
                     </div>
@@ -389,7 +389,7 @@ export default function AppointmentsPage() {
                     appointments
                       .filter((a) => a.status === "completed")
                       .map((appointment) => (
-                        <div key={appointment.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <div key={appointment.id} className="bg-background border border-border rounded-lg p-4">
                           <div className="flex flex-col md:flex-row gap-4">
                             <div className="md:w-1/4">
                               <div className="flex items-center gap-3">
@@ -427,7 +427,7 @@ export default function AppointmentsPage() {
                         </div>
                       ))
                   ) : (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="text-center py-8 bg-background rounded-lg border border-border">
                       <Clock className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <h3 className="text-lg font-medium text-gray-900">No Past Appointments</h3>
                       <p className="text-gray-600 mt-1">You don't have any past appointments in your history.</p>
@@ -443,7 +443,7 @@ export default function AppointmentsPage() {
                     {appointments
                       .filter((a) => a.status === "canceled")
                       .map((appointment) => (
-                        <div key={appointment.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <div key={appointment.id} className="bg-background border border-border rounded-lg p-4">
                           <div className="flex flex-col md:flex-row gap-4">
                             <div className="md:w-1/4">
                               <div className="flex items-center gap-3">

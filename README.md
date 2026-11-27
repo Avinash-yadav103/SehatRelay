@@ -1,123 +1,38 @@
-# SehatRelay — voice-first visit handoffs
+﻿# CareFolio — voice, review, relay
 
-SehatRelay extends the copied CareFolio application for the Scaler × Wispr Flow “India Runs on Voice” hackathon. An ASHA worker documents a **synthetic** visit, reviews an editable note with SunoSure, and submits a referral for clinician acknowledgement. It provides no diagnosis, treatment, prescription, or automated triage.
+CareFolio now has a redesigned application-wide interface and a browser-microphone workflow. SehatRelay is its visit/referral feature; SunoSure helps review missing details and source evidence. The prototype is for **synthetic information only** and makes no diagnoses, prescriptions, treatment or triage decisions.
 
-## Repository inspection and scope
+## Main application routes
 
-CareFolio already contained Next.js 15.2.4 / React 19, Tailwind and Radix components; patient, doctor, government and student dashboards; Firebase client/auth helpers; separate Express/MongoDB medical-record, appointment and access-control services; and Aadhaar-oriented services. Those routes remain. Their configuration and full behavior were not independently validated. The existing medical-record API calls `verifyIdToken` on a Firebase client auth object: this needs a separate production authentication repair. Legacy build configuration suppresses TypeScript and lint errors. No existing test suite, referral model, Wispr workflow, SunoSure implementation or official hackathon problem statement was found.
+| Route | Purpose |
+| --- | --- |
+| `/` | CareFolio landing page, microphone-enabled narrative, role entry points |
+| `/login`, `/register`, `/medical-info`, `/profile` | Existing account/profile flows with shared styling and microphone access for eligible text fields |
+| `/dashboard/patient/*` | Existing records, appointments, profile, sharing, tracking, vaccinations and logs |
+| `/dashboard/doctor/*` | Existing clinician records, patients, appointments and profile |
+| `/dashboard/student/*` | Existing researcher/student workspace |
+| `/dashboard/government/*` | Existing administrator pages with consistent navigation and labeled sample reporting sections |
+| `/visits` | Main CareFolio voice visit, SunoSure review, draft and referral workflow |
+| `/referrals` | Referral list and clinician review entry |
+| `/relay` | Compatibility entry to the shared visit experience; no longer the sole location of voice features |
 
-The new, isolated `/relay` route uses the existing App Router and teal healthcare styling. A link is available in the CareFolio landing navigation. It does not connect fictional demo records to Aadhaar or legacy patient records. Previous README claims about HIPAA compliance and end-to-end encryption were unsupported and have been removed.
+The redesign updates the root landing page, shared dashboard header/sidebar, mobile navigation, cards, buttons, account-form panels, colors, tables and role-screen surfaces. Cream, teal, charcoal and lavender follow the supplied Wispr screenshot while retaining original CareFolio identity. No Wispr logo or proprietary assets were copied. Root-page 3D assets were removed; landing motion uses deferred GSAP and respects reduced motion. The source code and backend operations of legacy role screens remain in place.
 
-## Local setup
+## Run locally
 
-Use Node.js 22 or later and npm:
+Use Node.js 22+:
 
-```sh
+```powershell
 npm install --legacy-peer-deps
 npm run dev
 ```
 
-Open http://localhost:3000/relay. No external accounts, database, AI keys or Firebase configuration are required for this route. Optional server environment variable: `RELAY_SESSION_SECRET` (a long random secret) stabilizes signed demo cookies across server restarts. Without it sessions expire on process restart; selecting a role again creates a new workspace, so old records remain on disk but are not accessible through that new session. Set this variable before the demo to preserve workspace access across restarts. Do not use a `NEXT_PUBLIC_` secret.
+Open **http://localhost:3000/**. No application API key is needed for browser microphone input, the home narrative or the synthetic visit/referral flow. The browser's speech service needs browser support, permission, and typically network access. Unsupported browsers show a clear fallback rather than a pretend recording state.
 
-Other CareFolio routes still require their original services: Firebase public configuration variables in `lib/firebase.ts`, MongoDB via `MONGODB_URI`, and the appropriate backend servers/dependencies. See each backend's package.json. These are not needed for the isolated demo.
+Optional environment variables:
 
-## Architecture, persistence and permissions
-
-- `app/relay`: accessible native forms, mobile layout, worker workspace, overview, clinician inbox and timeline.
-- `lib/relay/model.ts`: exact synthetic fixture, blank manual template and completeness/source checks.
-- `app/api/relay`: server request validation, same-origin mutations, signed HttpOnly SameSite demo cookie, ASHA/clinician permission checks and workspace isolation.
-- `lib/relay/server.ts`: serialized writes and atomic replacement in `.relay-data/records.json`, ignored by Git. Survives browser refresh and local server restarts; use a persistent disk and a single Node process. This is **not suitable for serverless, multiple processes or production**. No MongoDB migration was introduced.
-- Device drafts use browser localStorage, contain synthetic narratives/notes, and recover after refresh. Submission removes the local draft. Clear device draft removes only local data; it does not delete server referrals. For a complete reset, stop the server and remove `.relay-data/records.json` manually. Storage/sync failures appear visibly; only draft recovery works offline.
-- Demo role selection is intentionally public and permits both fictional roles in the same browser workspace. It is not identity verification. Production needs real server-verified identity, tenant membership, durable database transactions, privacy review, encryption/access policies and retention controls. Do not deploy this prototype for real patient care.
-
-Transitions: draft → submitted → acknowledged → follow-up → closed; acknowledged can also close directly. Submitted notes are immutable. Resubmitting an existing submitted ID returns that record without a duplicate. Clinician actions require a review note. Stale or illegal transitions return 409. Clinician inbox excludes drafts. Dashboard counts use server records in the current workspace; unsynced local drafts are excluded. Use Refresh records to see changes.
-
-## Wispr Flow — exact manual steps
-
-1. Install and sign in to Wispr Flow from https://wisprflow.ai/ on your supported device.
-2. Open `/relay`, choose **ASHA worker**, and start a synthetic visit.
-3. Select **Use Wispr Flow**. It focuses the standard Visit narrative textarea and displays instructions.
-4. With the cursor in that field, invoke the shortcut or mobile keyboard configured in **your installed Flow app**. Speak the fictional narrative below.
-5. Stop dictation using Flow, inspect the inserted text, and edit it. Check Hindi script, punctuation and clinical meaning yourself.
-6. Add another sentence at the caret, edit a word, refresh, and confirm that the entire draft recovers. Confirm caret/focus stays in the textarea during insertion.
-7. Generate the structured note, review each field, and continue the demo.
-
-The button does not start, control, detect or authenticate Flow. This application receives ordinary text input, retains the source script, and records no audio. It reads no background clipboard, keystrokes or screen. There is no in-app transcription provider in the new workflow and no “Wispr API” connection badge.
-
-Official developer page checked: https://wisprflow.ai/developers describes app/website dictation. Direct speech API authorization, credentials and applicable terms were **not verified** for this project, so no direct API/SDK was implemented. An official MCP listing for notes/context is not proof of authorized speech-to-text API access. Actual installed Wispr dictation has **not been manually tested** in this environment; follow the steps above on your machine.
-
-## Note generation and SunoSure
-
-No external AI integration is configured or required. The exact supplied fixture returns predefined source-linked fields, labeled as a synthetic example. Any other narrative returns a blank manual template, labeled clearly. Even minor changes to the fixture require manual entry. This deliberately does not pretend to understand arbitrary Hindi, English or Hinglish clinical text. Source text remains untouched. Generation replaces note fields; do it before editing them.
-
-SunoSure flags missing fields, absent duration, unmatched excerpts/user-entered details, and differing ages written as numbers followed by “years old”, “saal” or “वर्ष”. It is a limited textual check, not exhaustive conflict detection or medical validation. No numeric confidence scores. Every field needs explicit worker confirmation, including unknown values, before submission; patient identifier, facility and referral reason must be filled. Editing a field or the narrative clears verification. Source excerpts and the full narrative remain visible to the clinician.
-
-## Complete synthetic demo script
-
-1. Choose ASHA worker → Start a synthetic visit → Dictate with Wispr Flow.
-2. Dictate or use the explicitly labeled fictional example:
-   > Demo patient Tara-01. Aaj pregnancy follow-up visit hai. Patient ne thakan batayi. Pregnancy 24 weeks hai. Clinician review ke liye referral chahiye.
-3. Review the narrative. For predefined extraction, use **Load fictional example** to ensure exact fixture text, then Generate structured note.
-4. Inspect the source for the reported concern and pregnancy context. SunoSure flags missing duration. Confirm duration as unknown; do not invent it. Enter the visit date and preferred language only as demo user input. Enter receiving facility “Demo PHC”. Correct any field if needed and verify each field, including unknowns.
-5. Save server draft, then Submit reviewed referral. Show the submitted timeline event.
-6. Switch to Clinician → Referrals → open Tara-01. Read source and note. Enter “Synthetic source and note reviewed; acknowledgement recorded.” Mark acknowledged.
-7. Add a fictional follow-up note and mark follow-up if desired. Switch to ASHA → Referrals and show persisted timeline and overview counts.
-
-This scripted example demonstrates workflow only, not clinical accuracy or multilingual performance.
-
-## Validation
-
-```sh
-npm run build
-npm start
-node --test tests/relay.test.mjs
-npx tsc --noEmit --pretty false
-```
-
-The API test creates synthetic records and checks unauthorized requests, invalid roles, missing-field validation, sample/manual generation, draft save, submission verification, duplicate handling, clinician permission checks, transition guards, workspace isolation and persisted acknowledgement. Set `RELAY_TEST_URL` if using another origin. See `VALIDATION.md` for actual execution results and remaining manual checks.
-
-## Privacy and hackathon limitations
-
-Use synthetic patient information only. Browser localStorage and the local JSON store are not a health-data security solution. Review Wispr and any future AI provider's privacy terms, permissions, data retention and suitability before real patient use. No compliance or certification is claimed. Legacy CareFolio features have not received a full security audit; do not treat the broader application as production-ready healthcare software.
-
-No official round-specific judging rules were supplied. Confirm eligibility, deadlines, required Flow-building evidence, whether installed-app dictation meets the particular round's definition, demo/video requirements and permitted services with the organizers. Product use of Flow alone does not prove rule compliance.
-
-Validation summary: production build, focused relay TypeScript check, SunoSure model test and running-server referral integration test passed. Repository-wide TypeScript validation fails on legacy errors. Actual Wispr and browser interaction checks remain manual; see VALIDATION.md. Legacy Firebase auth initialization now reports missing configuration when used, allowing the isolated demo to build without Firebase credentials.
-
-## Product redesign — voice-first experience
-
-The `/relay` entry now opens an original SehatRelay product landing page. It includes a manually controlled **scripted example** walkthrough, three-step explanation, a missing-duration example, clinician handoff, honest voice-input information and direct demo entry. The legacy CareFolio home remains at `/`.
-
-Try the demo creates an ASHA demo session when needed. Overview shows live workspace counts and offers a new visit or recovered draft. The visit workspace has three navigable stages: **Document**, **Review with SunoSure**, and **Referral & timeline**. The review screen groups fields into visit details, reported information and handoff. The source stays beside the fields on wide screens and above them on narrow screens. Every field retains an explicit verification control. Referral submission now opens a native confirmation dialog with the patient, facility and referral reason before sending. The clinician inbox opens records with their status, timeline and review actions.
-
-The design uses warm off-white surfaces, forest-green primary controls, amber review states, clear text status labels, rounded panels, large headings, visible focus rings and responsive grids. CSS tokens live in `app/relay/relay.css`. Motion is limited to short panel transitions and real request-loading feedback; reduced-motion preferences disable these effects. No visual identity, artwork or proprietary assets were copied from Wispr.
-
-Reference pages were read through web text access: https://wisprflow.ai/, https://wisprflow.ai/features and https://docs.wisprflow.ai/articles/6409258247-starting-your-first-dictation. **No browser-control tool was available, so their visual desktop/mobile layouts, typography, animation and interactions were not inspected.** The design is an original interpretation of concise messaging and product-led demonstration, not a claim of visual fidelity.
-
-### Input options and configuration
-
-- **Use Wispr Flow** selects the installed-app workflow, focuses the ordinary textarea and displays setup instructions. It does not start, control or detect Flow. Install/sign in to Flow, place the cursor in the field, invoke your own configured shortcut/keyboard, finish in Flow and review the text. Real Flow dictation has not been tested in this environment.
-- **Type or paste** focuses the same field. It is available without a voice service and preserves the entered script. Text is not silently translated. Drafts save on this device; server save status is shown separately.
-- No in-app microphone, transcription provider, voice-command intent handler, audio playback or voice-triggered actions are implemented. There is no microphone button or fabricated listening state. A future microphone feature needs a real supported provider, credentials, pricing/privacy review and hardware/browser testing before it is exposed.
-
-No provider API key is required for this redesign. There are no new transcription or AI API charges from SehatRelay; use of the separately installed Wispr product is subject to its own current plan and terms. No speech language or code-switching quality was tested. The fixture uses Hinglish text; automated API checks exercise a Devanagari/Hinglish arbitrary-text fallback, which does not establish speech recognition quality.
-
-All prior limitations were rechecked in code and remain: exact Tara-01 sample extraction, blank manual template for other narratives, no audio access, local JSON records, public demo role switching and synthetic-data-only use. Server validation, role checks and existing tests remain intact. No storage migration or deployment was performed. A persistent database adapter and real identity/tenant authorization remain prerequisites for shared or serverless hosting; do not deploy the JSON store to Vercel.
-
-### Updated demo sequence
-
-1. Open `/relay`, introduce the landing-page story and click the scripted walkthrough controls.
-2. Click **Try the demo**, then **Start a synthetic visit** (or resume a recovered draft).
-3. Select **Use Wispr Flow**, dictate through installed Flow and review the result, or select **Type or paste**. To demonstrate supported predefined extraction, use **Load fictional example** and confirm any replacement.
-4. Click **Generate structured note**. Inspect the source and missing-duration flag. Check every field, leaving unknown details blank and confirming them as not provided.
-5. Enter a synthetic identifier, referral reason and `Demo PHC` as facility; verify these details. Continue to Referral & timeline.
-6. Save a draft if desired. Click **Review & submit**, inspect the confirmation, then **Confirm submission**.
-7. Click **Open clinician inbox** or use the Demo role selector. Open the referral, read source/note, return to Referral & timeline, enter a clinician note and acknowledge.
-8. Show the timestamped timeline. Switch to ASHA and refresh Referrals to show the persisted acknowledgement.
-
-A new visit, example load, repeated generation and device-draft clearing ask before replacing existing work. Voice commands remain possible future work, not a current capability.
-
-For an isolated production check while another development server is running, set an optional build-output directory in PowerShell:
+- `RELAY_SESSION_SECRET`: long random server-only value; keep it stable to preserve signed visit-demo workspace cookies across server restarts. Without it a restart invalidates old sessions; old records stay on disk but a new session creates a new workspace.
+- `SEHATRELAY_BUILD_DIR`: optional generated Next output directory for checking a production build while another dev server is using `.next`.
 
 ```powershell
 $env:SEHATRELAY_BUILD_DIR = '.next-relay-check'
@@ -125,14 +40,120 @@ npm run build
 node node_modules/next/dist/bin/next start --port=3001
 ```
 
-Keep the same `SEHATRELAY_BUILD_DIR` value for build and start. Then open http://localhost:3001/relay. This changes only the generated Next.js output location; it does not change the local referral store. Ordinary `npm run dev` / `npm run build` still use `.next` when this variable is unset. Do not run a development server and production build against the same output directory.
+Use the same output-directory variable for build and start. Normal commands use `.next` when unset.
 
-## Screenshot-led visual update and GSAP
+## In-app microphone — actual implementation
 
-The landing page now uses the supplied Wispr website screenshot as a visual reference: pale cream (#fffdeb), deep teal (#00564b), charcoal (#1b1d1a), lavender (#edcfff), large system-serif headings and wide rounded sections. It retains original SehatRelay identity and healthcare copy. The screenshot was visually reviewed; the live site was accessible only as web text, with no browser-control tools available for live visual testing.
+The global **Voice input** control is mounted in the root layout, so it is available throughout the main application. The home narrative and visit documentation also have contextual microphone buttons. It uses the browser's native `SpeechRecognition` / `webkitSpeechRecognition` interface, **not Wispr Flow**. The API is not supported in every browser and may use a remote browser-vendor service. Use HTTPS or localhost. Feature availability is checked at runtime; a compatible browser can still return service/network/permission errors.
 
-GSAP 3.15.1 is the only new dependency. Core timelines, context/matchMedia cleanup and ScrollTrigger drive the hero entrance, once-per-section reveals, a short desktop scroll-linked ribbon, page progress and the manually selected example transitions. GSAP modules load dynamically on the landing page when motion is permitted. Navigating to the workspace reverts its animations and scroll triggers. Reduced-motion users get the full static page. Native scrolling is preserved. No autoplay video, canvas, scroll hijacking, perpetual animation or recording waveform was added. FAQ panels use native details/summary; demo controls remain keyboard-operable buttons.
+To dictate into a form:
 
-For performance, effects animate opacity and transforms, reveal once, use no React state updates per scroll frame, and skip decorative ribbon movement on small screens. System fonts avoid font downloads; original UI elements replace external images/video. Previous unused landing styles were removed and the stylesheet formatted for maintenance. These are implementation choices, not a measured guarantee of frame rate: actual mobile/desktop scroll smoothness and interaction performance still need browser/device verification.
+1. Click an editable text/search field or textarea on a CareFolio screen. Password, OTP, credential, Aadhaar fields and nontext controls are excluded from dictation targeting. Read-only and disabled fields are excluded.
+2. Open **Voice input** or the contextual microphone. Confirm the **Insert into** field. Select **Dictate into a text field**.
+3. Choose English (India) or Hindi (India). These are requested recognition locales, **not a tested language-quality guarantee**. Hinglish/code-switching quality has not been tested.
+4. Select **Start microphone**, then allow browser microphone permission. The UI shows requesting permission first and indicates active capture only after the speech service's start event.
+5. Speak, then select **Stop & process**. Interim text is labeled as provisional; only final results become the review transcript. Browser silence/session limits can also end capture.
+6. Review and edit the transcript. Select **Insert reviewed text**. The original field's selected range is replaced, with surrounding text preserved, through normal input events so existing React form state and validation continue to run.
+7. Review the result in the form. Use that form's normal save/submit action yourself.
 
-The palette also applies to the visit workspace; voice input, extraction, SunoSure logic, server validation and referral persistence were preserved. Wispr still inserts text via its installed app/keyboard, and no real dictation test was performed. No additional API keys are needed. Run npm install --legacy-peer-deps after pulling the GSAP dependency, then npm run dev and open /relay.
+Cancellation and failures preserve the original form value. If the field was changed or removed while dictating, insertion is blocked instead of overwriting the newer content. Field limits are checked. Capture is aborted on cancellation, route navigation, closing the target dialog, hiding the tab, or unmount. Sessions stop after two minutes; setup and final-processing timeouts release the service. CareFolio stores no audio file and provides no playback; the browser provider’s retention terms are separate.
+
+The microphone control can appear within an open dialog to remain reachable with that dialog's focus boundary. Actual browser focus/caret and mobile behavior still need manual verification; see VALIDATION.md.
+
+### Confirmed voice navigation
+
+Choose **Request app navigation** instead of dictation, start the microphone and speak one of:
+
+| Phrase | Destination |
+| --- | --- |
+| `open home` / `go home` | `/` |
+| `open dashboard` | `/dashboard` (existing role redirect/authentication applies) |
+| `open visits` / `open voice visits` | `/visits` |
+| `open referrals` | `/referrals` |
+| `open sign in` | `/login` |
+
+Review the recognized phrase and click **Confirm: open …**. No navigation happens automatically. Arbitrary URLs and instructions are rejected. No spoken command submits a referral, sends a message, edits clinical facts or makes a clinical decision.
+
+### Verification limits and provider configuration
+
+The actual browser-API path is implemented, with automated tests using an injected fake recognition engine for event sequences and failures. **No real microphone, speech service, installed Wispr dictation, or speech-language accuracy test was performed in this environment.** A passing mock test is not proof of hardware/service performance. There is no browser-control tool in this session, so visual, keyboard and real input checks remain manual. A browser may expose the API but still require additional configuration or deny its service. If that happens, use typing or installed Flow.
+
+No new server transcription provider or paid speech API account was configured. Native recognition is provided under the browser vendor's terms; it may transmit audio remotely and is not claimed to be offline/private or suitable for health data. A uniform cross-browser server transcription adapter would require a separately selected service, credentials, terms/privacy review and hardware testing. No such provider is simulated here.
+
+Official implementation references: [SpeechRecognition](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition), [stop](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition/stop), [abort](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition/abort), [Microsoft browser documentation](https://learn.microsoft.com/en-us/microsoft-edge/web-platform/speech-recognition-api).
+
+## Installed Wispr Flow remains a separate option
+
+Install and sign in to [Wispr Flow](https://wisprflow.ai/), finish its permissions/keyboard setup, place the cursor in the narrative or another editable field, and use the shortcut/mobile keyboard configured in your Flow app. Finish dictation in Flow and review inserted text. The **Use installed Wispr Flow** / **Use Wispr Flow** controls focus the field; they do not start, control, detect or authenticate Flow. SehatRelay receives text only on this path and has no access to Flow's recording. No Wispr API, token, fake connection badge or recording waveform is implemented.
+
+Follow [Wispr's first-dictation guide](https://docs.wisprflow.ai/articles/6409258247-starting-your-first-dictation). Direct speech API authorization and terms for this project were not verified. The browser microphone is accurately labeled as a different engine.
+
+## Complete synthetic demo from the main application
+
+1. Start at `/`, introduce CareFolio, and select **Use microphone** in the narrative panel. Start, speak fictional details, stop, review and insert. Alternatively type or use installed Flow.
+2. To show the supported extraction, load the exact fictional Tara-01 example:
+   > Demo patient Tara-01. Aaj pregnancy follow-up visit hai. Patient ne thakan batayi. Pregnancy 24 weeks hai. Clinician review ke liye referral chahiye.
+3. Click **Review as a visit**. The home draft transfers to `/visits`. Confirm before replacing an existing device visit draft. Choose **ASHA worker** in the explicitly labeled demo role selector if needed.
+4. Generate the structured note. Only the exact supplied fixture has predefined source-linked fields; arbitrary narratives get a clearly labeled blank manual template. Generation asks before replacing existing note content.
+5. Inspect the missing-duration flag and source. Confirm unknown information as not provided; never invent a clinical fact. Enter the visit details, referral reason and `Demo PHC` as the fictional facility. Check every field individually.
+6. Save a server draft, continue to Referral & timeline, and submit through the explicit confirmation dialog.
+7. Open the clinician inbox / choose **Clinician**, read the narrative and note, dictate or type a clinician review note, review inserted text, then acknowledge using the button.
+8. Show timestamped status changes. Switch back to ASHA and refresh Referrals to show acknowledgement and follow-up.
+9. In any text form, demonstrate the global microphone. Optionally demonstrate `open dashboard` in navigation mode and confirm the destination.
+
+SunoSure flags omissions, unmatched source excerpts/user entries, and limited differing-age patterns (`years old`, `saal`, `वर्ष`). It does not comprehensively check contradictions or clinically validate information. Field edits clear that field's verification; narrative edits clear all verification. No diagnosis, measurements or treatment are inferred. Missing details remain blank/Not provided.
+
+## Data, authentication and legacy configuration
+
+The new visit flow still validates requests and permissions on the server using Zod and signed HttpOnly demo cookies. Demo-role switching is public by design, and records are isolated by synthetic workspace. It is not production identity verification and is separate from legacy patient records. States: draft → submitted → acknowledged → follow-up → closed (acknowledged can close directly). Repeated submission IDs do not duplicate referrals. Clinician review needs a review note; invalid transitions are rejected.
+
+Visit records persist in ignored `.relay-data/records.json`, with serialized writes and atomic replacement. **Single Node process + persistent local disk only. Not ready for Vercel/serverless or multi-instance hosting.** No deployment or database migration was performed. Production needs a durable database adapter, transactions and real server-verified identity/tenant authorization.
+
+Home narratives use localStorage (`carefolio-home-narrative`); visit drafts use `sehatrelay-synthetic-draft-v1`; explicit transfer uses sessionStorage. Device recovery alone works offline; navigation, services and submissions need connectivity. Clear home and visit drafts separately using their visible controls. Server records are retained. For a complete synthetic reset, stop the app and remove `.relay-data/records.json` manually. Browser storage is not a health-data protection solution.
+
+The existing CareFolio dashboard CRUD/authentication integrations are preserved, with shared styling and dictation added. They contain a mixture of backend calls and sample/mock data; redesign does not make them live integrations. Client auth stores/demo OTP flows are not production authentication. Do not treat legacy sample metrics as real usage. The legacy SOS component had simulated notifications; its UI is now explicitly a non-contacting SOS demo and makes no alert-delivery claim.
+
+Legacy services may require:
+
+- `medical-records-backend`: install its dependencies and run `npm start` there; requires `MONGODB_URI` or its existing localhost MongoDB default. It normally serves port 5000.
+- `aadharbackend`: install dependencies and run `npm start` there; its server/authentication configuration is separate. Existing frontend calls include localhost port 8881.
+- Firebase client configuration in `lib/firebase.ts`: `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`, optional measurement ID. Server identity verification still needs repair: legacy medical-record/upload routes call `verifyIdToken` on a client auth object.
+- The legacy `backend/app.js` chat service uses server-only `GEMINI_API_KEY` and is started with `node app.js` from that backend. Its separate configuration/privacy review is required if used. It is not part of the new microphone or extraction path.
+
+Do not put secrets in `NEXT_PUBLIC_` variables. These legacy services were not provisioned or audited in this task. The new synthetic path and browser microphone need none of those service keys.
+
+## Architecture and checks
+
+Next.js 15 / React 19 / TypeScript / Tailwind + Radix; existing UI components remain. Main files:
+
+- `app/page.tsx`, `app/layout.tsx`, `app/carefolio.css`: root home, shared voice mount and theme.
+- `components/dashboard/layout`: role navigation, headers, shell and government sections.
+- `components/voice`: global dock, contextual microphone control, dynamic loader.
+- `lib/voice/session.ts`: injectable SpeechRecognition lifecycle, insertion and allowlisted navigation.
+- `components/visits/visit-workspace.tsx`: shared main-application visit/referral workflow.
+- `lib/relay`, `app/api/relay`: existing sample extraction, QA, validation and demo persistence.
+
+```powershell
+node --test tests/voice.test.mjs tests/model.test.mjs
+npx tsc --project tsconfig.voice.json --pretty false
+npm run build
+npm start
+node --test tests/relay.test.mjs
+```
+
+For an isolated server on port 3001, set `RELAY_TEST_URL=http://localhost:3001` before the integration test. `npx tsc --noEmit --pretty false` still reports legacy errors; the build currently skips type/lint checking by existing configuration. See `VALIDATION.md` for executed checks and limitations. The root screenshot reference was visually reviewed; actual desktop/mobile browser inspection and microphone testing were not available.
+
+## Privacy and hackathon limits
+
+Synthetic data only. Review browser speech/Wispr/any future AI providers' permissions, retention and health-data suitability before real use. No HIPAA certification, clinical validation, privacy certification or production-readiness claim. This is a prototype, not an emergency response service.
+
+No official round-specific problem statement was supplied. Confirm Flow-building evidence requirements, whether installed-app text insertion meets the current round, submission/video rules, deadlines and permitted services with organizers. Adding a separate browser microphone does not prove a direct Wispr API integration or hackathon eligibility.
+
+To repeat the main application's full smoke suite against a running server:
+
+```powershell
+$env:RELAY_TEST_URL = 'http://localhost:3000'
+node --test tests/application.test.mjs tests/relay.test.mjs tests/voice.test.mjs tests/model.test.mjs
+```
+
+Latest result: production build/startup, focused types and all 8 tests passed, including 38 HTTP page URLs and referral acknowledgement. The whole-repository type check still fails on legacy errors. Browser/hardware checks remain manual; see VALIDATION.md.

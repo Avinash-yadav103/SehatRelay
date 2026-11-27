@@ -46,18 +46,18 @@ export default function AccessLogsPage() {
 
   const fetchTransactionLogs = async () => {
     if (!user?.id) return;
-    
+
     setIsLoading(true);
     try {
       const params = { patientId: user.id };
-      
+
       if (timeFilter !== 'all') params.timeFilter = timeFilter;
       if (actionFilter !== 'all') params.actionFilter = actionFilter;
       if (actorFilter !== 'all') params.actorFilter = actorFilter;
       if (searchQuery) params.searchQuery = searchQuery;
-      
+
       const response = await axios.get(API_BASE_URL, { params });
-      
+
       const formattedLogs = response.data.map(log => ({
         id: log._id,
         time: new Date(log.timestamp).toLocaleString('en-US', {
@@ -77,12 +77,12 @@ export default function AccessLogsPage() {
         consensusTimestamp: log.consensusTimestamp,
         additionalInfo: log.additionalInfo
       }));
-      
+
       setTransactionLogs(formattedLogs);
     } catch (error) {
       console.error('Error fetching transaction logs:', error);
       toast.error('Failed to load transaction logs');
-      
+
       if (process.env.NODE_ENV === 'development') {
         setTransactionLogs(mockTransactionLogs);
       }
@@ -94,13 +94,13 @@ export default function AccessLogsPage() {
   const fetchMedicalRecord = async (recordId) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/${recordId}`, {
-        params: { 
+        params: {
           userId: user.id,
           userName: user.name,
-          userRole: 'Patient' 
+          userRole: 'Patient'
         }
       });
-      
+
       return response.data;
     } catch (error) {
       console.error('Error fetching record:', error);
@@ -122,10 +122,10 @@ export default function AccessLogsPage() {
 
   const handleExportLogs = async (format) => {
     if (!user?.id) return;
-    
+
     try {
       toast.loading(`Exporting logs as ${format.toUpperCase()}...`);
-      
+
       if (format === 'json' || format === 'csv') {
         window.open(`${API_BASE_URL}/export?patientId=${user.id}&format=${format}`, '_blank');
         toast.dismiss();
@@ -143,7 +143,7 @@ export default function AccessLogsPage() {
 
   const recordTransactionView = async (transactionId) => {
     if (!user?.id) return;
-    
+
     try {
       if (typeof transactionId === 'string' && transactionId.length > 8) {
         console.log("Sending data to server:", {
@@ -193,7 +193,7 @@ export default function AccessLogsPage() {
   const handleVerifyTransaction = (hash) => {
     toast.success("Verifying transaction on blockchain explorer");
     window.open(`https://example-blockchain-explorer.com/tx/${hash}`, "_blank");
-    
+
     if (user?.id) {
       axios.post(API_BASE_URL, {
         patientId: user.id,
@@ -342,7 +342,7 @@ export default function AccessLogsPage() {
       requiredRole="patient"
     >
       <div className="mb-6">
-        <Card className="bg-gray-900 text-white border-none shadow-xl">
+        <Card className="bg-background text-foreground border-none shadow-xl">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <div>
@@ -354,7 +354,7 @@ export default function AccessLogsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-6 w-6 p-0 text-gray-400 hover:text-white hover:bg-gray-800 rounded-full"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-card rounded-full"
                           onClick={() => setShowHelp(!showHelp)}
                         >
                           <HelpCircle className="h-4 w-4" />
@@ -366,17 +366,17 @@ export default function AccessLogsPage() {
                     </Tooltip>
                   </TooltipProvider>
                 </CardTitle>
-                <CardDescription className="text-gray-400">
+                <CardDescription className="text-muted-foreground">
                   Immutable record of all access and modifications to your medical data
                 </CardDescription>
               </div>
               <div className="flex gap-2">
                 <Select value={timeFilter} onValueChange={setTimeFilter}>
-                  <SelectTrigger className="w-[140px] bg-gray-800 border-gray-700 text-white">
+                  <SelectTrigger className="w-[140px] bg-card border-border text-foreground">
                     <Calendar className="mr-2 h-4 w-4" />
                     <SelectValue placeholder="Time period" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                  <SelectContent className="bg-card border-border text-foreground">
                     <SelectItem value="all">All Time</SelectItem>
                     <SelectItem value="today">Today</SelectItem>
                     <SelectItem value="week">Past Week</SelectItem>
@@ -390,7 +390,7 @@ export default function AccessLogsPage() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="border-gray-700 text-white hover:bg-gray-800"
+                        className="border-border text-foreground hover:bg-card"
                         onClick={() => handleExportLogs("csv")}
                       >
                         <Download className="h-4 w-4" />
@@ -406,27 +406,27 @@ export default function AccessLogsPage() {
           </CardHeader>
 
           {showHelp && (
-            <div className="mx-6 my-2 p-4 bg-gray-800 rounded-lg border border-gray-700">
+            <div className="mx-6 my-2 p-4 bg-card rounded-lg border border-border">
               <div className="flex items-start gap-3">
                 <AlertTriangle className="h-5 w-5 text-amber-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <h3 className="text-amber-400 font-medium">About Blockchain Access Logs</h3>
-                  <p className="text-gray-300 text-sm mt-1">
+                  <p className="text-muted-foreground text-sm mt-1">
                     Every access to your medical data is recorded on the blockchain, creating an immutable audit trail.
                     These logs cannot be altered or deleted, ensuring complete transparency about who accessed your
                     information and when.
                   </p>
                   <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="bg-gray-700/50 p-3 rounded-md">
-                      <h4 className="text-white text-sm font-medium">Verification</h4>
-                      <p className="text-gray-300 text-xs mt-1">
+                      <h4 className="text-foreground text-sm font-medium">Verification</h4>
+                      <p className="text-muted-foreground text-xs mt-1">
                         Each transaction has a unique hash that can be verified on the blockchain explorer to confirm
                         its authenticity.
                       </p>
                     </div>
                     <div className="bg-gray-700/50 p-3 rounded-md">
-                      <h4 className="text-white text-sm font-medium">Security</h4>
-                      <p className="text-gray-300 text-xs mt-1">
+                      <h4 className="text-foreground text-sm font-medium">Security</h4>
+                      <p className="text-muted-foreground text-xs mt-1">
                         The distributed nature of blockchain ensures these records cannot be tampered with by any single
                         entity.
                       </p>
@@ -436,7 +436,7 @@ export default function AccessLogsPage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-6 w-6 p-0 text-gray-400 hover:text-white hover:bg-gray-700 rounded-full flex-shrink-0"
+                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-gray-700 rounded-full flex-shrink-0"
                   onClick={() => setShowHelp(false)}
                 >
                   <X className="h-4 w-4" />
@@ -447,23 +447,23 @@ export default function AccessLogsPage() {
 
           <CardContent>
             <Tabs defaultValue="transactions" value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="bg-gray-800 border-gray-700 mb-6">
+              <TabsList className="bg-card border-border mb-6">
                 <TabsTrigger
                   value="transactions"
-                  className="data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400"
+                  className="data-[state=active]:bg-gray-700 data-[state=active]:text-foreground text-muted-foreground"
                 >
                   Transaction Log
                 </TabsTrigger>
                 <TabsTrigger
                   value="activity"
-                  className="data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400"
+                  className="data-[state=active]:bg-gray-700 data-[state=active]:text-foreground text-muted-foreground"
                 >
                   Activity Timeline
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="transactions">
-                <div className="bg-gray-800 rounded-lg p-6 mt-2">
+                <div className="bg-card rounded-lg p-6 mt-2">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <h2 className="text-xl font-semibold">Blockchain Transaction Log</h2>
 
@@ -472,17 +472,17 @@ export default function AccessLogsPage() {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                         <Input
                           placeholder="Search transactions..."
-                          className="pl-9 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 w-full"
+                          className="pl-9 bg-gray-700 border-gray-600 text-foreground placeholder:text-muted-foreground w-full"
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                         />
                       </div>
 
                       <Select value={actionFilter} onValueChange={setActionFilter}>
-                        <SelectTrigger className="w-[140px] bg-gray-700 border-gray-600 text-white">
+                        <SelectTrigger className="w-[140px] bg-gray-700 border-gray-600 text-foreground">
                           <SelectValue placeholder="Action type" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-700 border-gray-600 text-white">
+                        <SelectContent className="bg-gray-700 border-gray-600 text-foreground">
                           <SelectItem value="all">All Actions</SelectItem>
                           <SelectItem value="view">View</SelectItem>
                           <SelectItem value="update">Update</SelectItem>
@@ -493,10 +493,10 @@ export default function AccessLogsPage() {
                       </Select>
 
                       <Select value={actorFilter} onValueChange={setActorFilter}>
-                        <SelectTrigger className="w-[140px] bg-gray-700 border-gray-600 text-white">
+                        <SelectTrigger className="w-[140px] bg-gray-700 border-gray-600 text-foreground">
                           <SelectValue placeholder="Actor type" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-700 border-gray-600 text-white">
+                        <SelectContent className="bg-gray-700 border-gray-600 text-foreground">
                           <SelectItem value="all">All Actors</SelectItem>
                           <SelectItem value="doctor">Doctors</SelectItem>
                           <SelectItem value="specialist">Specialists</SelectItem>
@@ -515,7 +515,7 @@ export default function AccessLogsPage() {
                       {filteredLogs.length > 0 ? (
                         <div className="space-y-4">
                           {filteredLogs.map((log) => (
-                            <div key={log.id} className="bg-gray-750 border border-gray-700 rounded-lg overflow-hidden">
+                            <div key={log.id} className="bg-gray-750 border border-border rounded-lg overflow-hidden">
                               <div
                                 className="p-4 cursor-pointer hover:bg-gray-700/50 transition-colors"
                                 onClick={() => toggleTransactionDetails(log.id)}
@@ -527,7 +527,7 @@ export default function AccessLogsPage() {
                                       h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0
                                       ${
                                         log.action === "view"
-                                          ? "bg-blue-900/30 text-blue-400"
+                                          ? "bg-secondary text-primary"
                                           : log.action === "update"
                                             ? "bg-amber-900/30 text-amber-400"
                                             : log.action === "access"
@@ -546,7 +546,7 @@ export default function AccessLogsPage() {
                                           className={`
                                           ${
                                             log.action === "view"
-                                              ? "bg-blue-900 text-blue-300"
+                                              ? "bg-secondary text-primary"
                                               : log.action === "update"
                                                 ? "bg-amber-900 text-amber-300"
                                                 : log.action === "access"
@@ -562,11 +562,11 @@ export default function AccessLogsPage() {
                                         <span className="text-sm font-medium">{log.details}</span>
                                       </div>
                                       <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-xs text-gray-400">{log.time}</span>
+                                        <span className="text-xs text-muted-foreground">{log.time}</span>
                                         <span className="text-xs text-gray-500">•</span>
-                                        <span className="text-xs text-gray-400">{log.actor.name}</span>
+                                        <span className="text-xs text-muted-foreground">{log.actor.name}</span>
                                         <span className="text-xs text-gray-500">•</span>
-                                        <span className="text-xs text-gray-400">{log.actor.role}</span>
+                                        <span className="text-xs text-muted-foreground">{log.actor.role}</span>
                                       </div>
                                     </div>
                                   </div>
@@ -575,7 +575,7 @@ export default function AccessLogsPage() {
                                     <Button
                                       variant="ghost"
                                       size="sm"
-                                      className="h-7 w-7 p-0 text-gray-400 hover:text-white hover:bg-gray-700"
+                                      className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground hover:bg-gray-700"
                                       onClick={(e) => {
                                         e.stopPropagation()
                                         handleVerifyTransaction(log.hash)
@@ -584,62 +584,62 @@ export default function AccessLogsPage() {
                                       <ExternalLink className="h-3.5 w-3.5" />
                                     </Button>
                                     {expandedTransaction === log.id ? (
-                                      <ChevronUp className="h-5 w-5 text-gray-400" />
+                                      <ChevronUp className="h-5 w-5 text-muted-foreground" />
                                     ) : (
-                                      <ChevronDown className="h-5 w-5 text-gray-400" />
+                                      <ChevronDown className="h-5 w-5 text-muted-foreground" />
                                     )}
                                   </div>
                                 </div>
                               </div>
 
                               {expandedTransaction === log.id && (
-                                <div className="p-4 pt-0 border-t border-gray-700 bg-gray-800/50">
+                                <div className="p-4 pt-0 border-t border-border bg-card/50">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                                     <div>
-                                      <h4 className="text-sm font-medium text-gray-300 mb-2">Transaction Details</h4>
+                                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Transaction Details</h4>
                                       <div className="space-y-2">
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">Transaction Hash:</span>
+                                          <span className="text-xs text-muted-foreground">Transaction Hash:</span>
                                           <code className="text-xs bg-gray-700 px-2 py-0.5 rounded">
                                             {log.hash.substring(0, 12)}...{log.hash.substring(log.hash.length - 8)}
                                           </code>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">Block Number:</span>
-                                          <span className="text-xs text-white">{log.blockNumber}</span>
+                                          <span className="text-xs text-muted-foreground">Block Number:</span>
+                                          <span className="text-xs text-foreground">{log.blockNumber}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">Consensus Timestamp:</span>
-                                          <span className="text-xs text-white">
+                                          <span className="text-xs text-muted-foreground">Consensus Timestamp:</span>
+                                          <span className="text-xs text-foreground">
                                             {new Date(log.consensusTimestamp).toLocaleString()}
                                           </span>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">Actor ID:</span>
-                                          <span className="text-xs text-white">{log.actor.id}</span>
+                                          <span className="text-xs text-muted-foreground">Actor ID:</span>
+                                          <span className="text-xs text-foreground">{log.actor.id}</span>
                                         </div>
                                       </div>
                                     </div>
 
                                     <div>
-                                      <h4 className="text-sm font-medium text-gray-300 mb-2">Access Information</h4>
+                                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Access Information</h4>
                                       <div className="space-y-2">
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">IP Address:</span>
-                                          <span className="text-xs text-white">{log.additionalInfo.ipAddress}</span>
+                                          <span className="text-xs text-muted-foreground">IP Address:</span>
+                                          <span className="text-xs text-foreground">{log.additionalInfo.ipAddress}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">Device:</span>
-                                          <span className="text-xs text-white">{log.additionalInfo.device}</span>
+                                          <span className="text-xs text-muted-foreground">Device:</span>
+                                          <span className="text-xs text-foreground">{log.additionalInfo.device}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-xs text-gray-400">Location:</span>
-                                          <span className="text-xs text-white">{log.additionalInfo.location}</span>
+                                          <span className="text-xs text-muted-foreground">Location:</span>
+                                          <span className="text-xs text-foreground">{log.additionalInfo.location}</span>
                                         </div>
                                         {log.additionalInfo.accessReason && (
                                           <div className="flex justify-between">
-                                            <span className="text-xs text-gray-400">Access Reason:</span>
-                                            <span className="text-xs text-white">
+                                            <span className="text-xs text-muted-foreground">Access Reason:</span>
+                                            <span className="text-xs text-foreground">
                                               {log.additionalInfo.accessReason}
                                             </span>
                                           </div>
@@ -650,12 +650,12 @@ export default function AccessLogsPage() {
 
                                   {log.action === "view" && log.additionalInfo.recordsAccessed && (
                                     <div className="mt-4">
-                                      <h4 className="text-sm font-medium text-gray-300 mb-2">Records Accessed</h4>
+                                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Records Accessed</h4>
                                       <div className="flex flex-wrap gap-2">
                                         {log.additionalInfo.recordsAccessed.map((record, idx) => (
                                           <Badge
                                             key={idx}
-                                            className="bg-blue-900/30 text-blue-300 border border-blue-800"
+                                            className="bg-secondary text-primary border border-border"
                                           >
                                             {record}
                                           </Badge>
@@ -666,7 +666,7 @@ export default function AccessLogsPage() {
 
                                   {log.action === "update" && log.additionalInfo.changesMade && (
                                     <div className="mt-4">
-                                      <h4 className="text-sm font-medium text-gray-300 mb-2">Changes Made</h4>
+                                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Changes Made</h4>
                                       <div className="flex flex-wrap gap-2">
                                         {log.additionalInfo.changesMade.map((change, idx) => (
                                           <Badge
@@ -680,12 +680,12 @@ export default function AccessLogsPage() {
                                       {log.additionalInfo.previousValue && log.additionalInfo.newValue && (
                                         <div className="mt-2 grid grid-cols-2 gap-2">
                                           <div className="bg-gray-700/50 p-2 rounded">
-                                            <span className="text-xs text-gray-400">Previous Value:</span>
-                                            <p className="text-xs text-white">{log.additionalInfo.previousValue}</p>
+                                            <span className="text-xs text-muted-foreground">Previous Value:</span>
+                                            <p className="text-xs text-foreground">{log.additionalInfo.previousValue}</p>
                                           </div>
                                           <div className="bg-gray-700/50 p-2 rounded">
-                                            <span className="text-xs text-gray-400">New Value:</span>
-                                            <p className="text-xs text-white">{log.additionalInfo.newValue}</p>
+                                            <span className="text-xs text-muted-foreground">New Value:</span>
+                                            <p className="text-xs text-foreground">{log.additionalInfo.newValue}</p>
                                           </div>
                                         </div>
                                       )}
@@ -694,15 +694,15 @@ export default function AccessLogsPage() {
 
                                   {log.action === "access" && log.additionalInfo.accessDuration && (
                                     <div className="mt-4">
-                                      <h4 className="text-sm font-medium text-gray-300 mb-2">Access Details</h4>
+                                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Access Details</h4>
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                         <div className="bg-gray-700/50 p-2 rounded">
-                                          <span className="text-xs text-gray-400">Duration:</span>
-                                          <p className="text-xs text-white">{log.additionalInfo.accessDuration}</p>
+                                          <span className="text-xs text-muted-foreground">Duration:</span>
+                                          <p className="text-xs text-foreground">{log.additionalInfo.accessDuration}</p>
                                         </div>
                                         <div className="bg-gray-700/50 p-2 rounded">
-                                          <span className="text-xs text-gray-400">Access Level:</span>
-                                          <p className="text-xs text-white">{log.additionalInfo.accessLevel}</p>
+                                          <span className="text-xs text-muted-foreground">Access Level:</span>
+                                          <p className="text-xs text-foreground">{log.additionalInfo.accessLevel}</p>
                                         </div>
                                       </div>
                                     </div>
@@ -710,23 +710,23 @@ export default function AccessLogsPage() {
 
                                   {log.action === "upload" && log.additionalInfo.fileDetails && (
                                     <div className="mt-4">
-                                      <h4 className="text-sm font-medium text-gray-300 mb-2">File Details</h4>
+                                      <h4 className="text-sm font-medium text-muted-foreground mb-2">File Details</h4>
                                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                                         <div className="bg-gray-700/50 p-2 rounded">
-                                          <span className="text-xs text-gray-400">File Name:</span>
-                                          <p className="text-xs text-white">{log.additionalInfo.fileDetails.name}</p>
+                                          <span className="text-xs text-muted-foreground">File Name:</span>
+                                          <p className="text-xs text-foreground">{log.additionalInfo.fileDetails.name}</p>
                                         </div>
                                         <div className="bg-gray-700/50 p-2 rounded">
-                                          <span className="text-xs text-gray-400">File Type:</span>
-                                          <p className="text-xs text-white">{log.additionalInfo.fileDetails.type}</p>
+                                          <span className="text-xs text-muted-foreground">File Type:</span>
+                                          <p className="text-xs text-foreground">{log.additionalInfo.fileDetails.type}</p>
                                         </div>
                                         <div className="bg-gray-700/50 p-2 rounded">
-                                          <span className="text-xs text-gray-400">File Size:</span>
-                                          <p className="text-xs text-white">{log.additionalInfo.fileDetails.size}</p>
+                                          <span className="text-xs text-muted-foreground">File Size:</span>
+                                          <p className="text-xs text-foreground">{log.additionalInfo.fileDetails.size}</p>
                                         </div>
                                         <div className="bg-gray-700/50 p-2 rounded">
-                                          <span className="text-xs text-gray-400">File Hash:</span>
-                                          <p className="text-xs text-white truncate">
+                                          <span className="text-xs text-muted-foreground">File Hash:</span>
+                                          <p className="text-xs text-foreground truncate">
                                             {log.additionalInfo.fileDetails.hash}
                                           </p>
                                         </div>
@@ -738,7 +738,7 @@ export default function AccessLogsPage() {
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                                      className="border-gray-600 text-muted-foreground hover:bg-gray-700"
                                       onClick={(e) => {
                                         e.stopPropagation()
                                         handleVerifyTransaction(log.hash)
@@ -754,13 +754,13 @@ export default function AccessLogsPage() {
                           ))}
                         </div>
                       ) : (
-                        <div className="text-center py-12 bg-gray-750 rounded-lg border border-gray-700">
+                        <div className="text-center py-12 bg-gray-750 rounded-lg border border-border">
                           <Search className="h-12 w-12 text-gray-600 mx-auto mb-3" />
-                          <h3 className="text-lg font-medium text-gray-300">No Transactions Found</h3>
-                          <p className="text-gray-400 mt-1">No transactions match your current filters.</p>
+                          <h3 className="text-lg font-medium text-muted-foreground">No Transactions Found</h3>
+                          <p className="text-muted-foreground mt-1">No transactions match your current filters.</p>
                           <Button
                             variant="outline"
-                            className="mt-4 border-gray-600 text-gray-300 hover:bg-gray-700"
+                            className="mt-4 border-gray-600 text-muted-foreground hover:bg-gray-700"
                             onClick={() => {
                               setTimeFilter("all")
                               setActionFilter("all")
@@ -778,7 +778,7 @@ export default function AccessLogsPage() {
               </TabsContent>
 
               <TabsContent value="activity">
-                <div className="bg-gray-800 rounded-lg p-6 mt-2">
+                <div className="bg-card rounded-lg p-6 mt-2">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <h2 className="text-xl font-semibold">Activity Timeline</h2>
 
@@ -787,7 +787,7 @@ export default function AccessLogsPage() {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                         <Input
                           placeholder="Search activities..."
-                          className="pl-9 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 w-full"
+                          className="pl-9 bg-gray-700 border-gray-600 text-foreground placeholder:text-muted-foreground w-full"
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -807,8 +807,8 @@ export default function AccessLogsPage() {
                             .sort(([dateA], [dateB]) => new Date(dateB).getTime() - new Date(dateA).getTime())
                             .map(([date, logs]) => (
                               <div key={date}>
-                                <h3 className="text-lg font-medium text-white mb-4">{formatDate(date)}</h3>
-                                <div className="relative pl-8 border-l-2 border-gray-700 space-y-6">
+                                <h3 className="text-lg font-medium text-foreground mb-4">{formatDate(date)}</h3>
+                                <div className="relative pl-8 border-l-2 border-border space-y-6">
                                   {logs.map((log) => (
                                     <div key={log.id} className="relative">
                                       <div className="absolute -left-[41px] top-0">
@@ -817,7 +817,7 @@ export default function AccessLogsPage() {
                                           h-8 w-8 rounded-full flex items-center justify-center
                                           ${
                                             log.action === "view"
-                                              ? "bg-blue-900/30 text-blue-400 border-2 border-blue-700"
+                                              ? "bg-secondary text-primary border-2 border-primary"
                                               : log.action === "update"
                                                 ? "bg-amber-900/30 text-amber-400 border-2 border-amber-700"
                                                 : log.action === "access"
@@ -832,7 +832,7 @@ export default function AccessLogsPage() {
                                         </div>
                                       </div>
 
-                                      <div className="bg-gray-750 border border-gray-700 rounded-lg p-4">
+                                      <div className="bg-gray-750 border border-border rounded-lg p-4">
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                                           <div>
                                             <div className="flex items-center gap-2">
@@ -840,7 +840,7 @@ export default function AccessLogsPage() {
                                                 className={`
                                                 ${
                                                   log.action === "view"
-                                                    ? "bg-blue-900 text-blue-300"
+                                                    ? "bg-secondary text-primary"
                                                     : log.action === "update"
                                                       ? "bg-amber-900 text-amber-300"
                                                       : log.action === "access"
@@ -856,11 +856,11 @@ export default function AccessLogsPage() {
                                               <span className="text-sm font-medium">{log.details}</span>
                                             </div>
                                             <div className="flex items-center gap-2 mt-1">
-                                              <span className="text-xs text-gray-400">{log.time.split(" ")[1]}</span>
+                                              <span className="text-xs text-muted-foreground">{log.time.split(" ")[1]}</span>
                                               <span className="text-xs text-gray-500">•</span>
-                                              <span className="text-xs text-gray-400">{log.actor.name}</span>
+                                              <span className="text-xs text-muted-foreground">{log.actor.name}</span>
                                               <span className="text-xs text-gray-500">•</span>
-                                              <span className="text-xs text-gray-400">{log.actor.role}</span>
+                                              <span className="text-xs text-muted-foreground">{log.actor.role}</span>
                                             </div>
                                           </div>
                                           <div className="flex items-center gap-2">
@@ -868,7 +868,7 @@ export default function AccessLogsPage() {
                                             <Button
                                               variant="ghost"
                                               size="sm"
-                                              className="h-7 w-7 p-0 text-gray-400 hover:text-white hover:bg-gray-700"
+                                              className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground hover:bg-gray-700"
                                               onClick={() => handleVerifyTransaction(log.hash)}
                                             >
                                               <ExternalLink className="h-3.5 w-3.5" />
@@ -883,13 +883,13 @@ export default function AccessLogsPage() {
                             ))}
                         </div>
                       ) : (
-                        <div className="text-center py-12 bg-gray-750 rounded-lg border border-gray-700">
+                        <div className="text-center py-12 bg-gray-750 rounded-lg border border-border">
                           <Calendar className="h-12 w-12 text-gray-600 mx-auto mb-3" />
-                          <h3 className="text-lg font-medium text-gray-300">No Activities Found</h3>
-                          <p className="text-gray-400 mt-1">No activities match your current filters.</p>
+                          <h3 className="text-lg font-medium text-muted-foreground">No Activities Found</h3>
+                          <p className="text-muted-foreground mt-1">No activities match your current filters.</p>
                           <Button
                             variant="outline"
-                            className="mt-4 border-gray-600 text-gray-300 hover:bg-gray-700"
+                            className="mt-4 border-gray-600 text-muted-foreground hover:bg-gray-700"
                             onClick={() => {
                               setTimeFilter("all")
                               setActionFilter("all")
@@ -908,9 +908,9 @@ export default function AccessLogsPage() {
             </Tabs>
           </CardContent>
 
-          <CardFooter className="flex justify-between border-t border-gray-800 pt-4">
+          <CardFooter className="flex justify-between border-t border-border pt-4">
             <div className="text-xs text-gray-500">
-              Secured by MediChain Blockchain • Last synced: {new Date().toLocaleString()}
+              CareFolio access-log prototype • Last synced: {new Date().toLocaleString()}
             </div>
             <div className="flex gap-2">
               <TooltipProvider>
@@ -919,7 +919,7 @@ export default function AccessLogsPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-gray-700 text-white hover:bg-gray-800"
+                      className="border-border text-foreground hover:bg-card"
                       onClick={() => handleExportLogs("pdf")}
                     >
                       PDF
@@ -937,7 +937,7 @@ export default function AccessLogsPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-gray-700 text-white hover:bg-gray-800"
+                      className="border-border text-foreground hover:bg-card"
                       onClick={() => handleExportLogs("csv")}
                     >
                       CSV
@@ -955,7 +955,7 @@ export default function AccessLogsPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-gray-700 text-white hover:bg-gray-800"
+                      className="border-border text-foreground hover:bg-card"
                       onClick={() => handleExportLogs("json")}
                     >
                       JSON

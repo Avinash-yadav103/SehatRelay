@@ -41,7 +41,6 @@ export default function PatientProfilePage() {
   const [isSaving, setIsSaving] = useState(false)
   const [activeTab, setActiveTab] = useState("personal")
 
-  console.log("User Context on dashboard :", userContext)
 
   interface Profile {
     name: string;
@@ -152,7 +151,7 @@ export default function PatientProfilePage() {
 
   const handleSaveProfile = async () => {
     setIsSaving(true);
-    
+
     try {
       // Format the profile data to match our database structure
       const formattedProfile = {
@@ -164,7 +163,7 @@ export default function PatientProfilePage() {
         dateOfBirth: profile.dateOfBirth,
         gender: profile.gender,
         bio: profile.bio,
-        
+
         // Medical information
         medicalInfo: {
           bloodType: profile.bloodType,
@@ -173,13 +172,13 @@ export default function PatientProfilePage() {
           allergies: profile.allergies.map(allergy => {
             // Parse allergies to match our schema format
             const match = allergy.match(/(.*) \((.*)\)/);
-            return match 
+            return match
               ? { type: match[1], severity: match[2], reaction: match[1] }
               : { type: allergy, severity: "mild", reaction: allergy };
           }),
           chronicConditions: profile.chronicConditions
         },
-        
+
         // Emergency contact
         emergencyContact: {
           name: profile.emergencyContact.name,
@@ -187,7 +186,7 @@ export default function PatientProfilePage() {
           phone: profile.emergencyContact.phone
         }
       };
-      
+
       // Add this before sending the request
       console.log("Sending update for aadhaarId:", userContext?.aadhaarId);
       console.log("Profile data being sent:", formattedProfile);
@@ -195,7 +194,7 @@ export default function PatientProfilePage() {
       // Send the updated profile to the backend
       const response = await fetch(`http://localhost:5000/api/users/update-profile`, {
         method: 'PUT',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           // Use token if available, otherwise send without auth header
           ...(localStorage.getItem('token') ? {
@@ -207,21 +206,21 @@ export default function PatientProfilePage() {
           profileData: formattedProfile
         })
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to update profile');
       }
-      
+
       const result = await response.json();
-      
+
       // And after getting the response
       console.log("Response from server:", result);
 
       // Update the user context if you need to reflect changes immediately
       if (result.success) {
         toast.success("Profile updated successfully");
-        
+
         // Optionally refresh user data in context
         // refreshUserData(); // Implement this function if needed
       } else {
@@ -318,13 +317,13 @@ export default function PatientProfilePage() {
               </CardHeader>
               <CardContent className="flex flex-col items-center pt-4">
                 <div className="relative">
-                  <div className="h-32 w-32 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 text-4xl font-bold">
+                  <div className="h-32 w-32 rounded-full bg-secondary flex items-center justify-center text-primary text-4xl font-bold">
                     CareFolio
                   </div>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute bottom-0 right-0 rounded-full h-8 w-8 bg-white border-gray-200"
+                    className="absolute bottom-0 right-0 rounded-full h-8 w-8 bg-card border-border"
                   >
                     <Camera className="h-4 w-4" />
                   </Button>
@@ -335,9 +334,9 @@ export default function PatientProfilePage() {
                 <div className="w-full mt-6">
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600">Profile Completeness</span>
-                    <span className="text-sky-600">85%</span>
+                    <span className="text-primary">85%</span>
                   </div>
-                  <Progress value={85} className="h-2 bg-gray-200" indicatorClassName="bg-sky-600" />
+                  <Progress value={85} className="h-2 bg-gray-200" indicatorClassName="bg-primary" />
                 </div>
 
                 <div className="w-full mt-6 space-y-3">
@@ -610,8 +609,8 @@ export default function PatientProfilePage() {
               {/* Add this right before CardFooter */}
               {isSaving && (
                 <div className="px-6 pb-2">
-                  <div className="bg-sky-50 border border-sky-200 p-3 rounded-md">
-                    <p className="text-sky-700 text-sm">
+                  <div className="bg-secondary border border-border p-3 rounded-md">
+                    <p className="text-primary text-sm">
                       Saving your profile changes...
                     </p>
                   </div>
@@ -619,9 +618,9 @@ export default function PatientProfilePage() {
               )}
 
               <CardFooter className="flex justify-end">
-                <Button 
-                  className="bg-sky-600 hover:bg-sky-700" 
-                  onClick={handleSaveProfile} 
+                <Button
+                  className="bg-primary hover:bg-primary"
+                  onClick={handleSaveProfile}
                   disabled={isSaving}
                 >
                   {isSaving ? (

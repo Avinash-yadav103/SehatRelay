@@ -251,7 +251,7 @@ export default function AccessControlPage() {
               <CardTitle className="text-2xl">Access Control</CardTitle>
               <CardDescription>Manage who can access your medical records</CardDescription>
             </div>
-            <Button className="bg-sky-600 hover:bg-sky-700">
+            <Button className="bg-primary hover:bg-primary">
               <UserPlus className="mr-2 h-4 w-4" />
               Grant New Access
             </Button>
@@ -314,7 +314,7 @@ export default function AccessControlPage() {
                               </Button>
                               <Button
                                 size="sm"
-                                className="h-9 bg-sky-600 hover:bg-sky-700 text-white"
+                                className="h-9 bg-primary hover:bg-primary text-white"
                                 onClick={() => handleApproveAccess(request.id)}
                                 disabled={loadingApproveId === request.id}
                               >
@@ -330,7 +330,7 @@ export default function AccessControlPage() {
                         </div>
                       ))
                   ) : (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="text-center py-8 bg-background rounded-lg border border-border">
                       <Clock className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <h3 className="text-lg font-medium text-gray-900">No Pending Requests</h3>
                       <p className="text-gray-600 mt-1">You don't have any pending access requests at the moment.</p>
@@ -390,7 +390,7 @@ export default function AccessControlPage() {
                         </div>
                       ))
                   ) : (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="text-center py-8 bg-background rounded-lg border border-border">
                       <CheckCircle className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <h3 className="text-lg font-medium text-gray-900">No Approved Access</h3>
                       <p className="text-gray-600 mt-1">You haven't approved access for anyone yet.</p>
@@ -405,7 +405,7 @@ export default function AccessControlPage() {
                     accessRequests
                       .filter((r) => r.status === "rejected")
                       .map((request) => (
-                        <div key={request.id} className="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+                        <div key={request.id} className="bg-background border border-border p-4 rounded-lg">
                           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div>
                               <div className="flex items-center gap-2">
@@ -434,7 +434,7 @@ export default function AccessControlPage() {
                             </div>
                             <Button
                               size="sm"
-                              className="h-9 bg-sky-600 hover:bg-sky-700 text-white"
+                              className="h-9 bg-primary hover:bg-primary text-white"
                               onClick={() => handleApproveAccess(request.id)}
                               disabled={loadingApproveId === request.id}
                             >
@@ -449,7 +449,7 @@ export default function AccessControlPage() {
                         </div>
                       ))
                   ) : (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="text-center py-8 bg-background rounded-lg border border-border">
                       <XCircle className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <h3 className="text-lg font-medium text-gray-900">No Rejected Requests</h3>
                       <p className="text-gray-600 mt-1">You haven't rejected any access requests yet.</p>

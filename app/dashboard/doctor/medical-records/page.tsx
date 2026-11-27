@@ -427,7 +427,7 @@ function MedicalRecordsContent() {
       case "Completed":
         return "bg-green-100 text-green-800"
       case "In Progress":
-        return "bg-blue-100 text-blue-800"
+        return "bg-secondary text-blue-800"
       case "Pending Review":
         return "bg-yellow-100 text-yellow-800"
       case "Cancelled":
@@ -442,7 +442,7 @@ function MedicalRecordsContent() {
       case "Cardiovascular":
         return "bg-red-100 text-red-800"
       case "Respiratory":
-        return "bg-blue-100 text-blue-800"
+        return "bg-secondary text-blue-800"
       case "Neurology":
         return "bg-purple-100 text-purple-800"
       case "Dermatology":
@@ -570,7 +570,7 @@ function MedicalRecordsContent() {
               <input
                 type="text"
                 placeholder="Search records..."
-                className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/70 backdrop-filter backdrop-blur-lg shadow-md"
+                className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/70 backdrop-filter backdrop-blur-lg shadow-md"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -590,7 +590,7 @@ function MedicalRecordsContent() {
           {/* Sidebar - Filters */}
           <div className="space-y-6">
             {/* Filter Panel */}
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
               <h2 className="text-lg font-bold text-indigo-800 mb-4 flex items-center">
                 <Filter className="mr-2" size={18} />
                 Filters
@@ -601,7 +601,7 @@ function MedicalRecordsContent() {
                 <div>
                   <label className="block text-sm font-medium text-indigo-700 mb-1">Patient</label>
                   <select
-                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     value={selectedPatient}
                     onChange={(e) => setSelectedPatient(e.target.value)}
                   >
@@ -618,7 +618,7 @@ function MedicalRecordsContent() {
                 <div>
                   <label className="block text-sm font-medium text-indigo-700 mb-1">Doctor</label>
                   <select
-                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     value={selectedDoctor}
                     onChange={(e) => setSelectedDoctor(e.target.value)}
                   >
@@ -635,7 +635,7 @@ function MedicalRecordsContent() {
                 <div>
                   <label className="block text-sm font-medium text-indigo-700 mb-1">Category</label>
                   <select
-                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                   >
@@ -652,7 +652,7 @@ function MedicalRecordsContent() {
                 <div>
                   <label className="block text-sm font-medium text-indigo-700 mb-1">Status</label>
                   <select
-                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                    className="w-full p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
                   >
@@ -671,14 +671,14 @@ function MedicalRecordsContent() {
                   <div className="flex gap-2 items-center">
                     <input
                       type="date"
-                      className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                      className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                       value={dateRange.start}
                       onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
                     />
                     <span className="text-indigo-600">to</span>
                     <input
                       type="date"
-                      className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                      className="flex-1 p-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                       value={dateRange.end}
                       onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
                     />
@@ -706,7 +706,7 @@ function MedicalRecordsContent() {
             </div>
 
             {/* Quick Stats */}
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
               <h2 className="text-lg font-bold text-indigo-800 mb-3">Records Summary</h2>
               <div className="space-y-2">
                 <div className="flex justify-between items-center p-2 rounded-lg bg-indigo-50">
@@ -725,8 +725,8 @@ function MedicalRecordsContent() {
                     {medicalRecords.filter((r) => r.status === "Pending Review").length}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-2 rounded-lg bg-blue-50">
-                  <span className="text-blue-700">In Progress</span>
+                <div className="flex justify-between items-center p-2 rounded-lg bg-background">
+                  <span className="text-primary">In Progress</span>
                   <span className="font-bold text-blue-900">
                     {medicalRecords.filter((r) => r.status === "In Progress").length}
                   </span>
@@ -737,7 +737,7 @@ function MedicalRecordsContent() {
 
           {/* Main Records Table */}
           <div className="lg:col-span-3">
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 overflow-hidden">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 overflow-hidden">
               <div className="p-4 bg-indigo-50/80 border-b border-indigo-100 flex justify-between items-center">
                 <h2 className="text-xl font-bold text-indigo-800">Medical Records</h2>
                 <div className="flex items-center gap-2">
@@ -812,7 +812,7 @@ function MedicalRecordsContent() {
                             <td className="px-4 py-2">
                               <div className="flex items-center gap-2">
                                 <button
-                                  className="text-blue-600 hover:text-blue-800 transition-colors"
+                                  className="text-primary hover:text-blue-800 transition-colors"
                                   onClick={() => handleViewRecord(record)}
                                 >
                                   <Eye size={16} />
@@ -860,7 +860,7 @@ function MedicalRecordsContent() {
         {/* Record Modal */}
         {showRecordModal && selectedRecord && (
           <div className="fixed inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
+            <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-2xl">
               <h2 className="text-xl font-bold text-indigo-800 mb-4">{selectedRecord.title}</h2>
               <p className="text-sm text-gray-600 mb-2">
                 <strong>Date:</strong> {selectedRecord.date}

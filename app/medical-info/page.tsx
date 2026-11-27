@@ -122,12 +122,12 @@ export default function MedicalInfoPage() {
 
       const result = await response.json();
       console.log("Medical data saved successfully:", result);
-      
+
       // Clear registration data from localStorage
       localStorage.removeItem("registrationData");
 
       toast.success("Registration complete! Please log in.");
-      
+
       // Redirect to login page
       router.push("/login");
     } catch (error) {
@@ -145,7 +145,7 @@ export default function MedicalInfoPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white p-8 rounded-2xl border border-gray-200 shadow-lg mb-8"
+          className="bg-card p-8 rounded-2xl border border-border shadow-lg mb-8"
         >
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Medical Information</h1>
@@ -169,12 +169,12 @@ export default function MedicalInfoPage() {
             {/* Allergies Section */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Syringe className="h-5 w-5 text-sky-600" />
+                <Syringe className="h-5 w-5 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">Allergies</h2>
               </div>
 
               {allergies.map((allergy, index) => (
-                <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-3">
+                <div key={index} className="bg-background p-4 rounded-lg border border-border space-y-3">
                   <div className="flex justify-between items-center">
                     <h3 className="text-gray-700 font-medium">Allergy #{index + 1}</h3>
                     {allergies.length > 1 && (
@@ -200,7 +200,7 @@ export default function MedicalInfoPage() {
                         placeholder="e.g., Peanuts, Penicillin"
                         value={allergy.type}
                         onChange={(e) => handleAllergyChange(index, "type", e.target.value)}
-                        className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                        className="border-input text-gray-900 placeholder:text-gray-500"
                       />
                     </div>
 
@@ -212,10 +212,10 @@ export default function MedicalInfoPage() {
                         value={allergy.severity}
                         onValueChange={(value) => handleAllergyChange(index, "severity", value)}
                       >
-                        <SelectTrigger className="border-gray-300 text-gray-900">
+                        <SelectTrigger className="border-input text-gray-900">
                           <SelectValue placeholder="Select severity" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-200 text-gray-900">
+                        <SelectContent className="bg-card border-border text-gray-900">
                           <SelectItem value="mild">Mild</SelectItem>
                           <SelectItem value="moderate">Moderate</SelectItem>
                           <SelectItem value="severe">Severe</SelectItem>
@@ -234,7 +234,7 @@ export default function MedicalInfoPage() {
                       placeholder="Describe your reaction"
                       value={allergy.reaction}
                       onChange={(e) => handleAllergyChange(index, "reaction", e.target.value)}
-                      className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                      className="border-input text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
                 </div>
@@ -243,7 +243,7 @@ export default function MedicalInfoPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-dashed border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="w-full border-dashed border-input text-gray-700 hover:bg-background"
                 onClick={handleAddAllergy}
               >
                 <Plus className="mr-2 h-4 w-4" />
@@ -254,12 +254,12 @@ export default function MedicalInfoPage() {
             {/* Medications Section
             // <div className="space-y-4">
             //   <div className="flex items-center gap-2">
-            //     <Pill className="h-5 w-5 text-sky-600" />
+            //     <Pill className="h-5 w-5 text-primary" />
             //     <h2 className="text-xl font-semibold text-gray-900">Current Medications</h2>
             //   </div>
 
             //   {medications.map((medication, index) => (
-            //     <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-3">
+            //     <div key={index} className="bg-background p-4 rounded-lg border border-border space-y-3">
             //       <div className="flex justify-between items-center">
             //         <h3 className="text-gray-700 font-medium">Medication #{index + 1}</h3>
             //         {medications.length > 1 && (
@@ -285,7 +285,7 @@ export default function MedicalInfoPage() {
             //             placeholder="e.g., Lisinopril"
             //             value={medication.name}
             //             onChange={(e) => handleMedicationChange(index, "name", e.target.value)}
-            //             className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+            //             className="border-input text-gray-900 placeholder:text-gray-500"
             //           />
             //         </div>
 
@@ -298,7 +298,7 @@ export default function MedicalInfoPage() {
             //             placeholder="e.g., 10mg"
             //             value={medication.dosage}
             //             onChange={(e) => handleMedicationChange(index, "dosage", e.target.value)}
-            //             className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+            //             className="border-input text-gray-900 placeholder:text-gray-500"
             //           />
             //         </div>
 
@@ -311,7 +311,7 @@ export default function MedicalInfoPage() {
             //             placeholder="e.g., Once daily"
             //             value={medication.frequency}
             //             onChange={(e) => handleMedicationChange(index, "frequency", e.target.value)}
-            //             className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+            //             className="border-input text-gray-900 placeholder:text-gray-500"
             //           />
             //         </div>
             //       </div>
@@ -321,7 +321,7 @@ export default function MedicalInfoPage() {
             //   <Button
             //     type="button"
             //     variant="outline"
-            //     className="w-full border-dashed border-gray-300 text-gray-700 hover:bg-gray-50"
+            //     className="w-full border-dashed border-input text-gray-700 hover:bg-background"
             //     onClick={handleAddMedication}
             //   >
             //     <Plus className="mr-2 h-4 w-4" />
@@ -332,12 +332,12 @@ export default function MedicalInfoPage() {
             {/* Medical Conditions Section */}
             {/* <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Stethoscope className="h-5 w-5 text-sky-600" />
+                <Stethoscope className="h-5 w-5 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">Medical Conditions</h2>
               </div>
 
               {conditions.map((condition, index) => (
-                <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-3">
+                <div key={index} className="bg-background p-4 rounded-lg border border-border space-y-3">
                   <div className="flex justify-between items-center">
                     <h3 className="text-gray-700 font-medium">Condition #{index + 1}</h3>
                     {conditions.length > 1 && (
@@ -363,7 +363,7 @@ export default function MedicalInfoPage() {
                         placeholder="e.g., Diabetes"
                         value={condition.name}
                         onChange={(e) => handleConditionChange(index, "name", e.target.value)}
-                        className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                        className="border-input text-gray-900 placeholder:text-gray-500"
                       />
                     </div>
 
@@ -376,7 +376,7 @@ export default function MedicalInfoPage() {
                         placeholder="e.g., 2018"
                         value={condition.diagnosedYear}
                         onChange={(e) => handleConditionChange(index, "diagnosedYear", e.target.value)}
-                        className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                        className="border-input text-gray-900 placeholder:text-gray-500"
                       />
                     </div>
 
@@ -388,10 +388,10 @@ export default function MedicalInfoPage() {
                         value={condition.status}
                         onValueChange={(value) => handleConditionChange(index, "status", value)}
                       >
-                        <SelectTrigger className="border-gray-300 text-gray-900">
+                        <SelectTrigger className="border-input text-gray-900">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-200 text-gray-900">
+                        <SelectContent className="bg-card border-border text-gray-900">
                           <SelectItem value="active">Active</SelectItem>
                           <SelectItem value="managed">Managed</SelectItem>
                           <SelectItem value="resolved">Resolved</SelectItem>
@@ -405,7 +405,7 @@ export default function MedicalInfoPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-dashed border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="w-full border-dashed border-input text-gray-700 hover:bg-background"
                 onClick={handleAddCondition}
               >
                 <Plus className="mr-2 h-4 w-4" />
@@ -416,11 +416,11 @@ export default function MedicalInfoPage() {
             {/* Blood Type Section */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Heart className="h-5 w-5 text-sky-600" />
+                <Heart className="h-5 w-5 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">Blood Type</h2>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-background p-4 rounded-lg border border-border">
                 <div className="grid grid-cols-4 gap-3">
                   {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((type) => (
                     <div key={type} className="flex items-center space-x-2">
@@ -428,7 +428,7 @@ export default function MedicalInfoPage() {
                         id={`blood-type-${type}`}
                         checked={bloodType === type}
                         onCheckedChange={() => setBloodType(type)}
-                        className="border-gray-300 data-[state=checked]:bg-sky-600 data-[state=checked]:border-sky-600"
+                        className="border-input data-[state=checked]:bg-primary data-[state=checked]:border-sky-600"
                       />
                       <Label htmlFor={`blood-type-${type}`} className="text-gray-700">
                         {type}
@@ -442,7 +442,7 @@ export default function MedicalInfoPage() {
                     id="blood-type-unknown"
                     checked={bloodType === "unknown"}
                     onCheckedChange={() => setBloodType("unknown")}
-                    className="border-gray-300 data-[state=checked]:bg-sky-600 data-[state=checked]:border-sky-600"
+                    className="border-input data-[state=checked]:bg-primary data-[state=checked]:border-sky-600"
                   />
                   <Label htmlFor="blood-type-unknown" className="text-gray-700">
                     Unknown
@@ -454,11 +454,11 @@ export default function MedicalInfoPage() {
             {/* Emergency Contact Section */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-sky-600" />
+                <AlertTriangle className="h-5 w-5 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">Emergency Contact</h2>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-3">
+              <div className="bg-background p-4 rounded-lg border border-border space-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="space-y-2">
                     <Label htmlFor="emergency-name" className="text-gray-700">
@@ -469,7 +469,7 @@ export default function MedicalInfoPage() {
                       placeholder="Full name"
                       value={emergencyContact.name}
                       onChange={(e) => handleEmergencyContactChange("name", e.target.value)}
-                      className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                      className="border-input text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
 
@@ -482,7 +482,7 @@ export default function MedicalInfoPage() {
                       placeholder="e.g., Spouse, Parent"
                       value={emergencyContact.relation}
                       onChange={(e) => handleEmergencyContactChange("relation", e.target.value)}
-                      className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                      className="border-input text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
 
@@ -495,7 +495,7 @@ export default function MedicalInfoPage() {
                       placeholder="Contact number"
                       value={emergencyContact.phone}
                       onChange={(e) => handleEmergencyContactChange("phone", e.target.value)}
-                      className="border-gray-300 text-gray-900 placeholder:text-gray-500"
+                      className="border-input text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
                 </div>
@@ -504,7 +504,7 @@ export default function MedicalInfoPage() {
 
             <Button
               type="submit"
-              className="w-full bg-sky-600 hover:bg-sky-700 text-white py-6 text-lg"
+              className="w-full bg-primary hover:bg-primary text-white py-6 text-lg"
               disabled={isLoading}
             >
               {isLoading ? "Saving..." : "Complete Registration"}

@@ -1,46 +1,46 @@
 "use client"
 
 import { useState } from "react"
-import { 
-  BarChart, 
-  PieChart, 
-  LineChart, 
-  Building2, 
-  Bed, 
-  Map, 
-  Star, 
-  Filter, 
-  Download, 
-  Users, 
-  Heart, 
-  Activity, 
-  Settings, 
-  LogOut, 
+import {
+  BarChart,
+  PieChart,
+  LineChart,
+  Building2,
+  Bed,
+  Map,
+  Star,
+  Filter,
+  Download,
+  Users,
+  Heart,
+  Activity,
+  Settings,
+  LogOut,
   Home,
   User
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select"
 import { TabsContent, TabsList, TabsTrigger, Tabs } from "@/components/ui/tabs"
 import { DashboardLayout } from "@/components/dashboard/layout/dashboard-layout"
 import { useAuth } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { 
-  Bar, 
-  BarChart as RechartsBarChart, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
+import {
+  Bar,
+  BarChart as RechartsBarChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
   ResponsiveContainer,
   LineChart as RechartsLineChart,
   Line,
@@ -60,7 +60,7 @@ export default function AnalyticsPage() {
   const [stateFilter, setStateFilter] = useState("all")
   const [timeRange, setTimeRange] = useState("year")
   const [hospitalTypeFilter, setHospitalTypeFilter] = useState("all")
-  
+
   // Mock user for development
   const admin = {
     name: "Admin User",
@@ -218,7 +218,7 @@ export default function AnalyticsPage() {
                     <SelectItem value="gujarat">Gujarat</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 <Select value={timeRange} onValueChange={setTimeRange}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Time range" />
@@ -230,7 +230,7 @@ export default function AnalyticsPage() {
                     <SelectItem value="5year">Last 5 Years</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 <Button variant="outline" onClick={handleExportData}>
                   <Download className="mr-2 h-4 w-4" />
                   Export
@@ -238,7 +238,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
           </CardHeader>
-          
+
           <CardContent>
             <Tabs defaultValue="infrastructure" className="w-full">
               <TabsList className="grid grid-cols-4 mb-8">
@@ -259,7 +259,7 @@ export default function AnalyticsPage() {
                   Rankings
                 </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="infrastructure">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Hospital Beds by State */}
@@ -287,7 +287,7 @@ export default function AnalyticsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Hospital Types */}
                   <Card>
                     <CardHeader className="pb-2">
@@ -320,7 +320,7 @@ export default function AnalyticsPage() {
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="occupancy">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Hospital Bed Occupancy Trends */}
@@ -348,7 +348,7 @@ export default function AnalyticsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Hospital Quality Metrics */}
                   <Card>
                     <CardHeader className="pb-2">
@@ -373,7 +373,7 @@ export default function AnalyticsPage() {
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="specialties">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Cancer Treatment Facilities */}
@@ -407,7 +407,7 @@ export default function AnalyticsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Specialty Distribution */}
                   <Card>
                     <CardHeader className="pb-2">
@@ -443,7 +443,7 @@ export default function AnalyticsPage() {
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="rankings">
                 <Card>
                   <CardHeader className="pb-2">
@@ -459,17 +459,17 @@ export default function AnalyticsPage() {
                           barSize={30}
                         >
                           <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis 
-                            dataKey="name" 
-                            angle={-45} 
+                          <XAxis
+                            dataKey="name"
+                            angle={-45}
                             textAnchor="end"
                             height={70}
                             interval={0}
                           />
                           <YAxis domain={[8, 10]} />
-                          <Tooltip 
+                          <Tooltip
                             formatter={(value, name, props) => {
-                              return [`${value}${name === 'ranking' ? '/10' : ' beds'}`, 
+                              return [`${value}${name === 'ranking' ? '/10' : ' beds'}`,
                                       name === 'ranking' ? 'Rating' : 'Capacity']
                             }}
                           />
@@ -480,7 +480,7 @@ export default function AnalyticsPage() {
                     </div>
                   </CardContent>
                 </Card>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                   <Card>
                     <CardHeader className="pb-2">
@@ -489,14 +489,14 @@ export default function AnalyticsPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <div className="bg-background p-4 rounded-lg border border-blue-100">
                           <h3 className="text-sm font-medium text-blue-800">Average Beds per Hospital</h3>
-                          <p className="text-3xl font-bold text-blue-700 mt-2">
+                          <p className="text-3xl font-bold text-primary mt-2">
                             {Math.round(topHospitalsData.reduce((acc, h) => acc + h.beds, 0) / topHospitalsData.length)}
                           </p>
-                          <p className="text-xs text-blue-600 mt-1">Among top 10 ranked hospitals</p>
+                          <p className="text-xs text-primary mt-1">Among top 10 ranked hospitals</p>
                         </div>
-                        
+
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">
                           <h3 className="text-sm font-medium text-green-800">Average Rating</h3>
                           <p className="text-3xl font-bold text-green-700 mt-2">
@@ -504,7 +504,7 @@ export default function AnalyticsPage() {
                           </p>
                           <p className="text-xs text-green-600 mt-1">Among top 10 ranked hospitals</p>
                         </div>
-                        
+
                         <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
                           <h3 className="text-sm font-medium text-amber-800">Multi-specialty Ratio</h3>
                           <p className="text-3xl font-bold text-amber-700 mt-2">
@@ -512,7 +512,7 @@ export default function AnalyticsPage() {
                           </p>
                           <p className="text-xs text-amber-600 mt-1">Percentage of multi-specialty hospitals</p>
                         </div>
-                        
+
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                           <h3 className="text-sm font-medium text-purple-800">Total Bed Capacity</h3>
                           <p className="text-3xl font-bold text-purple-700 mt-2">
@@ -523,7 +523,7 @@ export default function AnalyticsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   <Card>
                     <CardHeader className="pb-2">
                       <CardTitle className="text-lg">Quality vs Size Correlation</CardTitle>

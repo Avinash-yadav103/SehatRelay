@@ -239,11 +239,11 @@ export default function StudentDashboard() {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                     <input
                       placeholder="Search datasets..."
-                      className="pl-9 border border-gray-300 rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
+                      className="pl-9 border border-input rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
                   <Select defaultValue="all">
-                    <SelectTrigger className="w-[180px] border-gray-300">
+                    <SelectTrigger className="w-[180px] border-input">
                       <Filter className="h-4 w-4 mr-2" />
                       <SelectValue placeholder="Filter by category" />
                     </SelectTrigger>
@@ -261,7 +261,7 @@ export default function StudentDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {datasets.map((dataset) => (
-                  <div key={dataset.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div key={dataset.id} className="bg-background p-4 rounded-lg border border-border">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2">
@@ -292,7 +292,7 @@ export default function StudentDashboard() {
                         </Button>
                         <Button
                           size="sm"
-                          className="h-8 bg-sky-600 hover:bg-sky-700 text-white"
+                          className="h-8 bg-primary hover:bg-primary text-white"
                           onClick={() => handleDownloadDataset(dataset.id)}
                         >
                           <Download className="h-4 w-4 mr-1" />
@@ -315,7 +315,7 @@ export default function StudentDashboard() {
                   <CardTitle>Research Projects</CardTitle>
                   <CardDescription>Your ongoing and completed research projects</CardDescription>
                 </div>
-                <Button className="bg-sky-600 hover:bg-sky-700 text-white">
+                <Button className="bg-primary hover:bg-primary text-white">
                   <PlusCircle className="h-4 w-4 mr-2" />
                   Create New Project
                 </Button>
@@ -327,7 +327,7 @@ export default function StudentDashboard() {
                   <div
                     key={project.id}
                     className={`
-                    bg-gray-50 p-4 rounded-lg border border-gray-200
+                    bg-background p-4 rounded-lg border border-border
                     ${project.status === "completed" ? "border-l-4 border-l-green-500" : "border-l-4 border-l-sky-500"}
                   `}
                   >
@@ -337,7 +337,7 @@ export default function StudentDashboard() {
                           <h3 className="text-sm font-medium">{project.title}</h3>
                           <Badge
                             className={`
-                            ${project.status === "active" ? "bg-sky-100 text-sky-600" : "bg-green-100 text-green-600"}
+                            ${project.status === "active" ? "bg-secondary text-primary" : "bg-green-100 text-green-600"}
                           `}
                           >
                             {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
@@ -354,7 +354,7 @@ export default function StudentDashboard() {
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
                               className={`h-2 rounded-full ${
-                                project.status === "completed" ? "bg-green-500" : "bg-sky-500"
+                                project.status === "completed" ? "bg-green-500" : "bg-primary"
                               }`}
                               style={{ width: `${project.progress}%` }}
                             ></div>
@@ -382,7 +382,7 @@ export default function StudentDashboard() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div className="bg-background p-4 rounded-lg border border-border">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-medium">Disease Distribution</h3>
                     <PieChart className="h-5 w-5 text-gray-600" />
@@ -392,7 +392,7 @@ export default function StudentDashboard() {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div className="bg-background p-4 rounded-lg border border-border">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-medium">Treatment Outcomes</h3>
                     <BarChart className="h-5 w-5 text-gray-600" />
@@ -402,7 +402,7 @@ export default function StudentDashboard() {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div className="bg-background p-4 rounded-lg border border-border">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-medium">Patient Demographics</h3>
                     <LineChart className="h-5 w-5 text-gray-600" />
@@ -418,7 +418,7 @@ export default function StudentDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button
                     variant="outline"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-50 h-auto py-3 justify-start w-full"
+                    className="border-input text-gray-700 hover:bg-background h-auto py-3 justify-start w-full"
                   >
                     <Database className="h-5 w-5 mr-2" />
                     <div className="text-left">
@@ -429,7 +429,7 @@ export default function StudentDashboard() {
 
                   <Button
                     variant="outline"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-50 h-auto py-3 justify-start w-full"
+                    className="border-input text-gray-700 hover:bg-background h-auto py-3 justify-start w-full"
                   >
                     <ChartBar className="h-5 w-5 mr-2" />
                     <div className="text-left">

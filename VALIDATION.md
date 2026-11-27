@@ -77,3 +77,37 @@ GSAP update results:
 - Actual visual animation, browser/device scroll performance and real Wispr/microphone checks: NOT RUN. No claim of measured FPS or lag-free behavior. Use manual acceptance above.
 
 The owned validation server on port 3001 was stopped. The pre-existing port-3000 development server remains available. The supplied screenshot informs this update; prior notes about no visual reference apply to the earlier redesign session. No deployment or database/authentication migration was performed.
+
+## Application-wide CareFolio redesign and microphone (2026-11-28)
+
+Scope expanded by user instruction from /relay to the full application. Replaced the root 3D landing with the CareFolio voice landing; applied shared theme and control updates to role dashboards, profile, login/register, records, appointments, access, logs, tracking, vaccination, researcher and administration views. Rebuilt shared sidebar/header and mobile sheet. Added main /visits and /referrals routes using a shared workspace component; /relay remains compatible. Added labeled mock-reporting context and dashboard shell to previously standalone government subpages. Preserved legacy API handlers and demo-role server permissions. The legacy emergency UI simulated notification delivery; it is now an explicitly non-contacting prototype, with no claimed alerts or hidden network action.
+
+Microphone implementation uses actual browser SpeechRecognition / webkitSpeechRecognition, not Wispr. States cover readiness, requesting permission, service start/capture, processing, final transcript review, denial/network/unsupported service and retry. Final text is staged and inserted only after review, with selection/maxlength checks and native input events. Field changes block overwrite. Cancelling, closing fields/dialogs, changing routes, hiding the tab and timeouts abort the service. Allowlisted spoken navigation requires a separate click confirmation. There is no voice submission, diagnosis, treatment or arbitrary command execution.
+
+Automated voice tests use an injected FAKE recognition engine, not recorded audio or a real speech service. They exercise start-event semantics, revised/interim result handling, final transcript staging, synchronous stop/end, cancellation, disposal, late callbacks, errors, Unicode/selection insertion, field limits and rejected navigation commands. Actual microphone permissions, real provider output and language quality remain UNTESTED.
+
+Manual acceptance still required (no browser-control tool in this environment):
+1. Open / at 390px and desktop width. Dictate into home narrative using the mic, stop, edit and insert. Verify caret/selection and recovery after refresh. Test installed Flow separately.
+2. Transfer the narrative to /visits, choose ASHA, review sample/manual extraction and SunoSure, verify fields, save and submit. Switch clinician, dictate a review note, acknowledge and inspect persisted timeline.
+3. Visit each role workspace with its existing configured/demo account. Inspect navigation, tables, forms and mobile sheet. Focus a search field, profile textarea, record form and appointment note; use the global mic, review and insert. Verify normal React change/validation behavior. Repeat in modal forms and confirm the mic stays reachable within their focus boundary.
+4. Confirm password/OTP/Aadhaar and readonly controls cannot be voice targets. Edit a target during recognition and verify insertion refuses to overwrite. Close its dialog/route and verify capture stops.
+5. Test denial, missing microphone, unsupported browser, network loss, silence, cancel and processing timeout. Existing form text must remain unchanged.
+6. Test English/Hindi locales and Hinglish quality on actual hardware; no multilingual accuracy claim is made. Test each navigation phrase and unknown phrases; only clicking confirmation may navigate.
+7. Test keyboard-only operation, Escape, focus visibility, narrow-width overflow, reduced motion and a low-powered phone. No measured FPS or lag-free claim.
+
+Executed results are appended below. Earlier session records describe previous iterations and their original /relay-only scope.
+
+Final main-application validation results:
+- Production build: PASS, 43 generated static pages. Root route is 5.04 KB of route JS / 110 KB first-load JS, compared with the earlier 287 KB / 438 KB root. Deferred GSAP and voice chunks are additional; this is bundle reporting, not an FPS measurement.
+- Production startup: PASS on isolated port 3001.
+- Combined test command: `RELAY_TEST_URL=http://localhost:3001 node --test tests/application.test.mjs tests/relay.test.mjs tests/voice.test.mjs tests/model.test.mjs`: PASS, 8 tests.
+- HTTP route smoke: PASS for 38 unique page URLs, with dynamic role paths represented by patient routes. Root markup exposes the microphone and main visits/referrals/role entry links. This checks HTTP serving, not authenticated interactive role workflows.
+- Referral integration: PASS for draft/submission, acknowledgement retrieval, duplicate handling, validation, permissions, isolation and transitions.
+- Mocked SpeechRecognition + insertion/navigation tests: PASS. No actual speech audio was used.
+- Focused `tsconfig.voice.json` check: PASS.
+- Full repository TypeScript: FAIL, 584 diagnostic output lines, primarily existing Firebase client verifyIdToken, nullable route params, implicit-any and legacy state typing errors. No diagnostics in the new voice, main root, shared visit, header/sidebar or government-section modules. A first concurrent run was invalidated by generated build files; it was rerun after the build.
+- Whitespace check: PASS with CR-at-EOL allowance for this Windows repository. Line-ending notices remain.
+- Real browser visual/keyboard/input tests, real microphone permissions/service output, installed Wispr dictation, responsive inspection and language quality: NOT RUN. There are no browser-control tools available here. Manual steps above remain required.
+- No deployment, external transcription provisioning or production auth/database migration. Existing legacy backend/sample limitations remain documented.
+
+The owned port-3001 validation server was stopped after checks. The pre-existing development server on port 3000 was left running. Restart it if its older build cache does not refresh, then begin at /.

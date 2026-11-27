@@ -66,8 +66,7 @@ export default function DoctorDashboard() {
   })
 
   const { user: loggedInUser } = useUser();
-  console.log("Logged in user:", loggedInUser);
-  
+
   const [currentMeetingLink, setCurrentMeetingLink] = useState("")
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false)
   const [currentAppointment, setCurrentAppointment] = useState(null)
@@ -449,10 +448,10 @@ export default function DoctorDashboard() {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                     <input
                       placeholder="Search patients..."
-                      className="pl-9 border border-gray-300 rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
+                      className="pl-9 border border-input rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
-                  <Button className="bg-sky-600 hover:bg-sky-700 text-white" onClick={() => setIsAddPatientOpen(true)}>
+                  <Button className="bg-primary hover:bg-primary text-white" onClick={() => setIsAddPatientOpen(true)}>
                     <PlusCircle className="h-4 w-4 mr-2" />
                     Add Patient
                   </Button>
@@ -463,7 +462,7 @@ export default function DoctorDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
-                    <tr className="border-b border-gray-200">
+                    <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Name</th>
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Age/Gender</th>
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Condition</th>
@@ -474,7 +473,7 @@ export default function DoctorDashboard() {
                   </thead>
                   <tbody>
                     {patients.map((patient) => (
-                      <tr key={patient.id} className="border-b border-gray-200 hover:bg-gray-50">
+                      <tr key={patient.id} className="border-b border-border hover:bg-background">
                         <td className="py-3 px-4 text-sm">{patient.name}</td>
                         <td className="py-3 px-4 text-sm text-gray-600">
                           {patient.age} / {patient.gender}
@@ -487,7 +486,7 @@ export default function DoctorDashboard() {
                               patient.status === "stable"
                                 ? "bg-green-100 text-green-600"
                                 : patient.status === "improving"
-                                ? "bg-blue-100 text-blue-600"
+                                ? "bg-secondary text-primary"
                                 : "bg-red-100 text-red-600"
                             }
                           `}
@@ -525,7 +524,7 @@ export default function DoctorDashboard() {
                   <CardDescription>Your scheduled appointments for the next few days</CardDescription>
                 </div>
                 <Button
-                  className="bg-sky-600 hover:bg-sky-700 text-white"
+                  className="bg-primary hover:bg-primary text-white"
                   onClick={() => setIsScheduleAppointmentOpen(true)}
                 >
                   <PlusCircle className="h-4 w-4 mr-2" />
@@ -536,10 +535,10 @@ export default function DoctorDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {appointments.map((appointment) => (
-                  <div key={appointment.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div key={appointment.id} className="bg-background p-4 rounded-lg border border-border">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                        <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary">
                           <Clock className="h-5 w-5" />
                         </div>
                         <div>
@@ -556,7 +555,7 @@ export default function DoctorDashboard() {
                         </Button>
                         <Button
                           size="sm"
-                          className="h-8 bg-sky-600 hover:bg-sky-700 text-white"
+                          className="h-8 bg-primary hover:bg-primary text-white"
                           onClick={() => handleStartSession(appointment)}
                         >
                           <Video className="h-4 w-4 mr-1" />
@@ -602,7 +601,7 @@ export default function DoctorDashboard() {
                             </Button>
                             <Button
                               size="sm"
-                              className="h-8 bg-sky-600 hover:bg-sky-700 text-white"
+                              className="h-8 bg-primary hover:bg-primary text-white"
                               onClick={() => handleApproveAccess(request.id)}
                             >
                               <CheckCircle className="h-4 w-4 mr-1" />
@@ -692,7 +691,7 @@ export default function DoctorDashboard() {
             <Button variant="outline" onClick={() => setIsAddPatientOpen(false)}>
               Cancel
             </Button>
-            <Button className="bg-sky-600 hover:bg-sky-700 text-white" onClick={handleAddPatient}>
+            <Button className="bg-primary hover:bg-primary text-white" onClick={handleAddPatient}>
               <PlusCircle className="h-4 w-4 mr-2" />
               Add Patient
             </Button>
@@ -781,7 +780,7 @@ export default function DoctorDashboard() {
             <Button variant="outline" onClick={() => setIsScheduleAppointmentOpen(false)}>
               Cancel
             </Button>
-            <Button className="bg-sky-600 hover:bg-sky-700 text-white" onClick={handleScheduleAppointment}>
+            <Button className="bg-primary hover:bg-primary text-white" onClick={handleScheduleAppointment}>
               <Calendar className="h-4 w-4 mr-2" />
               Schedule
             </Button>
@@ -812,15 +811,15 @@ export default function DoctorDashboard() {
                     return getTimeValue(a.time) - getTimeValue(b.time)
                   })
                   .map((appointment) => (
-                    <div key={appointment.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div key={appointment.id} className="bg-background p-4 rounded-lg border border-border">
                       <div className="flex items-start gap-3">
-                        <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                        <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary">
                           <Clock className="h-5 w-5" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="font-medium">{appointment.time}</span>
-                            <Badge variant="outline" className="bg-sky-50 text-sky-700 border-sky-200">
+                            <Badge variant="outline" className="bg-secondary text-primary border-border">
                               {appointment.type}
                             </Badge>
                           </div>
@@ -859,8 +858,8 @@ export default function DoctorDashboard() {
                 <Video className="h-6 w-6" />
               </div>
             </div>
-            
-            <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex items-center justify-between">
+
+            <div className="bg-background p-3 rounded-lg border border-border flex items-center justify-between">
               <input
                 ref={meetLinkRef}
                 readOnly
@@ -880,11 +879,11 @@ export default function DoctorDashboard() {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            
+
             <p className="text-sm text-gray-500 mt-4 mb-2">Share this link with your patient:</p>
             <div className="flex gap-2">
-              <Button 
-                className="flex-1 bg-sky-600 hover:bg-sky-700 text-white" 
+              <Button
+                className="flex-1 bg-primary hover:bg-primary text-white"
                 onClick={shareWithPatient}
               >
                 Share with Patient
@@ -895,8 +894,8 @@ export default function DoctorDashboard() {
             <Button variant="outline" onClick={() => setIsMeetingModalOpen(false)}>
               Close
             </Button>
-            <Button 
-              className="bg-green-600 hover:bg-green-700 text-white" 
+            <Button
+              className="bg-green-600 hover:bg-green-700 text-white"
               onClick={() => window.open(currentMeetingLink, '_blank')}
             >
               Rejoin Meeting

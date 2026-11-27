@@ -64,7 +64,6 @@ export default function PatientDashboard() {
   const router = useRouter()
   const { user: loggedInUser } = useUser();
 
-  console.log("User from context:", loggedInUser);
 
   // State for data
   const [profile, setProfile] = useState(null)
@@ -125,7 +124,7 @@ export default function PatientDashboard() {
         const pendingRequests = requestsData.filter(r => r.status === "pending").length
         const unreadSystemCount = await patientApi.getUnreadNotificationsCount()
         const recordUpdates = await patientApi.getRecentRecordUpdates()
-        
+
         setRecordNotifications(recordUpdates)
         setSystemNotifications(await patientApi.getSystemNotifications())
         setNotificationCount(pendingRequests + unreadSystemCount)
@@ -211,7 +210,7 @@ export default function PatientDashboard() {
           await patientApi.markAllNotificationsRead();
         }
         // Update state to reflect all notifications read
-        setSystemNotifications((prevNotifications: SystemNotification[]) => 
+        setSystemNotifications((prevNotifications: SystemNotification[]) =>
           prevNotifications.map(notification => ({ ...notification, read: true }))
         );
         setRecordNotifications((prevNotifications: RecordNotification[]) =>
@@ -303,7 +302,7 @@ export default function PatientDashboard() {
     >
       {/* Hero Banner Image */}
       <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
-        <Image 
+        <Image
           src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"
           alt="Hospital environment"
           fill
@@ -320,7 +319,7 @@ export default function PatientDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Card className="overflow-hidden">
           <div className="relative h-24">
-            <Image 
+            <Image
               src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&q=80&w=1000"
               alt="Profile background"
               fill
@@ -335,16 +334,16 @@ export default function PatientDashboard() {
           <CardContent>
             {isLoadingProfile ? (
               <div className="flex justify-center py-4">
-                <Loader2 className="h-6 w-6 animate-spin text-sky-600" />
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
               </div>
             ) : (
               <>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">85% Complete</span>
-                    <span className="text-sky-600">17/20</span>
+                    <span className="text-primary">17/20</span>
                   </div>
-                  <Progress value={85} className="h-2 bg-gray-200" indicatorClassName="bg-sky-600" />
+                  <Progress value={85} className="h-2 bg-gray-200" indicatorClassName="bg-primary" />
                 </div>
                 <div className="mt-4 text-sm text-gray-600">
                   Complete your profile to improve your healthcare experience
@@ -368,7 +367,7 @@ export default function PatientDashboard() {
 
         <Card className="overflow-hidden">
           <div className="relative h-24">
-            <Image 
+            <Image
               src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1000"
               alt="Security background"
               fill
@@ -384,7 +383,7 @@ export default function PatientDashboard() {
             {/* Existing content */}
             {isLoadingRequests ? (
               <div className="flex justify-center py-4">
-                <Loader2 className="h-6 w-6 animate-spin text-sky-600" />
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
               </div>
             ) : (
               <div className="space-y-2">
@@ -428,7 +427,7 @@ export default function PatientDashboard() {
 
         <Card className="overflow-hidden">
           <div className="relative h-24">
-            <Image 
+            <Image
               src="https://images.unsplash.com/photo-1631815587646-b84fb0385e33?auto=format&fit=crop&q=80&w=1000"
               alt="Appointment background"
               fill
@@ -444,7 +443,7 @@ export default function PatientDashboard() {
             {/* Existing content */}
             {isLoadingAppointments ? (
               <div className="flex justify-center py-4">
-                <Loader2 className="h-6 w-6 animate-spin text-sky-600" />
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
               </div>
             ) : (
               <div className="space-y-3">
@@ -453,7 +452,7 @@ export default function PatientDashboard() {
                   .slice(0, 2)
                   .map((appointment) => (
                     <div key={appointment.id} className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                      <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary">
                         <Calendar className="h-5 w-5" />
                       </div>
                       <div>
@@ -489,7 +488,7 @@ export default function PatientDashboard() {
         <TabsContent value="overview">
           <Card>
             <div className="relative h-48 w-full">
-              <Image 
+              <Image
                 src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=2200"
                 alt="Medical professionals"
                 fill
@@ -505,7 +504,7 @@ export default function PatientDashboard() {
               {/* Existing content */}
               {isLoadingProfile ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="h-8 w-8 animate-spin text-sky-600" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : profile ? (
                 <>
@@ -571,7 +570,7 @@ export default function PatientDashboard() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                   <input
                     placeholder="Search records..."
-                    className="pl-9 border border-gray-300 rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
+                    className="pl-9 border border-input rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
                   />
                 </div>
               </div>
@@ -579,15 +578,15 @@ export default function PatientDashboard() {
             <CardContent>
               {isLoadingRecords ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="h-8 w-8 animate-spin text-sky-600" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : medicalRecords.length > 0 ? (
                 <div className="space-y-4">
                   {medicalRecords.map((record) => (
-                    <div key={record.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div key={record.id} className="bg-background p-4 rounded-lg border border-border">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div className="flex items-start gap-3">
-                          <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                          <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary">
                             <FileText className="h-5 w-5" />
                           </div>
                           <div>
@@ -650,7 +649,7 @@ export default function PatientDashboard() {
             <CardContent>
               {isLoadingRequests ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="h-8 w-8 animate-spin text-sky-600" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -684,7 +683,7 @@ export default function PatientDashboard() {
                                 </Button>
                                 <Button
                                   size="sm"
-                                  className="h-8 bg-sky-600 hover:bg-sky-700 text-white"
+                                  className="h-8 bg-primary hover:bg-primary text-white"
                                   onClick={() => handleApproveAccess(request.id)}
                                   disabled={loadingApproveId === request.id}
                                 >
@@ -747,7 +746,7 @@ export default function PatientDashboard() {
                       {accessRequests
                         .filter((r) => r.status === "rejected")
                         .map((request) => (
-                          <div key={request.id} className="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+                          <div key={request.id} className="bg-background border border-border p-4 rounded-lg">
                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                               <div>
                                 <h4 className="text-sm font-medium">{request.name}</h4>
@@ -791,24 +790,24 @@ export default function PatientDashboard() {
               View and manage all your upcoming and past appointments
             </DialogDescription>
           </DialogHeader>
-          
+
           <Tabs defaultValue="upcoming" className="mt-4">
             <TabsList className="grid grid-cols-3 mb-4">
               <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
               <TabsTrigger value="past">Past</TabsTrigger>
               <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="upcoming">
               <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2">
                 {appointments
                   .filter((a) => a.status === "upcoming")
                   .map((appointment) => (
-                    <div 
-                      key={appointment.id} 
-                      className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50"
+                    <div
+                      key={appointment.id}
+                      className="flex items-start gap-3 p-3 border border-border rounded-lg hover:bg-background"
                     >
-                      <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
+                      <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary flex-shrink-0">
                         <Calendar className="h-5 w-5" />
                       </div>
                       <div className="flex-1">
@@ -816,11 +815,11 @@ export default function PatientDashboard() {
                           <div>
                             <p className="font-medium">{appointment.doctor}</p>
                             <p className="text-sm text-gray-600">{appointment.hospital}</p>
-                            <p className="text-sm text-sky-600 mt-1">
+                            <p className="text-sm text-primary mt-1">
                               {appointment.date}, {appointment.time}
                             </p>
                           </div>
-                          <Badge className="bg-sky-100 text-sky-600 hover:bg-sky-200">
+                          <Badge className="bg-secondary text-primary hover:bg-sky-200">
                             Upcoming
                           </Badge>
                         </div>
@@ -844,15 +843,15 @@ export default function PatientDashboard() {
                 )}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="past">
               <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2">
                 {appointments
                   .filter((a) => a.status === "completed")
                   .map((appointment) => (
-                    <div 
-                      key={appointment.id} 
-                      className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50"
+                    <div
+                      key={appointment.id}
+                      className="flex items-start gap-3 p-3 border border-border rounded-lg hover:bg-background"
                     >
                       <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
                         <CheckCircle className="h-5 w-5" />
@@ -884,15 +883,15 @@ export default function PatientDashboard() {
                 )}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="cancelled">
               <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2">
                 {appointments
                   .filter((a) => a.status === "cancelled")
                   .map((appointment) => (
-                    <div 
-                      key={appointment.id} 
-                      className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50"
+                    <div
+                      key={appointment.id}
+                      className="flex items-start gap-3 p-3 border border-border rounded-lg hover:bg-background"
                     >
                       <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0">
                         <XCircle className="h-5 w-5" />
@@ -924,7 +923,7 @@ export default function PatientDashboard() {
               </div>
             </TabsContent>
           </Tabs>
-          
+
           <DialogFooter className="mt-6">
             <Button variant="outline" onClick={() => setIsAppointmentsModalOpen(false)}>
               Close

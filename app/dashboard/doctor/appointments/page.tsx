@@ -398,7 +398,7 @@ const AppointmentsPage: React.FC = () => {
       case "Cancelled":
         return "bg-red-100 text-red-800"
       case "Completed":
-        return "bg-blue-100 text-blue-800"
+        return "bg-secondary text-blue-800"
       default:
         return "bg-gray-100 text-gray-800"
     }
@@ -574,7 +574,7 @@ const AppointmentsPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search appointments..."
-                className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white/70 backdrop-filter backdrop-blur-lg shadow-md"
+                className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card/70 backdrop-filter backdrop-blur-lg shadow-md"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -594,7 +594,7 @@ const AppointmentsPage: React.FC = () => {
           {/* Main Calendar and Appointments Panel */}
           <div className="lg:col-span-3 space-y-6">
             {/* Date Navigation and Filters */}
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
               <div className="flex flex-wrap justify-between items-center gap-3">
                 <div className="flex items-center gap-3">
                   <button
@@ -621,7 +621,7 @@ const AppointmentsPage: React.FC = () => {
                       type="date"
                       value={selectedDate}
                       onChange={handleDateChange}
-                      className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                      className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                     />
                   </div>
 
@@ -653,19 +653,19 @@ const AppointmentsPage: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <div className="flex items-center border border-indigo-200 rounded-lg overflow-hidden shadow-sm">
                     <button
-                      className={`px-3 py-1 ${selectedView === "day" ? "bg-indigo-600 text-white" : "bg-white text-indigo-700"}`}
+                      className={`px-3 py-1 ${selectedView === "day" ? "bg-indigo-600 text-white" : "bg-card text-indigo-700"}`}
                       onClick={() => setSelectedView("day")}
                     >
                       Day
                     </button>
                     <button
-                      className={`px-3 py-1 ${selectedView === "week" ? "bg-indigo-600 text-white" : "bg-white text-indigo-700"}`}
+                      className={`px-3 py-1 ${selectedView === "week" ? "bg-indigo-600 text-white" : "bg-card text-indigo-700"}`}
                       onClick={() => setSelectedView("week")}
                     >
                       Week
                     </button>
                     <button
-                      className={`px-3 py-1 ${selectedView === "month" ? "bg-indigo-600 text-white" : "bg-white text-indigo-700"}`}
+                      className={`px-3 py-1 ${selectedView === "month" ? "bg-indigo-600 text-white" : "bg-card text-indigo-700"}`}
                       onClick={() => setSelectedView("month")}
                     >
                       Month
@@ -675,7 +675,7 @@ const AppointmentsPage: React.FC = () => {
                   <div className="relative">
                     <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400" size={16} />
                     <select
-                      className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white shadow-sm"
+                      className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-card shadow-sm"
                       value={selectedDoctor}
                       onChange={(e) => setSelectedDoctor(e.target.value)}
                     >
@@ -692,7 +692,7 @@ const AppointmentsPage: React.FC = () => {
             </div>
 
             {/* Appointments Timeline */}
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 overflow-hidden">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 overflow-hidden">
               <div className="p-4 bg-indigo-50/80 border-b border-indigo-100">
                 <h2 className="text-xl font-bold text-indigo-800">Daily Schedule</h2>
               </div>
@@ -813,7 +813,7 @@ const AppointmentsPage: React.FC = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
               <h2 className="text-lg font-bold text-indigo-800 mb-3">Quick Actions</h2>
               <div className="space-y-2">
                 <button
@@ -823,7 +823,7 @@ const AppointmentsPage: React.FC = () => {
                   <Plus size={18} />
                   New Appointment
                 </button>
-                <button className="w-full flex items-center gap-2 bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg hover:bg-indigo-50 transition-colors">
+                <button className="w-full flex items-center gap-2 bg-card text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg hover:bg-indigo-50 transition-colors">
                   <Calendar size={18} />
                   View Full Calendar
                 </button>
@@ -831,7 +831,7 @@ const AppointmentsPage: React.FC = () => {
             </div>
 
             {/* Next Available Slots */}
-            <div className="bg-white/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
+            <div className="bg-card/80 backdrop-filter backdrop-blur-lg rounded-xl shadow-md border border-white/50 p-4">
               <h2 className="text-lg font-bold text-indigo-800 mb-3">Next Available Slots</h2>
               <ul className="space-y-3">
                 {nextAvailableSlots.length > 0 ? (

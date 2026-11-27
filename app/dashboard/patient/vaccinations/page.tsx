@@ -140,7 +140,7 @@ export default function VaccinationsPage() {
   // Function to fetch vaccinations from MongoDB
   const fetchVaccinations = async () => {
     if (!user?.id) return;
-    
+
     setIsLoading(true);
     try {
       const response = await axios.get(API_BASE_URL, {
@@ -151,9 +151,9 @@ export default function VaccinationsPage() {
           'user-role': 'Patient'
         }
       });
-      
+
       const apiVaccinations = response.data;
-      
+
       // Format vaccinations to match our component structure
       const formattedVaccinations = apiVaccinations.map(vax => ({
         id: vax._id,
@@ -171,7 +171,7 @@ export default function VaccinationsPage() {
           url: doc.fileUrl
         }))
       }));
-      
+
       // If we have real data, use it instead of mock data
       if (formattedVaccinations.length > 0) {
         setVaccinations(formattedVaccinations);
@@ -186,7 +186,7 @@ export default function VaccinationsPage() {
     } catch (error) {
       console.error("Error loading vaccinations:", error);
       toast.error("Failed to load vaccination records");
-      
+
       // Use mock data in case of error
       if (showDemoData) {
         setVaccinations(mockVaccinations);
@@ -204,13 +204,13 @@ export default function VaccinationsPage() {
       // Simulate loading
       const timer = setTimeout(() => {
         setIsLoading(false);
-        
+
         // Show mock data if demo mode is enabled
         if (showDemoData) {
           setVaccinations(mockVaccinations);
         }
       }, 1000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [user?.id, showDemoData]);
@@ -228,7 +228,7 @@ export default function VaccinationsPage() {
     }
 
     setIsLoading(true);
-    
+
     try {
       if (!user?.id) {
         // For demo mode without backend
@@ -239,7 +239,7 @@ export default function VaccinationsPage() {
             category: determineCategoryFromName(newVaccination.name),
             documents: [],
           };
-          
+
           setVaccinations([newRecord, ...vaccinations]);
           setNewVaccination({
             name: "",
@@ -250,7 +250,7 @@ export default function VaccinationsPage() {
             givenBy: "",
             notes: "",
           });
-          
+
           setIsAddVaccinationOpen(false);
           toast.success("Vaccination record added successfully (Demo mode)");
         } else {
@@ -259,10 +259,10 @@ export default function VaccinationsPage() {
         setIsLoading(false);
         return;
       }
-      
+
       // Create FormData for file upload
       const formData = new FormData();
-      
+
       // Add text fields
       formData.append('patientId', user.id);
       formData.append('name', newVaccination.name);
@@ -273,12 +273,12 @@ export default function VaccinationsPage() {
       formData.append('givenBy', newVaccination.givenBy || '');
       formData.append('notes', newVaccination.notes || '');
       formData.append('category', determineCategoryFromName(newVaccination.name));
-      
+
       // Add files
       uploadedFiles.forEach(file => {
         formData.append('documents', file);
       });
-      
+
       // Send to MongoDB through API
       const response = await axios.post(API_BASE_URL, formData, {
         headers: {
@@ -288,7 +288,7 @@ export default function VaccinationsPage() {
           'user-role': 'Patient'
         }
       });
-      
+
       // Format the saved vaccination to match our component structure
       const savedVaccination = response.data;
       const formattedVaccination = {
@@ -307,10 +307,10 @@ export default function VaccinationsPage() {
           url: doc.fileUrl
         }))
       };
-      
+
       // Add to our state
       setVaccinations(prev => [formattedVaccination, ...prev]);
-      
+
       // Reset form
       setNewVaccination({
         name: "",
@@ -352,7 +352,7 @@ export default function VaccinationsPage() {
         content += `Category: ${vaccination.category}\n\n`;
         content += `Notes:\n${vaccination.notes}\n\n`;
         content += `This is a digital record of your vaccination. For official verification, please consult with your healthcare provider.`;
-        
+
         // Create a downloadable file
         const blob = new Blob([content], { type: 'text/plain' });
         const url = window.URL.createObjectURL(blob);
@@ -363,7 +363,7 @@ export default function VaccinationsPage() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
-        
+
         // Log this download action
         if (user?.id) {
           try {
@@ -389,7 +389,7 @@ export default function VaccinationsPage() {
             console.error("Error logging download action:", error);
           }
         }
-        
+
         toast.success("Vaccination record downloaded");
       }
     } catch (error) {
@@ -408,7 +408,7 @@ export default function VaccinationsPage() {
     } else {
       // For demo records, create a simple text file
       const content = `Vaccination Record\n\nName: ${vaccination.name}\nDate: ${vaccination.date}\nManufacturer: ${vaccination.manufacturer}\nBatch Number: ${vaccination.batchNumber}\nLocation: ${vaccination.location}\nGiven By: ${vaccination.givenBy}\nNotes: ${vaccination.notes}`;
-      
+
       const blob = new Blob([content], { type: 'text/plain' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -418,7 +418,7 @@ export default function VaccinationsPage() {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-      
+
       toast.success("Vaccination record downloaded");
     }
   };
@@ -439,13 +439,13 @@ export default function VaccinationsPage() {
   };
 
   // Keep all your existing handlers and state for UI functionality
-  
+
   // Use this modified JSX in the upload section of your dialog:
-  
+
   // In the dialog component, update the file upload section:
   // <div className="grid gap-2">
   //   <Label>Upload Documents (Optional)</Label>
-  //   <div className="border border-dashed border-gray-300 rounded-md p-6 text-center">
+  //   <div className="border border-dashed border-input rounded-md p-6 text-center">
   //     <input
   //       type="file"
   //       multiple
@@ -493,12 +493,12 @@ export default function VaccinationsPage() {
   };
 
   const filteredVaccinations = vaccinations.filter((vaccination) => {
-    const matchesSearch = 
+    const matchesSearch =
       vaccination.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       vaccination.manufacturer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       vaccination.givenBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
       vaccination.location.toLowerCase().includes(searchTerm.toLowerCase())
-    
+
     const matchesCategory = selectedCategory === "all" || vaccination.category === selectedCategory
 
     return matchesSearch && matchesCategory
@@ -567,22 +567,22 @@ export default function VaccinationsPage() {
     try {
       // Find the vaccination to share
       const vaccination = vaccinations.find(v => v.id === vaccinationId);
-      
+
       if (!vaccination) {
         toast.error("Vaccination record not found");
         return;
       }
-      
+
       // Generate a shareable URL
       const url = generateShareUrl(vaccination);
       setShareUrl(url);
-      
+
       // Save vaccination to share
       setShareVaccination(vaccination);
-      
+
       // Open the share modal
       setIsShareModalOpen(true);
-      
+
       // In a real app, you would register this link with the backend
       if (user?.id) {
         try {
@@ -601,7 +601,7 @@ export default function VaccinationsPage() {
               batchNumber: vaccination.batchNumber
             }
           };
-          
+
           // For demo purposes, we're not actually storing this
           console.log("Share payload (would be sent to server):", mockPayload);
         } catch (error) {
@@ -624,7 +624,7 @@ export default function VaccinationsPage() {
     try {
       await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard");
-      
+
       // Log this action
       if (user?.id && shareVaccination) {
         logShareAction(shareVaccination, "copy");
@@ -638,29 +638,29 @@ export default function VaccinationsPage() {
   const handleShareTo = async (platform, vaccination) => {
     let shareText = `Vaccination Record: ${vaccination.name} on ${new Date(vaccination.date).toLocaleDateString()}`;
     let url = "";
-    
+
     try {
       // Log this share action
       if (user?.id) {
         logShareAction(vaccination, platform);
       }
-      
+
       switch(platform) {
         case "whatsapp":
           url = `https://wa.me/?text=${encodeURIComponent(shareText + "\n" + shareUrl)}`;
           window.open(url, "_blank");
           break;
-          
+
         case "email":
           url = `mailto:?subject=Vaccination Record: ${encodeURIComponent(vaccination.name)}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`;
           window.location.href = url;
           break;
-          
+
         case "message":
           url = `sms:?body=${encodeURIComponent(shareText + " " + shareUrl)}`;
           window.location.href = url;
           break;
-          
+
         case "more":
           // For mobile devices with Web Share API
           if (navigator.share) {
@@ -726,15 +726,15 @@ export default function VaccinationsPage() {
             </div>
             <div className="flex gap-2">
               {/* Add demo toggle button */}
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={toggleDemoData} 
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleDemoData}
                 className="text-xs"
               >
                 {showDemoData ? "Hide Demo Data" : "Show Demo Data"}
               </Button>
-              <Button onClick={handleUploadVaccination} className="bg-sky-600 hover:bg-sky-700" disabled={isUploading}>
+              <Button onClick={handleUploadVaccination} className="bg-primary hover:bg-primary" disabled={isUploading}>
                 {isUploading ? (
                   <>
                     <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -781,31 +781,31 @@ export default function VaccinationsPage() {
 
               {isLoading ? (
                 <div className="flex justify-center py-10">
-                  <Loader2 className="h-8 w-8 animate-spin text-sky-600" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : filteredVaccinations.length > 0 ? (
                 <div className="space-y-4">
                   {filteredVaccinations.map((vaccination) => (
                     <div
                       key={vaccination.id}
-                      className="border border-gray-200 rounded-lg overflow-hidden"
+                      className="border border-border rounded-lg overflow-hidden"
                     >
                       <div
-                        className="bg-white p-4 cursor-pointer hover:bg-gray-50"
-                        onClick={() => 
+                        className="bg-card p-4 cursor-pointer hover:bg-background"
+                        onClick={() =>
                           setExpandedVaccination(expandedVaccination === vaccination.id ? null : vaccination.id)
                         }
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                           <div>
                             <div className="flex items-center gap-2">
-                              <Syringe className="h-5 w-5 text-sky-600" />
+                              <Syringe className="h-5 w-5 text-primary" />
                               <h3 className="font-medium">{vaccination.name}</h3>
                               <Badge className={`
-                                ${vaccination.category === "COVID-19" 
-                                  ? "bg-green-100 text-green-800" 
+                                ${vaccination.category === "COVID-19"
+                                  ? "bg-green-100 text-green-800"
                                   : vaccination.category === "Influenza"
-                                    ? "bg-blue-100 text-blue-800"
+                                    ? "bg-secondary text-blue-800"
                                     : vaccination.category === "Hepatitis"
                                       ? "bg-amber-100 text-amber-800"
                                       : "bg-purple-100 text-purple-800"
@@ -864,7 +864,7 @@ export default function VaccinationsPage() {
                       </div>
 
                       {expandedVaccination === vaccination.id && (
-                        <div className="border-t border-gray-200 p-4 bg-gray-50">
+                        <div className="border-t border-border p-4 bg-background">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-3">
                               <div>
@@ -889,14 +889,14 @@ export default function VaccinationsPage() {
                                 <h4 className="text-sm font-medium text-gray-600">Notes</h4>
                                 <p className="text-gray-900">{vaccination.notes}</p>
                               </div>
-                              
+
                               {vaccination.documents && vaccination.documents.length > 0 && (
                                 <div>
                                   <h4 className="text-sm font-medium text-gray-600">Documents</h4>
                                   <ul className="mt-2 space-y-1">
                                     {vaccination.documents.map((doc, index) => (
                                       <li key={index} className="flex items-center">
-                                        <FileText className="h-4 w-4 text-sky-600 mr-2" />
+                                        <FileText className="h-4 w-4 text-primary mr-2" />
                                         <span className="text-sm">{doc.name}</span>
                                       </li>
                                     ))}
@@ -911,7 +911,7 @@ export default function VaccinationsPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-10 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="text-center py-10 bg-background rounded-lg border border-border">
                   <Syringe className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                   <h3 className="text-lg font-medium text-gray-900">No Vaccination Records</h3>
                   <p className="text-gray-600 mt-1">
@@ -1031,7 +1031,7 @@ export default function VaccinationsPage() {
             {/* Upload section in your Add Vaccination Dialog */}
             <div className="grid gap-2">
               <Label>Upload Documents (Optional)</Label>
-              <div className="border border-dashed border-gray-300 rounded-md p-6 text-center">
+              <div className="border border-dashed border-input rounded-md p-6 text-center">
                 <input
                   type="file"
                   multiple
@@ -1059,7 +1059,7 @@ export default function VaccinationsPage() {
             <Button variant="outline" onClick={() => setIsAddVaccinationOpen(false)}>
               Cancel
             </Button>
-            <Button className="bg-sky-600 hover:bg-sky-700 text-white" onClick={handleAddVaccination}>
+            <Button className="bg-primary hover:bg-primary text-white" onClick={handleAddVaccination}>
               <Check className="h-4 w-4 mr-2" />
               Save Record
             </Button>
@@ -1078,20 +1078,20 @@ export default function VaccinationsPage() {
           </DialogHeader>
           {shareVaccination && (
             <div className="grid gap-4 py-4">
-              <div className="bg-gray-50 p-3 rounded-lg">
+              <div className="bg-background p-3 rounded-lg">
                 <h3 className="font-medium">{shareVaccination.name}</h3>
                 <p className="text-sm text-gray-500">
                   {new Date(shareVaccination.date).toLocaleDateString()} • {shareVaccination.manufacturer}
                 </p>
               </div>
-              
+
               <div className="space-y-3">
                 <h4 className="text-sm font-medium">Share via:</h4>
-                
+
                 <div className="grid grid-cols-4 gap-4">
-                  <Button 
-                    variant="outline" 
-                    className="flex flex-col items-center justify-center p-3 h-auto" 
+                  <Button
+                    variant="outline"
+                    className="flex flex-col items-center justify-center p-3 h-auto"
                     onClick={() => handleShareTo("whatsapp", shareVaccination)}
                   >
                     <div className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center mb-1">
@@ -1101,13 +1101,13 @@ export default function VaccinationsPage() {
                     </div>
                     <span className="text-xs">WhatsApp</span>
                   </Button>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     className="flex flex-col items-center justify-center p-3 h-auto"
                     onClick={() => handleShareTo("email", shareVaccination)}
                   >
-                    <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center mb-1">
+                    <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center mb-1">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
@@ -1115,9 +1115,9 @@ export default function VaccinationsPage() {
                     </div>
                     <span className="text-xs">Email</span>
                   </Button>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     className="flex flex-col items-center justify-center p-3 h-auto"
                     onClick={() => handleShareTo("message", shareVaccination)}
                   >
@@ -1128,13 +1128,13 @@ export default function VaccinationsPage() {
                     </div>
                     <span className="text-xs">Message</span>
                   </Button>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     className="flex flex-col items-center justify-center p-3 h-auto"
                     onClick={() => handleShareTo("more", shareVaccination)}
                   >
-                    <div className="w-10 h-10 bg-gray-500 text-white rounded-full flex items-center justify-center mb-1">
+                    <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center mb-1">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="12" cy="5" r="1"></circle>
@@ -1145,18 +1145,18 @@ export default function VaccinationsPage() {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="share-link">Or copy link</Label>
                 <div className="flex items-center space-x-2">
-                  <Input 
-                    id="share-link" 
-                    value={shareUrl} 
-                    readOnly 
+                  <Input
+                    id="share-link"
+                    value={shareUrl}
+                    readOnly
                     onClick={(e) => e.target.select()}
                   />
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     className="px-3"
                     onClick={handleCopyLink}
                   >
@@ -1168,10 +1168,10 @@ export default function VaccinationsPage() {
                 </div>
                 <p className="text-xs text-gray-500">This link will expire in 7 days</p>
               </div>
-              
+
               {/* New: Add QR code for scanning */}
-              <div className="flex flex-col items-center border rounded p-3 bg-white">
-                <div className="border border-gray-200 p-2 rounded bg-white">
+              <div className="flex flex-col items-center border rounded p-3 bg-card">
+                <div className="border border-border p-2 rounded bg-card">
                   {/* Placeholder for QR code - in a real app, you'd generate this */}
                   <div className="w-32 h-32 bg-gray-100 flex items-center justify-center">
                     <p className="text-sm text-gray-500">QR Code</p>

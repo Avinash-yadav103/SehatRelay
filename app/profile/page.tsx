@@ -34,7 +34,7 @@ export default function AadharProfilePage() {
         // In real implementation, this would be an API call to fetch Aadhar data
         // Currently using mock data
         await new Promise(resolve => setTimeout(resolve, 1500)) // Simulate loading
-        
+
         setAadharProfile({
           name: "Priya Sharma",
           aadharNumber: "7894 5612 3489",
@@ -60,7 +60,7 @@ export default function AadharProfilePage() {
           documentValidity: "Valid",
           linkedServices: ["Healthcare", "Banking", "Tax Filing"]
         })
-        
+
         setIsLoadingAadhar(false)
       } catch (error) {
         console.error("Error fetching Aadhar data:", error)
@@ -86,7 +86,7 @@ export default function AadharProfilePage() {
 
   const getRoleBadgeColor = (role) => {
     switch (role) {
-      case "doctor": return "bg-blue-100 text-blue-800 hover:bg-blue-200"
+      case "doctor": return "bg-secondary text-blue-800 hover:bg-blue-200"
       case "patient": return "bg-green-100 text-green-800 hover:bg-green-200"
       case "government": return "bg-purple-100 text-purple-800 hover:bg-purple-200"
       case "researcher": return "bg-amber-100 text-amber-800 hover:bg-amber-200"
@@ -168,12 +168,12 @@ export default function AadharProfilePage() {
           <CardContent>
             {isLoadingAadhar ? (
               <div className="flex justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-sky-600" />
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             ) : aadharProfile ? (
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex flex-col items-center">
-                  <div className="rounded-lg overflow-hidden border border-gray-200 mb-3">
+                  <div className="rounded-lg overflow-hidden border border-border mb-3">
                     <img src={aadharProfile.photo} alt="Aadhar Photo" className="w-32 h-32 object-cover" />
                   </div>
                   <Badge className={`mb-2 ${getRoleBadgeColor(aadharProfile.role)}`}>
@@ -186,7 +186,7 @@ export default function AadharProfilePage() {
                     Last verified: {aadharProfile.lastVerified}
                   </div>
                 </div>
-                
+
                 <div className="flex-1">
                   <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div>
@@ -218,16 +218,16 @@ export default function AadharProfilePage() {
                       <dd>{aadharProfile.email}</dd>
                     </div>
                   </dl>
-                  
-                  <div className="mt-4 pt-4 border-t border-gray-200">
+
+                  <div className="mt-4 pt-4 border-t border-border">
                     <h4 className="text-sm font-medium text-gray-600 mb-2">Biometric Authentication</h4>
                     <div className="flex gap-4">
                       <div className="flex items-center gap-2">
-                        <Fingerprint className="h-5 w-5 text-sky-600" />
+                        <Fingerprint className="h-5 w-5 text-primary" />
                         <span className="text-sm">Fingerprint {aadharProfile.fingerprint ? "✓" : "✗"}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <User className="h-5 w-5 text-sky-600" />
+                        <User className="h-5 w-5 text-primary" />
                         <span className="text-sm">Iris Scan {aadharProfile.iris ? "✓" : "✗"}</span>
                       </div>
                     </div>
@@ -242,9 +242,9 @@ export default function AadharProfilePage() {
           </CardContent>
           {aadharProfile && (
             <CardFooter>
-              <Button 
-                variant="outline" 
-                className="w-full" 
+              <Button
+                variant="outline"
+                className="w-full"
                 onClick={handleDownloadAadhar}
                 disabled={loadingDownload}
               >
@@ -271,7 +271,7 @@ export default function AadharProfilePage() {
           <CardContent>
             {isLoadingAadhar ? (
               <div className="flex justify-center py-4">
-                <Loader2 className="h-6 w-6 animate-spin text-sky-600" />
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
               </div>
             ) : aadharProfile ? (
               <>
@@ -283,7 +283,7 @@ export default function AadharProfilePage() {
                     </div>
                     <Progress value={100} className="h-2 bg-gray-200" indicatorClassName="bg-green-600" />
                   </div>
-                  
+
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-600">Role Verification</span>
@@ -291,25 +291,25 @@ export default function AadharProfilePage() {
                     </div>
                     <Progress value={100} className="h-2 bg-gray-200" indicatorClassName="bg-green-600" />
                   </div>
-                  
+
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-600">Linked Services</span>
-                      <span className="text-sky-600 font-medium">{aadharProfile.linkedServices.length}</span>
+                      <span className="text-primary font-medium">{aadharProfile.linkedServices.length}</span>
                     </div>
-                    <Progress 
-                      value={(aadharProfile.linkedServices.length / 5) * 100} 
-                      className="h-2 bg-gray-200" 
-                      indicatorClassName="bg-sky-600" 
+                    <Progress
+                      value={(aadharProfile.linkedServices.length / 5) * 100}
+                      className="h-2 bg-gray-200"
+                      indicatorClassName="bg-primary"
                     />
                   </div>
                 </div>
-                
+
                 <div className="mt-4">
                   <h4 className="text-sm font-medium text-gray-600 mb-2">Linked Services</h4>
                   <div className="flex flex-wrap gap-2">
                     {aadharProfile.linkedServices.map((service, idx) => (
-                      <Badge key={idx} variant="outline" className="bg-gray-50">
+                      <Badge key={idx} variant="outline" className="bg-background">
                         {service}
                       </Badge>
                     ))}
@@ -341,7 +341,7 @@ export default function AadharProfilePage() {
               <CardContent>
                 <div className="space-y-6">
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary">
                       <User className="h-6 w-6" />
                     </div>
                     <div>
@@ -352,7 +352,7 @@ export default function AadharProfilePage() {
                   </div>
 
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                    <div className="flex-shrink-0 h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary">
                       <UserCheck className="h-6 w-6" />
                     </div>
                     <div>
@@ -429,17 +429,17 @@ export default function AadharProfilePage() {
                   </div>
                 </div>
 
-                <div className="mt-6 border-t border-gray-200 pt-6">
+                <div className="mt-6 border-t border-border pt-6">
                   <h3 className="text-md font-medium mb-4">Authorized Access Levels</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="bg-background border border-blue-200 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <Shield className="h-5 w-5 text-blue-600" />
+                        <Shield className="h-5 w-5 text-primary" />
                         <h4 className="font-medium">Patient Records</h4>
                       </div>
                       <p className="text-sm text-gray-700">Full access to patient medical records with consent</p>
                     </div>
-                    
+
                     <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Shield className="h-5 w-5 text-purple-600" />
@@ -447,7 +447,7 @@ export default function AadharProfilePage() {
                       </div>
                       <p className="text-sm text-gray-700">Authorized to prescribe all medication classes</p>
                     </div>
-                    
+
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Shield className="h-5 w-5 text-green-600" />
@@ -541,8 +541,8 @@ export default function AadharProfilePage() {
                 </div>
               </div>
             </div>
-            
-            <div className="mt-6 border-t border-gray-200 pt-6">
+
+            <div className="mt-6 border-t border-border pt-6">
               <h3 className="text-md font-medium mb-4">Access Permissions</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
@@ -552,16 +552,16 @@ export default function AadharProfilePage() {
                   </div>
                   <p className="text-sm text-gray-700">Full access to healthcare policy management</p>
                 </div>
-                
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+
+                <div className="bg-background border border-blue-200 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="h-5 w-5 text-blue-600" />
+                    <Shield className="h-5 w-5 text-primary" />
                     <h4 className="font-medium">Statistics Access</h4>
                   </div>
                   <p className="text-sm text-gray-700">Access to anonymized healthcare statistics</p>
                 </div>
-                
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+
+                <div className="bg-background border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Shield className="h-5 w-5 text-gray-600" />
                     <h4 className="font-medium">Individual Records</h4>
@@ -612,7 +612,7 @@ export default function AadharProfilePage() {
               </div>
             </div>
 
-            <div className="mt-6 border-t border-gray-200 pt-6">
+            <div className="mt-6 border-t border-border pt-6">
               <h3 className="text-md font-medium mb-4">Research Permissions</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -622,7 +622,7 @@ export default function AadharProfilePage() {
                   </div>
                   <p className="text-sm text-gray-700">Full access to anonymized research data</p>
                 </div>
-                
+
                 <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Shield className="h-5 w-5 text-amber-600" />
@@ -630,8 +630,8 @@ export default function AadharProfilePage() {
                   </div>
                   <p className="text-sm text-gray-700">Access to demographic insights</p>
                 </div>
-                
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+
+                <div className="bg-background border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Shield className="h-5 w-5 text-gray-600" />
                     <h4 className="font-medium">Personal Data</h4>

@@ -36,9 +36,9 @@ export default function DashboardRedirect() {
   }, [isAuthenticated, user, router])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
-        <Loader2 className="h-8 w-8 animate-spin mx-auto text-sky-600" />
+        <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
         <p className="mt-4 text-gray-600">Redirecting to your dashboard...</p>
       </div>
     </div>

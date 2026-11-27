@@ -281,7 +281,7 @@ export default function MedicalRecordsPage() {
               <CardTitle className="text-2xl">Medical Records</CardTitle>
               <CardDescription>View your complete medical history</CardDescription>
             </div>
-            <Button onClick={handleUploadRecord} className="bg-sky-600 hover:bg-sky-700" disabled={isUploading}>
+            <Button onClick={handleUploadRecord} className="bg-primary hover:bg-primary" disabled={isUploading}>
               {isUploading ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -298,13 +298,13 @@ export default function MedicalRecordsPage() {
           <CardContent>
             <div className="space-y-6">
               {medicalRecords.map((record) => (
-                <div key={record.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={record.id} className="border border-border rounded-lg overflow-hidden">
                   <div
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-background"
                     onClick={() => toggleExpandRecord(record.id)}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
+                      <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary flex-shrink-0">
                         <FileText className="h-5 w-5" />
                       </div>
                       <div>
@@ -321,7 +321,7 @@ export default function MedicalRecordsPage() {
                             ? "bg-amber-100 text-amber-800"
                             : record.type === "examination"
                               ? "bg-green-100 text-green-800"
-                              : "bg-blue-100 text-blue-800"
+                              : "bg-secondary text-blue-800"
                         }`}
                       >
                         {record.type.charAt(0).toUpperCase() + record.type.slice(1)}
@@ -333,7 +333,7 @@ export default function MedicalRecordsPage() {
                   </div>
 
                   {expandedRecord === record.id && (
-                    <div className="border-t border-gray-200 p-4 bg-gray-50">
+                    <div className="border-t border-border p-4 bg-background">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <h4 className="text-sm font-medium text-gray-600 mb-2">Diagnosis</h4>
@@ -364,7 +364,7 @@ export default function MedicalRecordsPage() {
                                 {record.documents.map((doc, index) => (
                                   <div
                                     key={index}
-                                    className="flex items-center gap-2 p-2 bg-white rounded border border-gray-200"
+                                    className="flex items-center gap-2 p-2 bg-card rounded border border-border"
                                   >
                                     <FileUp className="h-4 w-4 text-gray-500" />
                                     <span className="text-sm">{doc.name}</span>
@@ -390,7 +390,7 @@ export default function MedicalRecordsPage() {
                           Download
                         </Button>
                         <Button
-                          className="bg-sky-600 hover:bg-sky-700"
+                          className="bg-primary hover:bg-primary"
                           size="sm"
                           onClick={() => handleViewFullRecord(record.id)}
                         >

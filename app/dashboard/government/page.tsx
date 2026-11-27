@@ -247,8 +247,8 @@ export default function GovernmentDashboard() {
                 <div>
                   <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
                   <div className="space-y-4">
-                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                    <div className="bg-background p-3 rounded-lg border border-border flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center text-primary">
                         <UserPlus className="h-4 w-4" />
                       </div>
                       <div>
@@ -258,7 +258,7 @@ export default function GovernmentDashboard() {
                       </div>
                     </div>
 
-                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex items-start gap-3">
+                    <div className="bg-background p-3 rounded-lg border border-border flex items-start gap-3">
                       <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                         <Building2 className="h-4 w-4" />
                       </div>
@@ -269,7 +269,7 @@ export default function GovernmentDashboard() {
                       </div>
                     </div>
 
-                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex items-start gap-3">
+                    <div className="bg-background p-3 rounded-lg border border-border flex items-start gap-3">
                       <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
                         <Database className="h-4 w-4" />
                       </div>
@@ -299,10 +299,10 @@ export default function GovernmentDashboard() {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                     <input
                       placeholder="Search hospitals..."
-                      className="pl-9 border border-gray-300 rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
+                      className="pl-9 border border-input rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
-                  <Button className="bg-sky-600 hover:bg-sky-700 text-white">
+                  <Button className="bg-primary hover:bg-primary text-white">
                     <PlusCircle className="h-4 w-4 mr-2" />
                     Add Hospital
                   </Button>
@@ -313,7 +313,7 @@ export default function GovernmentDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
-                    <tr className="border-b border-gray-200">
+                    <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Hospital Name</th>
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Location</th>
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Doctors</th>
@@ -324,7 +324,7 @@ export default function GovernmentDashboard() {
                   </thead>
                   <tbody>
                     {hospitals.map((hospital) => (
-                      <tr key={hospital.id} className="border-b border-gray-200 hover:bg-gray-50">
+                      <tr key={hospital.id} className="border-b border-border hover:bg-background">
                         <td className="py-3 px-4 text-sm">{hospital.name}</td>
                         <td className="py-3 px-4 text-sm text-gray-600">{hospital.location}</td>
                         <td className="py-3 px-4 text-sm text-gray-600">{hospital.doctors}</td>
@@ -398,7 +398,7 @@ export default function GovernmentDashboard() {
                             </Button>
                             <Button
                               size="sm"
-                              className="h-8 bg-sky-600 hover:bg-sky-700 text-white"
+                              className="h-8 bg-primary hover:bg-primary text-white"
                               onClick={() => handleApproveRegistration(request.id)}
                             >
                               <CheckCircle className="h-4 w-4 mr-1" />

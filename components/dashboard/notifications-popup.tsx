@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { format, formatDistanceToNow } from "date-fns"
 
-export function NotificationsPopup({ 
-  notificationCount = 0, 
-  accessRequests = [], 
+export function NotificationsPopup({
+  notificationCount = 0,
+  accessRequests = [],
   recordUpdates = [],
   systemNotifications = [],
   onApproveAccess,
@@ -28,7 +28,7 @@ export function NotificationsPopup({
         setIsOpen(false)
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [popupRef])
@@ -80,9 +80,9 @@ export function NotificationsPopup({
           <div className="flex items-center justify-between border-b p-3">
             <h3 className="font-medium">Notifications</h3>
             {unreadCount > 0 && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="h-8 text-xs"
                 onClick={() => {
                   onMarkAllRead();
@@ -97,16 +97,16 @@ export function NotificationsPopup({
             {allNotifications.length > 0 ? (
               <div>
                 {allNotifications.map((notification) => (
-                  <div 
-                    key={notification.id} 
-                    className={`border-b p-3 hover:bg-gray-50 ${notification.isUnread ? "bg-sky-50" : ""}`}
+                  <div
+                    key={notification.id}
+                    className={`border-b p-3 hover:bg-background ${notification.isUnread ? "bg-background" : ""}`}
                   >
                     <div className="flex gap-3">
                       <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full
-                        ${notification.type === 'access' 
-                          ? "bg-amber-100 text-amber-600" 
+                        ${notification.type === 'access'
+                          ? "bg-amber-100 text-amber-600"
                           : notification.type === 'record'
-                            ? "bg-blue-100 text-blue-600"
+                            ? "bg-secondary text-primary"
                             : "bg-gray-100 text-gray-600"
                         }
                       `}>
@@ -114,7 +114,7 @@ export function NotificationsPopup({
                         {notification.type === 'record' && <FileText className="h-4 w-4" />}
                         {notification.type === 'system' && <Info className="h-4 w-4" />}
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-2">
                           <div>
@@ -130,19 +130,19 @@ export function NotificationsPopup({
                             </p>
                           </div>
                           {notification.isUnread && (
-                            <span className="h-2 w-2 flex-shrink-0 rounded-full bg-sky-500"></span>
+                            <span className="h-2 w-2 flex-shrink-0 rounded-full bg-primary"></span>
                           )}
                         </div>
-                        
+
                         <div className="mt-1 text-xs text-gray-500">
                           {formatDistanceToNow(notification.time, { addSuffix: true })}
                         </div>
-                        
+
                         {notification.type === 'access' && notification.status === 'pending' && (
                           <div className="mt-2 flex gap-2">
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
+                            <Button
+                              variant="outline"
+                              size="sm"
                               className="h-7 text-xs border-red-300 bg-red-50 text-red-600 hover:bg-red-100"
                               onClick={() => {
                                 onRejectAccess(notification.id);
@@ -152,9 +152,9 @@ export function NotificationsPopup({
                               <XCircle className="h-3 w-3 mr-1" />
                               Reject
                             </Button>
-                            <Button 
-                              size="sm" 
-                              className="h-7 text-xs bg-sky-600 hover:bg-sky-700 text-white"
+                            <Button
+                              size="sm"
+                              className="h-7 text-xs bg-primary hover:bg-sky-700 text-white"
                               onClick={() => {
                                 onApproveAccess(notification.id);
                                 setIsOpen(false);
@@ -165,11 +165,11 @@ export function NotificationsPopup({
                             </Button>
                           </div>
                         )}
-                        
+
                         {notification.type === 'record' && (
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             className="h-7 text-xs mt-1 p-0 text-sky-600 hover:text-sky-700 hover:bg-transparent"
                             onClick={() => {
                               onViewRecord(notification.id);
@@ -191,12 +191,12 @@ export function NotificationsPopup({
               </div>
             )}
           </div>
-          
+
           {allNotifications.length > 0 && (
             <div className="border-t p-2 text-center">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="w-full text-xs text-sky-600 hover:text-sky-700"
                 onClick={() => {
                   onViewAll();

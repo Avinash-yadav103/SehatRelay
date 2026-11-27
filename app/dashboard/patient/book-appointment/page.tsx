@@ -83,7 +83,7 @@ export default function BookAppointmentPage() {
   const router = useRouter();
   const { user } = useAuth();
   const { user: userContext } = useUser();
-  
+
   // State for selected items
   const [step, setStep] = useState<number>(1);
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
@@ -95,15 +95,15 @@ export default function BookAppointmentPage() {
   const [appointmentType, setAppointmentType] = useState<"in-person" | "virtual">("in-person");
   const [notes, setNotes] = useState<string>("");
   const [reasonForVisit, setReasonForVisit] = useState<string>("");
-  
+
   // State for hospital search and filtering
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [specialtyFilter, setSpecialtyFilter] = useState<string>("");
-  
+
   // States for doctor search and filtering
   const [doctorSearchTerm, setDoctorSearchTerm] = useState<string>("");
   const [specializationFilter, setSpecializationFilter] = useState<string>("");
-  
+
   // UI states
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingHospitals, setLoadingHospitals] = useState<boolean>(true);
@@ -149,7 +149,7 @@ export default function BookAppointmentPage() {
       // For now we'll use mock data, but in production, use the API
       // const response = await fetch('http://localhost:5000/api/appointments/hospitals/nearby');
       // const data = await response.json();
-      
+
       // Mock data for development
       const mockHospitals: Hospital[] = [
         {
@@ -213,7 +213,7 @@ export default function BookAppointmentPage() {
           imageUrl: "https://images.unsplash.com/photo-1587351021759-3e566b3db4f1?q=80&w=2069&auto=format&fit=crop"
         }
       ];
-      
+
       setHospitals(mockHospitals);
     } catch (error) {
       console.error("Error fetching hospitals:", error);
@@ -230,7 +230,7 @@ export default function BookAppointmentPage() {
       // For now we'll use mock data, but in production, use the API
       // const response = await fetch(`http://localhost:5000/api/appointments/doctors/hospital/${hospitalId}`);
       // const data = await response.json();
-      
+
       // Mock data for development
       const mockDoctors: Doctor[] = [
         {
@@ -284,7 +284,7 @@ export default function BookAppointmentPage() {
           photo: "https://randomuser.me/api/portraits/women/17.jpg"
         }
       ];
-      
+
       setDoctors(mockDoctors);
     } catch (error) {
       console.error("Error fetching doctors:", error);
@@ -298,20 +298,20 @@ export default function BookAppointmentPage() {
   const filteredHospitals = hospitals.filter(hospital => {
     const matchesSearch = hospital.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hospital.address.city.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesSpecialty = specialtyFilter === "" || 
+
+    const matchesSpecialty = specialtyFilter === "" ||
       hospital.specialties.includes(specialtyFilter);
-    
+
     return matchesSearch && matchesSpecialty;
   });
 
   // Filter doctors based on search term and specialization
   const filteredDoctors = doctors.filter(doctor => {
     const matchesSearch = doctor.name.toLowerCase().includes(doctorSearchTerm.toLowerCase());
-    
-    const matchesSpecialization = specializationFilter === "" || 
+
+    const matchesSpecialization = specializationFilter === "" ||
       doctor.specialization === specializationFilter;
-    
+
     return matchesSearch && matchesSpecialization;
   });
 
@@ -360,19 +360,19 @@ export default function BookAppointmentPage() {
       //   },
       //   body: JSON.stringify(appointmentData)
       // });
-      
+
       // const data = await response.json();
-      
+
       // if (!response.ok) {
       //   throw new Error(data.message || 'Failed to book appointment');
       // }
 
       // Mock successful booking
       console.log("Appointment data:", appointmentData);
-      
+
       // Show success message
       toast.success("Appointment booked successfully!");
-      
+
       // Redirect to appointments page
       setTimeout(() => {
         router.push("/dashboard/patient/appointments");
@@ -454,26 +454,26 @@ export default function BookAppointmentPage() {
             <div className="mb-8">
               <div className="flex items-center justify-center">
                 <div className="flex items-center w-full max-w-3xl">
-                  <div className={`flex-1 text-center ${step >= 1 ? 'text-sky-600' : 'text-gray-400'}`}>
-                    <div className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-sky-100 text-sky-600 border-2 border-sky-600' : 'bg-gray-100 text-gray-400'}`}>
+                  <div className={`flex-1 text-center ${step >= 1 ? 'text-primary' : 'text-gray-400'}`}>
+                    <div className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-secondary text-primary border-2 border-sky-600' : 'bg-gray-100 text-gray-400'}`}>
                       1
                     </div>
                     <p className="text-sm mt-1">Select Hospital</p>
                   </div>
-                  
-                  <div className={`w-full h-1 ${step >= 2 ? 'bg-sky-600' : 'bg-gray-200'}`}></div>
-                  
-                  <div className={`flex-1 text-center ${step >= 2 ? 'text-sky-600' : 'text-gray-400'}`}>
-                    <div className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-sky-100 text-sky-600 border-2 border-sky-600' : 'bg-gray-100 text-gray-400'}`}>
+
+                  <div className={`w-full h-1 ${step >= 2 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+
+                  <div className={`flex-1 text-center ${step >= 2 ? 'text-primary' : 'text-gray-400'}`}>
+                    <div className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-secondary text-primary border-2 border-sky-600' : 'bg-gray-100 text-gray-400'}`}>
                       2
                     </div>
                     <p className="text-sm mt-1">Select Doctor</p>
                   </div>
-                  
-                  <div className={`w-full h-1 ${step >= 3 ? 'bg-sky-600' : 'bg-gray-200'}`}></div>
-                  
-                  <div className={`flex-1 text-center ${step >= 3 ? 'text-sky-600' : 'text-gray-400'}`}>
-                    <div className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-sky-100 text-sky-600 border-2 border-sky-600' : 'bg-gray-100 text-gray-400'}`}>
+
+                  <div className={`w-full h-1 ${step >= 3 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+
+                  <div className={`flex-1 text-center ${step >= 3 ? 'text-primary' : 'text-gray-400'}`}>
+                    <div className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-secondary text-primary border-2 border-sky-600' : 'bg-gray-100 text-gray-400'}`}>
                       3
                     </div>
                     <p className="text-sm mt-1">Schedule Time</p>
@@ -487,7 +487,7 @@ export default function BookAppointmentPage() {
               <div className="space-y-6">
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold">Select a Hospital</h2>
-                  
+
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="md:w-1/2">
                       <div className="relative">
@@ -500,7 +500,7 @@ export default function BookAppointmentPage() {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="md:w-1/2">
                       <Select value={specialtyFilter} onValueChange={setSpecialtyFilter}>
                         <SelectTrigger>
@@ -518,7 +518,7 @@ export default function BookAppointmentPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 {loadingHospitals ? (
                   <div className="flex justify-center py-12">
                     <div className="h-8 w-8 animate-spin rounded-full border-2 border-sky-600 border-t-transparent"></div>
@@ -545,12 +545,12 @@ export default function BookAppointmentPage() {
                           </p>
                           <div className="flex flex-wrap gap-1 mt-2">
                             {hospital.specialties.slice(0, 3).map((specialty) => (
-                              <Badge key={specialty} variant="outline" className="bg-sky-50 text-sky-700 border-sky-200">
+                              <Badge key={specialty} variant="outline" className="bg-secondary text-primary border-border">
                                 {specialty}
                               </Badge>
                             ))}
                             {hospital.specialties.length > 3 && (
-                              <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+                              <Badge variant="outline" className="bg-background text-gray-700 border-border">
                                 +{hospital.specialties.length - 3} more
                               </Badge>
                             )}
@@ -560,7 +560,7 @@ export default function BookAppointmentPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="text-center py-12 bg-background rounded-lg border border-border">
                     <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                     <h3 className="text-lg font-medium text-gray-900">No Hospitals Found</h3>
                     <p className="text-gray-600 mt-1">Try adjusting your search or filters.</p>
@@ -603,7 +603,7 @@ export default function BookAppointmentPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="md:w-1/2">
                     <Select value={specializationFilter} onValueChange={setSpecializationFilter}>
                       <SelectTrigger>
@@ -620,7 +620,7 @@ export default function BookAppointmentPage() {
                     </Select>
                   </div>
                 </div>
-                
+
                 {loadingDoctors ? (
                   <div className="flex justify-center py-12">
                     <div className="h-8 w-8 animate-spin rounded-full border-2 border-sky-600 border-t-transparent"></div>
@@ -643,29 +643,29 @@ export default function BookAppointmentPage() {
                               />
                             </div>
                           </div>
-                          
+
                           <div className="md:w-5/6">
                             <div className="flex flex-col md:flex-row md:justify-between">
                               <div>
                                 <h3 className="font-medium text-lg">{doctor.name}</h3>
-                                <p className="text-sky-600">{doctor.specialization}</p>
+                                <p className="text-primary">{doctor.specialization}</p>
                               </div>
                               <div className="mt-2 md:mt-0">
-                                <Badge className="bg-sky-100 text-sky-700 border-sky-200">
+                                <Badge className="bg-secondary text-primary border-border">
                                   {doctor.yearsOfExperience} years exp
                                 </Badge>
                               </div>
                             </div>
-                            
+
                             <div className="mt-2">
                               <p className="text-gray-600 text-sm">{doctor.education}</p>
                             </div>
-                            
+
                             <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
                               <div className="text-sm text-gray-500">
                                 Next Available: Today, 2:30 PM
                               </div>
-                              <Button variant="outline" className="text-sky-600 border-sky-200">
+                              <Button variant="outline" className="text-primary border-border">
                                 View Profile
                               </Button>
                             </div>
@@ -675,7 +675,7 @@ export default function BookAppointmentPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="text-center py-12 bg-background rounded-lg border border-border">
                     <User className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                     <h3 className="text-lg font-medium text-gray-900">No Doctors Found</h3>
                     <p className="text-gray-600 mt-1">Try adjusting your search or filters.</p>
@@ -708,7 +708,7 @@ export default function BookAppointmentPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Doctor Info */}
-                  <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="bg-background p-4 rounded-lg">
                     <div className="flex items-start gap-4">
                       <div className="w-20 h-20 rounded-full overflow-hidden">
                         <img
@@ -717,12 +717,12 @@ export default function BookAppointmentPage() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      
+
                       <div>
                         <h3 className="font-medium text-lg">{selectedDoctor?.name}</h3>
-                        <p className="text-sky-600">{selectedDoctor?.specialization}</p>
+                        <p className="text-primary">{selectedDoctor?.specialization}</p>
                         <p className="text-gray-600 text-sm mt-1">{selectedDoctor?.education}</p>
-                        
+
                         <div className="mt-3">
                           <p className="text-gray-700 text-sm">
                             <span className="font-medium">Hospital:</span> {selectedHospital?.name}
@@ -734,7 +734,7 @@ export default function BookAppointmentPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Appointment Type */}
                   <div>
                     <Label className="block mb-2">Appointment Type</Label>
@@ -757,7 +757,7 @@ export default function BookAppointmentPage() {
                         </Label>
                       </div>
                     </RadioGroup>
-                    
+
                     <div className="mt-4">
                       <Label htmlFor="reason" className="block mb-2">Reason for Visit</Label>
                       <Textarea
@@ -769,7 +769,7 @@ export default function BookAppointmentPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
                   {/* Calendar */}
                   <div>
@@ -790,11 +790,11 @@ export default function BookAppointmentPage() {
                       />
                     </div>
                   </div>
-                  
+
                   {/* Time Slots */}
                   <div>
                     <Label className="block mb-2">Select Time</Label>
-                    
+
                     {selectedDate ? (
                       <div className="space-y-4">
                         <div>
@@ -806,9 +806,9 @@ export default function BookAppointmentPage() {
                                 variant={selectedTime === slot.time ? "default" : "outline"}
                                 className={cn(
                                   "text-sm py-1",
-                                  selectedTime === slot.time 
-                                    ? "bg-sky-600 hover:bg-sky-700" 
-                                    : "hover:bg-sky-50 hover:text-sky-700",
+                                  selectedTime === slot.time
+                                    ? "bg-primary hover:bg-primary"
+                                    : "hover:bg-secondary hover:text-primary",
                                   !slot.available && "opacity-50 cursor-not-allowed"
                                 )}
                                 disabled={!slot.available}
@@ -819,7 +819,7 @@ export default function BookAppointmentPage() {
                             ))}
                           </div>
                         </div>
-                        
+
                         <div>
                           <h4 className="text-sm font-medium text-gray-700 mb-2">Afternoon</h4>
                           <div className="grid grid-cols-3 gap-2">
@@ -829,9 +829,9 @@ export default function BookAppointmentPage() {
                                 variant={selectedTime === slot.time ? "default" : "outline"}
                                 className={cn(
                                   "text-sm py-1",
-                                  selectedTime === slot.time 
-                                    ? "bg-sky-600 hover:bg-sky-700" 
-                                    : "hover:bg-sky-50 hover:text-sky-700",
+                                  selectedTime === slot.time
+                                    ? "bg-primary hover:bg-primary"
+                                    : "hover:bg-secondary hover:text-primary",
                                   !slot.available && "opacity-50 cursor-not-allowed"
                                 )}
                                 disabled={!slot.available}
@@ -842,7 +842,7 @@ export default function BookAppointmentPage() {
                             ))}
                           </div>
                         </div>
-                        
+
                         <div>
                           <h4 className="text-sm font-medium text-gray-700 mb-2">Evening</h4>
                           <div className="grid grid-cols-3 gap-2">
@@ -852,9 +852,9 @@ export default function BookAppointmentPage() {
                                 variant={selectedTime === slot.time ? "default" : "outline"}
                                 className={cn(
                                   "text-sm py-1",
-                                  selectedTime === slot.time 
-                                    ? "bg-sky-600 hover:bg-sky-700" 
-                                    : "hover:bg-sky-50 hover:text-sky-700",
+                                  selectedTime === slot.time
+                                    ? "bg-primary hover:bg-primary"
+                                    : "hover:bg-secondary hover:text-primary",
                                   !slot.available && "opacity-50 cursor-not-allowed"
                                 )}
                                 disabled={!slot.available}
@@ -873,7 +873,7 @@ export default function BookAppointmentPage() {
                     )}
                   </div>
                 </div>
-                
+
                 <div className="mt-6">
                   <Label htmlFor="notes" className="block mb-2">Additional Notes (Optional)</Label>
                   <Textarea
@@ -883,10 +883,10 @@ export default function BookAppointmentPage() {
                     onChange={(e) => setNotes(e.target.value)}
                   />
                 </div>
-                
+
                 <div className="flex justify-end mt-8">
                   <Button
-                    className="bg-sky-600 hover:bg-sky-700"
+                    className="bg-primary hover:bg-primary"
                     onClick={handleBookAppointment}
                     disabled={!selectedHospital || !selectedDoctor || !selectedDate || !selectedTime || isLoading}
                   >

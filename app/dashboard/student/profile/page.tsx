@@ -207,7 +207,7 @@ export default function StudentProfilePage() {
               </CardHeader>
               <CardContent className="flex flex-col items-center pt-4">
                 <div className="relative">
-                  <div className="h-32 w-32 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 text-4xl font-bold">
+                  <div className="h-32 w-32 rounded-full bg-secondary flex items-center justify-center text-primary text-4xl font-bold">
                     {profile.name
                       .split(" ")
                       .map((n) => n[0])
@@ -216,21 +216,21 @@ export default function StudentProfilePage() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute bottom-0 right-0 rounded-full h-8 w-8 bg-white border-gray-200"
+                    className="absolute bottom-0 right-0 rounded-full h-8 w-8 bg-card border-border"
                   >
                     <Camera className="h-4 w-4" />
                   </Button>
                 </div>
                 <h2 className="text-xl font-bold mt-4">{profile.name}</h2>
                 <p className="text-gray-500 text-sm">{profile.degree} Student</p>
-                <Badge className="mt-2 bg-sky-100 text-sky-800 hover:bg-sky-200">Level 3 Access</Badge>
+                <Badge className="mt-2 bg-secondary text-sky-800 hover:bg-sky-200">Level 3 Access</Badge>
 
                 <div className="w-full mt-6">
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600">Profile Completeness</span>
-                    <span className="text-sky-600">90%</span>
+                    <span className="text-primary">90%</span>
                   </div>
-                  <Progress value={90} className="h-2 bg-gray-200" indicatorClassName="bg-sky-600" />
+                  <Progress value={90} className="h-2 bg-gray-200" indicatorClassName="bg-primary" />
                 </div>
 
                 <div className="w-full mt-6 space-y-3">
@@ -428,7 +428,7 @@ export default function StudentProfilePage() {
                         </div>
 
                         {profile.publications.map((pub, index) => (
-                          <div key={index} className="space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                          <div key={index} className="space-y-3 p-4 bg-background rounded-lg border border-border">
                             <div className="flex justify-between items-start">
                               <h4 className="font-medium">Publication #{index + 1}</h4>
                               <Button
@@ -503,7 +503,7 @@ export default function StudentProfilePage() {
                 </Tabs>
               </CardContent>
               <CardFooter className="flex justify-end">
-                <Button className="bg-sky-600 hover:bg-sky-700" onClick={handleSaveProfile} disabled={isSaving}>
+                <Button className="bg-primary hover:bg-primary" onClick={handleSaveProfile} disabled={isSaving}>
                   {isSaving ? (
                     <>
                       <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>

@@ -9,7 +9,7 @@ import { SettingsModal } from "@/components/settings-modal"
 import { SOSButton } from "@/components/emergency/sos-button"
 import { NotificationsPopup } from "@/components/dashboard/notifications-popup"
 import type { UserRole } from "@/lib/auth"
-import { format } from "date-fns"
+import { Mic, HeartHandshake } from "lucide-react"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -74,18 +74,18 @@ export function DashboardLayout({
 
   return (
     <AuthGuard requiredRole={requiredRole}>
-      <div className="min-h-screen bg-gray-50">
+      <div className="cf-dashboard-shell">
         <Sidebar
-          items={sidebarItems}
+          items={[...sidebarItems.filter(item => !["/visits", "/referrals"].includes(item.href)), {title:"Voice visits",href:"/visits",icon:<Mic size={18}/>}, {title:"Referrals",href:"/referrals",icon:<HeartHandshake size={18}/>}]}
           footerItems={updatedFooterItems}
-          title="Charak"
+          title="CareFolio"
           logo={
-            <div className="h-8 w-8 rounded-full bg-sky-600 flex items-center justify-center text-white font-bold">
+            <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
               CH
             </div>
           }
         />
-        <div className="md:ml-[250px] p-4 pt-[80px]">
+        <div className="cf-dashboard-content">
           <Header title={title} user={user} notifications={notifications} />
           <div className="flex items-center gap-4">
             <NotificationsPopup
@@ -100,7 +100,7 @@ export function DashboardLayout({
               onViewAll={onViewAllNotifications}
             />
           </div>
-          <main className="mt-6">{children}</main>
+          <main className="cf-dashboard-main">{children}</main>
           {/* Add SOS button only for patient role */}
           {user && requiredRole === "patient" && (
             <SOSButton user={user} />

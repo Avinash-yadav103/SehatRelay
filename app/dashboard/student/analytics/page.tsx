@@ -42,7 +42,7 @@ export default function AnalyticsPage() {
       href: "/dashboard/student/projects",
       icon: <FileText className="h-4 w-4" />,
     },
-    
+
   ]
 
   const sidebarFooterItems = [
@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
             </div>
             <div className="flex flex-col md:flex-row gap-2">
               <Select value={timeRange} onValueChange={setTimeRange}>
-                <SelectTrigger className="w-[140px] border-gray-300">
+                <SelectTrigger className="w-[140px] border-input">
                   <SelectValue placeholder="Time range" />
                 </SelectTrigger>
                 <SelectContent>
@@ -89,7 +89,7 @@ export default function AnalyticsPage() {
               </Select>
 
               <Select value={datasetFilter} onValueChange={setDatasetFilter}>
-                <SelectTrigger className="w-[180px] border-gray-300">
+                <SelectTrigger className="w-[180px] border-input">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="Filter by dataset" />
                 </SelectTrigger>
@@ -102,7 +102,7 @@ export default function AnalyticsPage() {
                 </SelectContent>
               </Select>
 
-              <Button variant="outline" className="border-gray-300" onClick={handleExportData}>
+              <Button variant="outline" className="border-input" onClick={handleExportData}>
                 <Download className="mr-2 h-4 w-4" />
                 Export
               </Button>
@@ -110,12 +110,12 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-background p-4 rounded-lg border border-border">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-base font-medium">Disease Distribution</h3>
                   <PieChart className="h-5 w-5 text-gray-600" />
                 </div>
-                <div className="h-48 flex items-center justify-center bg-white rounded border border-gray-200">
+                <div className="h-48 flex items-center justify-center bg-card rounded border border-border">
                   <div className="text-center">
                     <p className="text-gray-500 text-sm mb-2">Interactive chart will appear here</p>
                     <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-sky-100 to-blue-100 flex items-center justify-center">
@@ -125,19 +125,19 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-background p-4 rounded-lg border border-border">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-base font-medium">Treatment Outcomes</h3>
                   <BarChart className="h-5 w-5 text-gray-600" />
                 </div>
-                <div className="h-48 flex items-center justify-center bg-white rounded border border-gray-200">
+                <div className="h-48 flex items-center justify-center bg-card rounded border border-border">
                   <div className="text-center">
                     <p className="text-gray-500 text-sm mb-2">Interactive chart will appear here</p>
                     <div className="w-32 h-32 mx-auto flex items-end justify-center gap-2">
                       {[40, 65, 35, 85, 55].map((height, i) => (
                         <div
                           key={i}
-                          className="w-4 bg-sky-500 opacity-50 rounded-t"
+                          className="w-4 bg-primary opacity-50 rounded-t"
                           style={{ height: `${height}%` }}
                         ></div>
                       ))}
@@ -146,12 +146,12 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-background p-4 rounded-lg border border-border">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-base font-medium">Patient Demographics</h3>
                   <LineChart className="h-5 w-5 text-gray-600" />
                 </div>
-                <div className="h-48 flex items-center justify-center bg-white rounded border border-gray-200">
+                <div className="h-48 flex items-center justify-center bg-card rounded border border-border">
                   <div className="text-center">
                     <p className="text-gray-500 text-sm mb-2">Interactive chart will appear here</p>
                     <div className="w-32 h-32 mx-auto relative">
@@ -159,11 +159,11 @@ export default function AnalyticsPage() {
                         <div className="w-full h-0.5 bg-gray-200"></div>
                       </div>
                       <div className="absolute inset-0 flex items-center justify-around">
-                        <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                        <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                        <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                        <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                        <div className="w-1 h-1 rounded-full bg-sky-500"></div>
+                        <div className="w-1 h-1 rounded-full bg-primary"></div>
+                        <div className="w-1 h-1 rounded-full bg-primary"></div>
+                        <div className="w-1 h-1 rounded-full bg-primary"></div>
+                        <div className="w-1 h-1 rounded-full bg-primary"></div>
+                        <div className="w-1 h-1 rounded-full bg-primary"></div>
                       </div>
                     </div>
                   </div>
@@ -176,7 +176,7 @@ export default function AnalyticsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Button
                   variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50 h-auto py-3 justify-start w-full"
+                  className="border-input text-gray-700 hover:bg-background h-auto py-3 justify-start w-full"
                   onClick={handleRunQuery}
                 >
                   <Database className="h-5 w-5 mr-2" />
@@ -188,7 +188,7 @@ export default function AnalyticsPage() {
 
                 <Button
                   variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50 h-auto py-3 justify-start w-full"
+                  className="border-input text-gray-700 hover:bg-background h-auto py-3 justify-start w-full"
                   onClick={handleCreateVisualization}
                 >
                   <BarChart className="h-5 w-5 mr-2" />
@@ -203,7 +203,7 @@ export default function AnalyticsPage() {
             <div className="mt-8">
               <h3 className="text-lg font-medium mb-4">Recent Analyses</h3>
               <div className="space-y-4">
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="bg-card p-4 rounded-lg border border-border">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium">Diabetes Treatment Efficacy Analysis</h4>
@@ -215,7 +215,7 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="bg-card p-4 rounded-lg border border-border">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium">COVID-19 Vaccination Side Effects by Age Group</h4>
@@ -227,7 +227,7 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="bg-card p-4 rounded-lg border border-border">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium">Heart Disease Risk Factor Correlation</h4>

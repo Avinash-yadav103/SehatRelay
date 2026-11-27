@@ -8,13 +8,13 @@ import { Badge } from "@/components/ui/badge"
 import { DashboardLayout } from "@/components/dashboard/layout/dashboard-layout"
 import { useAuth } from "@/lib/auth"
 import { toast } from "sonner"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogFooter, 
-  DialogHeader, 
-  DialogTitle 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -132,15 +132,15 @@ export default function MedicalRecordsPage() {
   // Fetch real records from MongoDB
   const fetchMedicalRecords = async () => {
     if (!user?.id) return;
-    
+
     setIsLoadingRecords(true);
     try {
       const response = await axios.get(API_BASE_URL, {
         params: { patientId: user.id }
       });
-      
+
       const apiRecords = response.data;
-      
+
       // Format records to match our component's data structure
       const formattedRecords = apiRecords.map(record => ({
         id: record._id,
@@ -158,7 +158,7 @@ export default function MedicalRecordsPage() {
           url: doc.fileUrl
         }))
       }));
-      
+
       // If we have real records, don't show demo data
       if (formattedRecords.length > 0) {
         setMedicalRecords(formattedRecords);
@@ -178,13 +178,13 @@ export default function MedicalRecordsPage() {
       toast.error('User authentication required');
       return;
     }
-    
+
     setIsUploading(true);
-    
+
     try {
       // Create a FormData object to handle files
       const formData = new FormData();
-      
+
       // Add text fields
       formData.append('patientId', user.id);
       formData.append('title', newRecord.title);
@@ -194,15 +194,15 @@ export default function MedicalRecordsPage() {
       formData.append('date', newRecord.date);
       formData.append('diagnosis', newRecord.diagnosis);
       formData.append('clinicalNotes', newRecord.clinicalNotes);
-      
+
       // Add prescription as JSON string
       formData.append('prescription', JSON.stringify(newRecord.prescription.filter(p => p.trim() !== '')));
-      
+
       // Add files
       uploadedFiles.forEach(file => {
         formData.append('documents', file);
       });
-      
+
       // Add this right before the axios call
       console.log("Sending data to server:", {
         patientId: user.id,
@@ -216,12 +216,12 @@ export default function MedicalRecordsPage() {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       console.log("Server response:", response.data);
       // Rest of your code...
-      
+
       const savedRecord = response.data;
-      
+
       // Format the saved record to match our component structure
       const formattedRecord = {
         id: savedRecord._id,
@@ -239,14 +239,14 @@ export default function MedicalRecordsPage() {
           url: doc.fileUrl
         }))
       };
-      
+
       // Add the new record to state
       setMedicalRecords(prevRecords => [formattedRecord, ...prevRecords]);
-      
+
       // Close modal and show success message
       setIsModalOpen(false);
       toast.success('Medical record saved successfully');
-      
+
       // If this is our first real record, turn off demo data
       if (showDemoData) {
         setShowDemoData(false);
@@ -267,7 +267,7 @@ export default function MedicalRecordsPage() {
   const handleDownloadRecord = async (id) => {
     const record = medicalRecords.find(r => r.id === id);
     if (!record) return;
-    
+
     // Create a hidden div to render the record
     const printElement = document.createElement('div');
     printElement.style.position = 'absolute';
@@ -310,9 +310,9 @@ export default function MedicalRecordsPage() {
         ` : ''}
       </div>
     `;
-    
+
     document.body.appendChild(printElement);
-    
+
     try {
       // Generate PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -325,17 +325,17 @@ export default function MedicalRecordsPage() {
       const imgHeight = canvas.height * imgWidth / canvas.width;
       let heightLeft = imgHeight;
       let position = 0;
-      
+
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
-      
+
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-      
+
       // Save the PDF
       pdf.save(`Medical_Record_${record.id}.pdf`);
       toast.success('Record downloaded successfully');
@@ -354,8 +354,8 @@ export default function MedicalRecordsPage() {
       window.open(`http://localhost:5000${doc.url}`, '_blank');
     } else {
       // This is a demo file, create a sample text file
-      const blob = new Blob([`This is a sample ${doc.type} file for ${doc.name}`], { 
-        type: 'text/plain;charset=utf-8' 
+      const blob = new Blob([`This is a sample ${doc.type} file for ${doc.name}`], {
+        type: 'text/plain;charset=utf-8'
       });
       saveAs(blob, doc.name);
     }
@@ -550,7 +550,7 @@ export default function MedicalRecordsPage() {
         updateMedicalRecord();
       } else {
         // For demo records
-        const updatedRecords = medicalRecords.map(record => 
+        const updatedRecords = medicalRecords.map(record =>
           record.id === recordToEdit.id ? {
             ...newRecord,
             id: recordToEdit.id,
@@ -619,13 +619,13 @@ export default function MedicalRecordsPage() {
   // Add this function to update records
   const updateMedicalRecord = async () => {
     if (!user?.id || !recordToEdit) return;
-    
+
     setIsLoading(true);
-    
+
     try {
       // Create a FormData object to handle files
       const formData = new FormData();
-      
+
       // Add text fields
       formData.append('title', newRecord.title);
       formData.append('type', newRecord.type);
@@ -634,24 +634,24 @@ export default function MedicalRecordsPage() {
       formData.append('date', newRecord.date);
       formData.append('diagnosis', newRecord.diagnosis);
       formData.append('clinicalNotes', newRecord.clinicalNotes);
-      
+
       // Add prescription as JSON string
       formData.append('prescription', JSON.stringify(newRecord.prescription.filter(p => p.trim() !== '')));
-      
+
       // Add any new files
       uploadedFiles.forEach(file => {
         formData.append('newDocuments', file);
       });
-      
+
       // Send to API
       const response = await axios.put(`${API_BASE_URL}/${recordToEdit.id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       const updatedRecord = response.data;
-      
+
       // Format the updated record to match our component structure
       const formattedRecord = {
         id: updatedRecord._id,
@@ -669,14 +669,14 @@ export default function MedicalRecordsPage() {
           url: doc.fileUrl
         }))
       };
-      
+
       // Update the record in state
-      setMedicalRecords(prevRecords => 
-        prevRecords.map(record => 
+      setMedicalRecords(prevRecords =>
+        prevRecords.map(record =>
           record.id === formattedRecord.id ? formattedRecord : record
         )
       );
-      
+
       // Close modal and show success message
       setIsModalOpen(false);
       toast.success('Medical record updated successfully');
@@ -714,7 +714,7 @@ export default function MedicalRecordsPage() {
               <CardTitle className="text-2xl">Medical Records</CardTitle>
               <CardDescription>View your complete medical history</CardDescription>
             </div>
-            <Button onClick={handleUploadRecord} className="bg-sky-600 hover:bg-sky-700" disabled={isUploading}>
+            <Button onClick={handleUploadRecord} className="bg-primary hover:bg-primary" disabled={isUploading}>
               {isUploading ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -740,13 +740,13 @@ export default function MedicalRecordsPage() {
             </div>
             <div className="space-y-6">
               {medicalRecords.map((record) => (
-                <div key={record.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={record.id} className="border border-border rounded-lg overflow-hidden">
                   <div
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-background"
                     onClick={() => toggleExpandRecord(record.id)}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
+                      <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary flex-shrink-0">
                         <FileText className="h-5 w-5" />
                       </div>
                       <div>
@@ -763,7 +763,7 @@ export default function MedicalRecordsPage() {
                             ? "bg-amber-100 text-amber-800"
                             : record.type === "examination"
                               ? "bg-green-100 text-green-800"
-                              : "bg-blue-100 text-blue-800"
+                              : "bg-secondary text-blue-800"
                         }`}
                       >
                         {record.type.charAt(0).toUpperCase() + record.type.slice(1)}
@@ -775,7 +775,7 @@ export default function MedicalRecordsPage() {
                   </div>
 
                   {expandedRecord === record.id && (
-                    <div className="border-t border-gray-200 p-4 bg-gray-50">
+                    <div className="border-t border-border p-4 bg-background">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <h4 className="text-sm font-medium text-gray-600 mb-2">Diagnosis</h4>
@@ -806,14 +806,14 @@ export default function MedicalRecordsPage() {
                                 {record.documents.map((doc, index) => (
                                   <div
                                     key={index}
-                                    className="flex items-center gap-2 p-2 bg-white rounded border border-gray-200"
+                                    className="flex items-center gap-2 p-2 bg-card rounded border border-border"
                                   >
                                     <FileUp className="h-4 w-4 text-gray-500" />
                                     <span className="text-sm">{doc.name}</span>
                                     <Badge className="ml-auto text-xs bg-gray-100 text-gray-800">{doc.type}</Badge>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm" 
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
                                       className="h-8 w-8 p-0"
                                       onClick={() => handleDocumentDownload(doc)}
                                     >
@@ -846,7 +846,7 @@ export default function MedicalRecordsPage() {
                           Edit
                         </Button>
                         <Button
-                          className="bg-sky-600 hover:bg-sky-700"
+                          className="bg-primary hover:bg-primary"
                           size="sm"
                           onClick={() => handleViewFullRecord(record.id)}
                         >
@@ -869,8 +869,8 @@ export default function MedicalRecordsPage() {
           <DialogHeader>
             <DialogTitle>{recordToEdit ? 'Edit Medical Record' : 'Upload New Medical Record'}</DialogTitle>
             <DialogDescription>
-              {isPreviewMode 
-                ? "Preview your medical record before saving" 
+              {isPreviewMode
+                ? "Preview your medical record before saving"
                 : "Enter the details of your medical record"}
             </DialogDescription>
           </DialogHeader>
@@ -890,8 +890,8 @@ export default function MedicalRecordsPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="type">Record Type</Label>
-                  <Select 
-                    value={newRecord.type} 
+                  <Select
+                    value={newRecord.type}
                     onValueChange={(value) => setNewRecord({...newRecord, type: value})}
                   >
                     <SelectTrigger>
@@ -964,9 +964,9 @@ export default function MedicalRecordsPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label>Prescription</Label>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={addPrescriptionField}
                     type="button"
                   >
@@ -974,7 +974,7 @@ export default function MedicalRecordsPage() {
                     Add Item
                   </Button>
                 </div>
-                
+
                 <div className="space-y-2">
                   {newRecord.prescription.map((item, index) => (
                     <div key={index} className="flex gap-2">
@@ -984,9 +984,9 @@ export default function MedicalRecordsPage() {
                         placeholder="e.g. Cetirizine 10mg - Once daily"
                       />
                       {newRecord.prescription.length > 1 && (
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           onClick={() => removePrescriptionField(index)}
                           className="hover:bg-red-100 hover:text-red-500"
                         >
@@ -1000,7 +1000,7 @@ export default function MedicalRecordsPage() {
 
               <div className="space-y-2">
                 <Label>Documents</Label>
-                <div className="border border-dashed border-gray-300 rounded-md p-6 text-center">
+                <div className="border border-dashed border-input rounded-md p-6 text-center">
                   <input
                     type="file"
                     id="fileUpload"
@@ -1013,9 +1013,9 @@ export default function MedicalRecordsPage() {
                     <p className="text-sm text-gray-500 mb-2">
                       Drag and drop files here, or click to browse
                     </p>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       className="cursor-pointer"
                       type="button"
                       onClick={() => document.getElementById('fileUpload').click()}
@@ -1056,7 +1056,7 @@ export default function MedicalRecordsPage() {
             </div>
           ) : (
             // Preview mode
-            <div className="border border-gray-200 rounded-lg p-4 mt-2">
+            <div className="border border-border rounded-lg p-4 mt-2">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-semibold">{newRecord.title}</h3>
@@ -1070,7 +1070,7 @@ export default function MedicalRecordsPage() {
                       ? "bg-amber-100 text-amber-800"
                       : newRecord.type === "examination"
                         ? "bg-green-100 text-green-800"
-                        : "bg-blue-100 text-blue-800"
+                        : "bg-secondary text-blue-800"
                   }`}
                 >
                   {newRecord.type.charAt(0).toUpperCase() + newRecord.type.slice(1)}
@@ -1109,7 +1109,7 @@ export default function MedicalRecordsPage() {
                         {uploadedFiles.map((file, index) => (
                           <div
                             key={index}
-                            className="flex items-center gap-2 p-2 bg-white rounded border border-gray-200"
+                            className="flex items-center gap-2 p-2 bg-card rounded border border-border"
                           >
                             <File className="h-4 w-4 text-gray-500" />
                             <span className="text-sm">{file.name}</span>
@@ -1170,7 +1170,7 @@ export default function MedicalRecordsPage() {
                 <TabsTrigger value="documents">Documents</TabsTrigger>
                 <TabsTrigger value="history">History</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="details" className="mt-4">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -1181,13 +1181,13 @@ export default function MedicalRecordsPage() {
                           ? "bg-amber-100 text-amber-800"
                           : fullRecord.type === "examination"
                             ? "bg-green-100 text-green-800"
-                            : "bg-blue-100 text-blue-800"
+                            : "bg-secondary text-blue-800"
                       }`}
                     >
                       {fullRecord.type.charAt(0).toUpperCase() + fullRecord.type.slice(1)}
                     </Badge>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">Doctor</p>
@@ -1206,18 +1206,18 @@ export default function MedicalRecordsPage() {
                       <p>{fullRecord.diagnosis}</p>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2 pt-2">
                     <h3 className="text-lg font-medium">Clinical Notes</h3>
-                    <div className="p-4 bg-gray-50 rounded-md border border-gray-200">
+                    <div className="p-4 bg-background rounded-md border border-border">
                       <p className="whitespace-pre-line">{fullRecord.clinicalNotes}</p>
                     </div>
                   </div>
-                  
+
                   {fullRecord.prescription && fullRecord.prescription.length > 0 && (
                     <div className="space-y-2 pt-2">
                       <h3 className="text-lg font-medium">Prescription</h3>
-                      <div className="p-4 bg-gray-50 rounded-md border border-gray-200">
+                      <div className="p-4 bg-background rounded-md border border-border">
                         <ul className="list-disc pl-5 space-y-2">
                           {fullRecord.prescription.map((med, index) => (
                             <li key={index}>{med}</li>
@@ -1228,7 +1228,7 @@ export default function MedicalRecordsPage() {
                   )}
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="documents" className="mt-4">
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium">Related Documents</h3>
@@ -1237,9 +1237,9 @@ export default function MedicalRecordsPage() {
                       {fullRecord.documents.map((doc, index) => (
                         <div
                           key={index}
-                          className="flex items-center gap-3 p-3 bg-gray-50 rounded-md border border-gray-200"
+                          className="flex items-center gap-3 p-3 bg-background rounded-md border border-border"
                         >
-                          <div className="h-10 w-10 rounded-md bg-blue-100 flex items-center justify-center text-blue-600">
+                          <div className="h-10 w-10 rounded-md bg-secondary flex items-center justify-center text-primary">
                             <FileText className="h-5 w-5" />
                           </div>
                           <div className="flex-1">
@@ -1259,13 +1259,13 @@ export default function MedicalRecordsPage() {
                   )}
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="history" className="mt-4">
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium">Record History</h3>
-                  <div className="border-l-2 border-gray-200 pl-4 ml-3 space-y-4">
+                  <div className="border-l-2 border-border pl-4 ml-3 space-y-4">
                     <div className="relative">
-                      <div className="absolute -left-6 top-1 h-4 w-4 rounded-full bg-sky-600"></div>
+                      <div className="absolute -left-6 top-1 h-4 w-4 rounded-full bg-primary"></div>
                       <p className="text-sm font-medium">Record Created</p>
                       <p className="text-sm text-gray-500">{formatDate(fullRecord.date)}</p>
                     </div>
@@ -1279,17 +1279,17 @@ export default function MedicalRecordsPage() {
               </TabsContent>
             </Tabs>
           )}
-          
+
           <DialogFooter className="flex flex-row gap-2 justify-end mt-6">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => handleShareRecord(fullRecord.id)}
               className="flex-1 sm:flex-none"
             >
               <Share2 className="h-4 w-4 mr-2" /> Share
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => handleDownloadRecord(fullRecord.id)}
               className="flex-1 sm:flex-none"
             >
@@ -1309,16 +1309,16 @@ export default function MedicalRecordsPage() {
               Choose how you want to share this medical record
             </DialogDescription>
           </DialogHeader>
-          
+
           {recordToShare && (
             <div className="grid gap-4 py-4">
-              <div className="p-4 bg-gray-50 rounded-md mb-4">
+              <div className="p-4 bg-background rounded-md mb-4">
                 <h3 className="font-medium">{recordToShare.title}</h3>
                 <p className="text-sm text-gray-500">{formatDate(recordToShare.date)}</p>
               </div>
-              
+
               <div className="grid grid-cols-1 gap-3">
-                <Button 
+                <Button
                   onClick={() => shareViaWhatsApp(recordToShare)}
                   className="w-full justify-start bg-green-500 hover:bg-green-600"
                 >
@@ -1327,8 +1327,8 @@ export default function MedicalRecordsPage() {
                   </svg>
                   Share via WhatsApp
                 </Button>
-                
-                <Button 
+
+                <Button
                   onClick={() => window.open(`https://www.instagram.com/direct/t/?text=${encodeURIComponent(`Medical Record: ${recordToShare.title}`)}`, '_blank')}
                   className="w-full justify-start bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
                 >
@@ -1337,8 +1337,8 @@ export default function MedicalRecordsPage() {
                   </svg>
                   Share via Instagram
                 </Button>
-                
-                <Button 
+
+                <Button
                   onClick={() => shareViaEmail(recordToShare)}
                   className="w-full justify-start bg-gray-800 hover:bg-gray-900"
                 >
@@ -1348,8 +1348,8 @@ export default function MedicalRecordsPage() {
                   </svg>
                   Share via Email
                 </Button>
-                
-                <Button 
+
+                <Button
                   variant="outline"
                   onClick={() => copyShareLink(recordToShare)}
                   className="w-full justify-start"

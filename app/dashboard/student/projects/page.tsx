@@ -149,7 +149,7 @@ export default function ProjectsPage() {
               <CardTitle className="text-2xl">Research Projects</CardTitle>
               <CardDescription>Your ongoing and completed research projects</CardDescription>
             </div>
-            <Button className="bg-sky-600 hover:bg-sky-700" onClick={handleCreateProject} disabled={creatingProject}>
+            <Button className="bg-primary hover:bg-primary" onClick={handleCreateProject} disabled={creatingProject}>
               {creatingProject ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -169,7 +169,7 @@ export default function ProjectsPage() {
                 <div
                   key={project.id}
                   className={`
-                    bg-gray-50 p-4 rounded-lg border border-gray-200
+                    bg-background p-4 rounded-lg border border-border
                     ${project.status === "completed" ? "border-l-4 border-l-green-500" : "border-l-4 border-l-sky-500"}
                   `}
                 >
@@ -180,7 +180,7 @@ export default function ProjectsPage() {
                           <h3 className="text-lg font-semibold">{project.title}</h3>
                           <Badge
                             className={`
-                              ${project.status === "active" ? "bg-sky-100 text-sky-600" : "bg-green-100 text-green-600"}
+                              ${project.status === "active" ? "bg-secondary text-primary" : "bg-green-100 text-green-600"}
                             `}
                           >
                             {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
@@ -206,7 +206,7 @@ export default function ProjectsPage() {
                         <div className="space-y-2">
                           {project.collaborators.slice(0, 3).map((collaborator, index) => (
                             <div key={index} className="flex items-center gap-2">
-                              <div className="h-8 w-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
+                              <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center text-primary flex-shrink-0">
                                 {collaborator.name
                                   .split(" ")
                                   .map((n) => n[0])
@@ -219,7 +219,7 @@ export default function ProjectsPage() {
                             </div>
                           ))}
                           {project.collaborators.length > 3 && (
-                            <div className="text-sm text-sky-600 mt-1">
+                            <div className="text-sm text-primary mt-1">
                               +{project.collaborators.length - 3} more collaborators
                             </div>
                           )}
@@ -232,7 +232,7 @@ export default function ProjectsPage() {
                           {project.datasets.map((dataset, index) => (
                             <div
                               key={index}
-                              className="flex items-center gap-2 bg-white p-2 rounded border border-gray-200"
+                              className="flex items-center gap-2 bg-card p-2 rounded border border-border"
                             >
                               <Database className="h-4 w-4 text-gray-500" />
                               <span className="text-sm">{dataset.name}</span>
@@ -272,7 +272,7 @@ export default function ProjectsPage() {
                       <Progress
                         value={project.progress}
                         className="h-2 bg-gray-200"
-                        indicatorClassName={project.status === "completed" ? "bg-green-500" : "bg-sky-500"}
+                        indicatorClassName={project.status === "completed" ? "bg-green-500" : "bg-primary"}
                       />
                     </div>
 
@@ -281,7 +281,7 @@ export default function ProjectsPage() {
                         <h4 className="text-sm font-medium text-gray-700 mb-2">Publications</h4>
                         <div className="space-y-2">
                           {project.publications.map((publication, index) => (
-                            <div key={index} className="bg-white p-2 rounded border border-gray-200">
+                            <div key={index} className="bg-card p-2 rounded border border-border">
                               <p className="text-sm font-medium">{publication.title}</p>
                               <p className="text-xs text-gray-600">
                                 {publication.journal} • {publication.date}

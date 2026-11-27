@@ -12,7 +12,7 @@ export function HospitalMap() {
         <h3 className="text-lg font-medium">Interactive Hospital Map</h3>
         <p className="text-sm text-muted-foreground">Geographic distribution of hospitals across India</p>
         <div className="mt-4 grid grid-cols-4 gap-2">
-          <Card className="bg-blue-100">
+          <Card className="bg-secondary">
             <CardContent className="p-2 text-center">
               <p className="text-xs font-medium">North</p>
               <p className="text-lg font-bold">32</p>

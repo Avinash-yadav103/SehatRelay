@@ -131,7 +131,7 @@ export default function DatasetsPage() {
       href: "/dashboard/student/projects",
       icon: <FileText className="h-4 w-4" />,
     },
-    
+
   ]
 
   const sidebarFooterItems = [
@@ -168,13 +168,13 @@ export default function DatasetsPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                 <input
                   placeholder="Search datasets..."
-                  className="pl-9 border border-gray-300 rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
+                  className="pl-9 border border-input rounded-md h-10 w-full text-gray-900 placeholder:text-gray-500"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-[180px] border-gray-300">
+                <SelectTrigger className="w-[180px] border-input">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="Filter by category" />
                 </SelectTrigger>
@@ -188,7 +188,7 @@ export default function DatasetsPage() {
                 </SelectContent>
               </Select>
               <Select value={accessFilter} onValueChange={setAccessFilter}>
-                <SelectTrigger className="w-[180px] border-gray-300">
+                <SelectTrigger className="w-[180px] border-input">
                   <SelectValue placeholder="Access level" />
                 </SelectTrigger>
                 <SelectContent>
@@ -203,7 +203,7 @@ export default function DatasetsPage() {
             <div className="space-y-4">
               {filteredDatasets.length > 0 ? (
                 filteredDatasets.map((dataset) => (
-                  <div key={dataset.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div key={dataset.id} className="bg-background p-4 rounded-lg border border-border">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -243,7 +243,7 @@ export default function DatasetsPage() {
                         </Button>
                         <Button
                           size="sm"
-                          className="h-9 bg-sky-600 hover:bg-sky-700 text-white"
+                          className="h-9 bg-primary hover:bg-primary text-white"
                           onClick={() => handleDownloadDataset(dataset.id)}
                         >
                           <Download className="h-4 w-4 mr-1" />
@@ -254,7 +254,7 @@ export default function DatasetsPage() {
                   </div>
                 ))
               ) : (
-                <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="text-center py-8 bg-background rounded-lg border border-border">
                   <Database className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                   <h3 className="text-lg font-medium text-gray-900">No Datasets Found</h3>
                   <p className="text-gray-600 mt-1">

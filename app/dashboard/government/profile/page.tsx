@@ -144,7 +144,7 @@ export default function GovernmentProfile() {
                 />
                 <Button
                   size="sm"
-                  className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-sky-600 hover:bg-sky-700"
+                  className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-primary hover:bg-primary"
                 >
                   <User className="h-4 w-4" />
                   <span className="sr-only">Change photo</span>
@@ -269,7 +269,7 @@ export default function GovernmentProfile() {
                   <Button
                     onClick={() => handleSave("personal")}
                     disabled={isLoading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                    className="bg-primary hover:bg-primary text-white"
                   >
                     {isLoading ? (
                       <>
@@ -390,7 +390,7 @@ export default function GovernmentProfile() {
                   <Button
                     onClick={() => handleSave("department")}
                     disabled={isLoading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                    className="bg-primary hover:bg-primary text-white"
                   >
                     {isLoading ? (
                       <>
@@ -450,7 +450,7 @@ export default function GovernmentProfile() {
                   </div>
 
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                       <div>
                         <h3 className="text-sm font-medium">Two-Factor Authentication</h3>
                         <p className="text-xs text-gray-500">Add an extra layer of security to your account</p>
@@ -463,7 +463,7 @@ export default function GovernmentProfile() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                       <div>
                         <h3 className="text-sm font-medium">Login Notifications</h3>
                         <p className="text-xs text-gray-500">Get notified when someone logs into your account</p>
@@ -476,7 +476,7 @@ export default function GovernmentProfile() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                       <div>
                         <h3 className="text-sm font-medium">Security Questions</h3>
                         <p className="text-xs text-gray-500">Set up questions to verify your identity</p>
@@ -489,7 +489,7 @@ export default function GovernmentProfile() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                       <div>
                         <h3 className="text-sm font-medium">Access Logs</h3>
                         <p className="text-xs text-gray-500">View a history of your account access</p>
@@ -504,7 +504,7 @@ export default function GovernmentProfile() {
                   <Button
                     onClick={() => handleSave("security")}
                     disabled={isLoading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                    className="bg-primary hover:bg-primary text-white"
                   >
                     {isLoading ? (
                       <>
