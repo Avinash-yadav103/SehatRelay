@@ -20,18 +20,20 @@ The redesign updates the root landing page, shared dashboard header/sidebar, mob
 
 ## Run locally
 
-Use Node.js 22+:
+For judges, run `docker compose up --build` and open http://localhost:3000. No secret keys or .env file are required. Docker uses a named volume for synthetic records and a locally generated signing key. Docker Engine was unavailable here, so actual container startup remains a manual check.
+
+For development, use Node.js 22:
 
 ```powershell
 npm install --legacy-peer-deps
 npm run dev
 ```
 
-Open **http://localhost:3000/**. No application API key is needed for browser microphone input, the home narrative or the synthetic visit/referral flow. The browser's speech service needs browser support, permission, and typically network access. Unsupported browsers show a clear fallback rather than a pretend recording state.
+Open **http://localhost:3000/**. No application API key is needed for browser microphone input, the home narrative or manual synthetic visit/referral flow. General AI extraction requires server-side provider credentials and a model. The browser's speech service needs browser support, permission, and typically network access. Unsupported browsers show a clear fallback rather than a pretend recording state.
 
 Optional environment variables:
 
-- `RELAY_SESSION_SECRET`: long random server-only value; keep it stable to preserve signed visit-demo workspace cookies across server restarts. Without it a restart invalidates old sessions; old records stay on disk but a new session creates a new workspace.
+- `RELAY_SESSION_SECRET`: long random server-only value; keep it stable to preserve signed visit-demo workspace cookies across server restarts. Local file mode automatically creates a stable key in ignored `.relay-data/session.key`. On Vercel this variable is required; hosted instances never generate temporary signing keys.
 - `SEHATRELAY_BUILD_DIR`: optional generated Next output directory for checking a production build while another dev server is using `.next`.
 
 ```powershell
@@ -94,7 +96,7 @@ Follow [Wispr's first-dictation guide](https://docs.wisprflow.ai/articles/640925
 2. To show the supported extraction, load the exact fictional Tara-01 example:
    > Demo patient Tara-01. Aaj pregnancy follow-up visit hai. Patient ne thakan batayi. Pregnancy 24 weeks hai. Clinician review ke liye referral chahiye.
 3. Click **Review as a visit**. The home draft transfers to `/visits`. Confirm before replacing an existing device visit draft. Choose **ASHA worker** in the explicitly labeled demo role selector if needed.
-4. Generate the structured note. Only the exact supplied fixture has predefined source-linked fields; arbitrary narratives get a clearly labeled blank manual template. Generation asks before replacing existing note content.
+4. Generate the structured note with a configured server-side AI provider. New English/Hindi/Hinglish examples are available in the practice selector. Without credentials, the original Tara-01 fixture has predefined fields and other narratives use a clearly labeled manual template. Generation asks before replacing existing note content.
 5. Inspect the missing-duration flag and source. Confirm unknown information as not provided; never invent a clinical fact. Enter the visit details, referral reason and `Demo PHC` as the fictional facility. Check every field individually.
 6. Save a server draft, continue to Referral & timeline, and submit through the explicit confirmation dialog.
 7. Open the clinician inbox / choose **Clinician**, read the narrative and note, dictate or type a clinician review note, review inserted text, then acknowledge using the button.
@@ -107,7 +109,7 @@ SunoSure flags omissions, unmatched source excerpts/user entries, and limited di
 
 The new visit flow still validates requests and permissions on the server using Zod and signed HttpOnly demo cookies. Demo-role switching is public by design, and records are isolated by synthetic workspace. It is not production identity verification and is separate from legacy patient records. States: draft → submitted → acknowledged → follow-up → closed (acknowledged can close directly). Repeated submission IDs do not duplicate referrals. Clinician review needs a review note; invalid transitions are rejected.
 
-Visit records persist in ignored `.relay-data/records.json`, with serialized writes and atomic replacement. **Single Node process + persistent local disk only. Not ready for Vercel/serverless or multi-instance hosting.** No deployment or database migration was performed. Production needs a durable database adapter, transactions and real server-verified identity/tenant authorization.
+Storage is configurable: local/Docker defaults to ignored `.relay-data/records.json` (one Node process with a persistent volume); hosted mode requires `RELAY_STORAGE=postgres`, server-only `DATABASE_URL` and stable `RELAY_SESSION_SECRET`. The Postgres adapter stores one JSONB row per referral with workspace/status indexes, revisions and transactional status/timeline updates. Stale writes return 409; duplicate submissions are idempotent. Hosted builds apply the idempotent schema and run real database concurrency/durability tests before release. Vercel refuses file fallback. See [hosted setup and verification](docs/hosted-demo.md) and VALIDATION.md for the actual release result. Production health-data use still requires real identity, authorization and privacy work.
 
 Home narratives use localStorage (`carefolio-home-narrative`); visit drafts use `sehatrelay-synthetic-draft-v1`; explicit transfer uses sessionStorage. Device recovery alone works offline; navigation, services and submissions need connectivity. Clear home and visit drafts separately using their visible controls. Server records are retained. For a complete synthetic reset, stop the app and remove `.relay-data/records.json` manually. Browser storage is not a health-data protection solution.
 
@@ -131,10 +133,10 @@ Next.js 15 / React 19 / TypeScript / Tailwind + Radix; existing UI components re
 - `components/voice`: global dock, contextual microphone control, dynamic loader.
 - `lib/voice/session.ts`: injectable SpeechRecognition lifecycle, insertion and allowlisted navigation.
 - `components/visits/visit-workspace.tsx`: shared main-application visit/referral workflow.
-- `lib/relay`, `app/api/relay`: existing sample extraction, QA, validation and demo persistence.
+- `lib/relay`, `app/api/relay`: server-side structured extraction, exact-source validation, QA, manual fallback and demo persistence.
 
 ```powershell
-node --test tests/voice.test.mjs tests/model.test.mjs
+node --test tests/extraction.test.mjs tests/voice.test.mjs tests/model.test.mjs
 npx tsc --project tsconfig.voice.json --pretty false
 npm run build
 npm start
@@ -147,13 +149,25 @@ For an isolated server on port 3001, set `RELAY_TEST_URL=http://localhost:3001` 
 
 Synthetic data only. Review browser speech/Wispr/any future AI providers' permissions, retention and health-data suitability before real use. No HIPAA certification, clinical validation, privacy certification or production-readiness claim. This is a prototype, not an emergency response service.
 
-No official round-specific problem statement was supplied. Confirm Flow-building evidence requirements, whether installed-app text insertion meets the current round, submission/video rules, deadlines and permitted services with organizers. Adding a separate browser microphone does not prove a direct Wispr API integration or hackathon eligibility.
+The user supplied submission rules: public GitHub, docker-compose.yml with no-key startup, roughly 300+ original hackathon lines, a public/unlisted YouTube video up to three minutes, and a text-readable PDF pitch. A live link is optional and submission is once by 30 November, 11:59 pm (timezone/year not stated). The video and pitch still require preparation. Confirm Flow-building evidence requirements and whether installed-app text insertion meets this round with organizers. Adding a separate browser microphone does not prove a direct Wispr API integration or hackathon eligibility.
 
 To repeat the main application's full smoke suite against a running server:
 
 ```powershell
 $env:RELAY_TEST_URL = 'http://localhost:3000'
-node --test tests/application.test.mjs tests/relay.test.mjs tests/voice.test.mjs tests/model.test.mjs
+node --test tests/application.test.mjs tests/relay.test.mjs tests/extraction.test.mjs tests/voice.test.mjs tests/model.test.mjs
 ```
 
-Latest result: production build/startup, focused types and all 8 tests passed, including 38 HTTP page URLs and referral acknowledgement. The whole-repository type check still fails on legacy errors. Browser/hardware checks remain manual; see VALIDATION.md.
+Latest local result: production build/startup on Next.js 15.5.29, focused types and all 11 tests passed, including storage concurrency/durability, 38 HTTP page URLs and referral acknowledgement. The whole-repository type check still fails on legacy errors. Browser/hardware checks remain manual; see VALIDATION.md.
+
+## New narrative extraction milestone
+
+Configured AI can now extract new Hindi, English and Hinglish synthetic narratives, requesting strict JSON Schema and validating every field/source excerpt on the server. All fields remain unverified until human review. Conflict flags retain exact alternatives and leave the field unknown. Failures show safe error codes and manual entry; manual mode can be selected without sending a request. The original narrative and both voice-entry paths are preserved.
+
+See [structured extraction setup, error contract and actual test scope](docs/structured-extraction.md). New required server configuration: `SEHAT_AI_PROVIDER`, `SEHAT_AI_MODEL`, and either `AI_GATEWAY_API_KEY` (gateway) or `SEHAT_AI_API_KEY` + `SEHAT_AI_ENDPOINT` (compatible provider). No real key/model was available here; the three-language tests use a mock HTTP service, not a live model.
+
+The persistence proposal is now implemented in `lib/relay/store.ts`, with runnable schema in `db/migrations/001-synthetic-referrals.sql`. Local JSON remains available for key-free startup. [Hosted configuration, release gate and limitations](docs/hosted-demo.md) describe the migration and actual validation scope.
+
+## Hosted demo and submission
+
+See [hosted demo setup](docs/hosted-demo.md) for Docker, Postgres, build gates and required submission artifacts. The configured Vercel project is `sehatrelay`. No AI provider credential was added; new narrative extraction uses manual fallback until a provider/model/key is configured. Installed Wispr Flow and the browser microphone paths are preserved; neither was tested with actual microphone hardware in this environment.

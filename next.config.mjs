@@ -15,6 +15,8 @@ try {
 const nextConfig = {
   // Isolate validation builds from an already running development server.
   distDir: process.env.SEHATRELAY_BUILD_DIR || '.next',
+  output: process.env.CAREFOLIO_STANDALONE === '1' ? 'standalone' : undefined,
+  outputFileTracingExcludes: { '/**': ['.relay-data/**/*', '.env*'], '/api/relay': ['.relay-data/**/*', '.env*'] },
   eslint: {
     ignoreDuringBuilds: true,
   },

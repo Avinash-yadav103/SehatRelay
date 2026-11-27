@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build.mjs",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:migrate": "node scripts/migrate-referrals.mjs"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
@@ -41,6 +42,7 @@
     "@react-three/drei": "latest",
     "@react-three/fiber": "latest",
     "@tanstack/react-table": "^8.21.2",
+    "@vercel/functions": "3.12.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
@@ -61,8 +63,9 @@
     "input-otp": "1.4.1",
     "jspdf": "^3.0.1",
     "lucide-react": "^0.454.0",
-    "next": "15.2.4",
+    "next": "15.5.29",
     "next-themes": "^0.4.4",
+    "pg": "8.23.1",
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",
@@ -81,10 +84,14 @@
   },
   "devDependencies": {
     "@types/node": "^22",
+    "@types/pg": "8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }

@@ -111,3 +111,34 @@ Final main-application validation results:
 - No deployment, external transcription provisioning or production auth/database migration. Existing legacy backend/sample limitations remain documented.
 
 The owned port-3001 validation server was stopped after checks. The pre-existing development server on port 3000 was left running. Restart it if its older build cache does not refresh, then begin at /.
+
+## New narrative extraction + Vercel setup (2026-11-28)
+
+Implemented configurable server-side strict-json-schema Chat Completions extraction with Gateway / compatible endpoint modes. Server-side Zod and verbatim source/value checks reject invalid/unsupported facts; conflicts retain exact excerpts and leave fields unverified/unknown. Dates preserve original wording/script. Missing details remain blank. Every field still needs worker verification before referral submission. UI supports an explicit no-request manual template, safe fallback errors, failure retention of an existing note, and new English/Hindi/Hinglish synthetic examples. Wispr text entry and browser microphone components were not changed.
+
+Tests actually performed:
+- `npx tsc --project tsconfig.voice.json --pretty false`: PASS, including the new server extraction modules and main visit UI.
+- Production build with SEHATRELAY_BUILD_DIR=.next-relay-check: PASS, all 43 static pages generated. Existing build configuration still skips type/lint checks.
+- Production server on port 3001: Ready; combined command `RELAY_TEST_URL=http://localhost:3001 node --test tests/application.test.mjs tests/relay.test.mjs tests/extraction.test.mjs tests/voice.test.mjs tests/model.test.mjs`: PASS, 10 tests, including 38 page URLs.
+- New extraction tests make real local HTTP requests to a MOCK provider. Three distinct fictional narratives: English Mina-02, Hindi रीवा-03 and Hinglish Nila-04. Checks include unchanged source text, exact excerpts, Hindi date preservation, absent details, conflicting pregnancy weeks, unverified fields, strict protocol request, invalid schema/JSON, invented/translated values, invalid conflict excerpts, truncation, refusal, oversized output, timeout, HTTP service failure, thrown network error, missing/invalid configuration, and manual mode sending no request.
+- Updated referral integration checks source mismatches/value mismatch rejection, explicit manual mode, whitespace input validation, review-flag persistence, human verification requirement and acknowledgement. Existing role/isolation/status/duplicate checks still pass.
+- Voice tests use fake browser recognition events; no real microphone or Wispr dictation was tested.
+- Full repository TypeScript was rerun separately after build; legacy failures remain. Details below if needed; this is not represented as a passing repository-wide type check.
+
+No AI_GATEWAY_API_KEY, SEHAT_AI_API_KEY, SEHAT_AI_MODEL or SEHAT_AI_PROVIDER was set in the execution environment; no live AI extraction or provider language-quality test was performed. No actual browser interaction, source-review/checkbox focus, rendered mobile visual inspection or deployed Custom Metrics test was performed. The new route emits only bounded outcome/code/latency metrics, not narrative/user/workspace identifiers.
+
+Persistence inspection confirmed process-local queue + whole-array local JSON rewrites, including reads. Proposal prepared for one managed Postgres JSONB table, revisions, workspace/status indexes, row-scoped transactions and concurrency/idempotency acceptance tests. SQL has NOT been applied; no database, migration/import, multi-instance durability or hosted persistence was tested. No deployment occurred.
+
+Vercel setup: fetched the requested official get-started.md. Existing CLI 54.20.0 authenticated as avinash-yadav103; existing plugin documentation and authenticated list_teams calls succeeded. No duplicate plugin/skills or project were installed/linked. The separate existing Codex CLI MCP entry at https://mcp.vercel.com remains unauthenticated: OAuth timed out waiting for user browser consent. See docs/vercel-agent-setup.md for the exact remaining action.
+
+Final extraction milestone: production build/start and all 10 tests passed (38 page URLs). Focused types passed. Repository-wide types still fail with 584 legacy diagnostic lines; no diagnostics matched the new extraction/server/model/visit modules. The owned port-3001 server was stopped; the existing port-3000 server was left running. Git diff whitespace verification did not complete in this environment and was interrupted; no passing whitespace result is claimed for this iteration.
+
+## Deployment preparation — 28 November 2026
+
+User supplied hackathon submission rules and authorized production deployment plus the scoped Next.js 15.5.29 upgrade. GitHub metadata verifies the repository is public. CLI upgraded to 68.0.0. Project created/linked in the approved workspace; Node 22 and Next.js configured. User connected Neon through dashboard after CLI terms acceptance kept failing. Development rescoping/secret pulls were blocked by platform policy; no credentials were copied into source.
+
+Added Dockerfile, docker-compose.yml and ignore rules for key-free local startup. Docker Engine is not installed here: container startup is NOT claimed tested. Next.js 15.5.29 production compilation/start succeeded locally. All 11 local tests passed: extraction (mock provider with 3 fictional languages/failure cases), voice lifecycle, model QA, local store concurrency/durability and HTTP application/referral tests (38 page URLs). Focused TypeScript passed. Repository-wide legacy type failures remain from the prior milestone; the existing build still skips global lint/types.
+
+Added configurable Postgres/file storage, lazy durable local signing key, validated records/revisions, parameterized queries, row locks, atomic status/timeline updates, idempotent submission and stale-write conflicts. HTTP role/source/verification protections remain. Local file-mode test verifies concurrent saves, cross-workspace denial, duplicate submission, acknowledgements, follow-up/close and reads from another Node process. Local HTTP referral flow passed.
+
+Deployment dry inspection: 344 source files; zero environment files/local draft data/node_modules/generated builds in upload. Credential-pattern scan results are recorded in the execution transcript; this is not a full security audit. Hosted build must migrate and pass real Postgres tests before release. Live deployment outcomes will be appended below. Actual Wispr dictation, hardware microphone, rendered mobile/desktop and keyboard interaction still require manual testing.
