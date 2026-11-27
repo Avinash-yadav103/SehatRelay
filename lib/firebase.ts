@@ -19,13 +19,17 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 // Initialize services
-const auth = getAuth(app);
+// The standalone synthetic relay needs no Firebase account. Fail explicitly only
+// when an unconfigured legacy feature actually tries to use authentication.
+const auth = firebaseConfig.apiKey ? getAuth(app) : new Proxy({} as ReturnType<typeof getAuth>, {
+  get() { throw new Error('CareFolio Firebase is not configured. Set NEXT_PUBLIC_FIREBASE_* variables to use this feature.'); }
+});
 const db = getFirestore(app);
 const storage = getStorage(app);
 
 // Initialize Analytics if in browser environment
 let analytics = null;
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && firebaseConfig.apiKey && firebaseConfig.measurementId) {
   analytics = getAnalytics(app);
 }
 

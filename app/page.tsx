@@ -30,6 +30,7 @@ export default function LandingPage() {
   const [activeStep, setActiveStep] = useState(1)
 
   const navItems = [
+    { name: "SehatRelay demo", link: "/relay" },
     { name: "Home", link: "/" },
     { name: "Features", link: "/#features" },
     { name: "How It Works", link: "/#how-it-works" },
