@@ -151,3 +151,12 @@ Live deployment verification:
 - Vercel build: READY. One Postgres URL sslmode warning appeared in the runtime log; code now explicitly requests sslmode=verify-full on Vercel. Rebuild/redeploy required to verify warning removal.
 - The currently live commit predates this logging cleanup/documentation update. The Docker command remains untested because Docker Engine is absent. Public source was pushed at dbc1630; follow-up source must be pushed after a final verification pass.
 - Live tests used synthetic sample content and created one synthetic referral in the connected database.
+
+Final release — 28 November 2026:
+- Latest public source commit: f46f1bb on main (pushed to the public repository).
+- Live URL: https://sehatrelay-avinash-yadav103s-projects.vercel.app. Anonymous HTTP 200 confirmed; Vercel SSO protection is disabled.
+- Final production deployment READY and promoted. Database schema migration succeeded and the real Postgres concurrency/durability test passed as a required build gate.
+- Final production public URL tests: all 38 routes and full referral/auth/validation/status flow passed. Local full suite: 11/11 passed. Focused TypeScript passed. Standalone production compilation passed.
+- sslmode=verify-full change is deployed. Recent log querying by the temporary deployment id returned not_found; it did not expose errors. No warning-free log claim is made for this final build. The earlier warning did not block DB tests or traffic.
+- Docker Compose syntax was parsed and validated for key-free settings, but no Docker engine was installed for image startup testing. Build scripts for a hosted database and dummy credentials intentionally fail closed.
+- No AI API key, voice credentials, Wispr API or live model used. Actual Wispr/hardware microphone and browser/mobile visual tests remain manual. The public code includes the Docker one-command setup. The demo video and text-readable PDF pitch remain to be recorded/prepared.
