@@ -27,3 +27,4 @@ yarn-error.log*
 next-env.d.ts
 /.relay-data/
 typecheck-results.log
+/.next-relay-check/

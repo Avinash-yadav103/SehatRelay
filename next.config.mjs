@@ -13,6 +13,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Isolate validation builds from an already running development server.
+  distDir: process.env.SEHATRELAY_BUILD_DIR || '.next',
   eslint: {
     ignoreDuringBuilds: true,
   },

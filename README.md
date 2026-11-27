@@ -36,7 +36,7 @@ Transitions: draft → submitted → acknowledged → follow-up → closed; ackn
 
 1. Install and sign in to Wispr Flow from https://wisprflow.ai/ on your supported device.
 2. Open `/relay`, choose **ASHA worker**, and start a synthetic visit.
-3. Select **Dictate with Wispr Flow**. It focuses the standard Visit narrative textarea and displays instructions.
+3. Select **Use Wispr Flow**. It focuses the standard Visit narrative textarea and displays instructions.
 4. With the cursor in that field, invoke the shortcut or mobile keyboard configured in **your installed Flow app**. Speak the fictional narrative below.
 5. Stop dictation using Flow, inspect the inserted text, and edit it. Check Hindi script, punctuation and clinical meaning yourself.
 6. Add another sentence at the caret, edit a word, refresh, and confirm that the entire draft recovers. Confirm caret/focus stays in the textarea during insertion.
@@ -57,7 +57,7 @@ SunoSure flags missing fields, absent duration, unmatched excerpts/user-entered 
 1. Choose ASHA worker → Start a synthetic visit → Dictate with Wispr Flow.
 2. Dictate or use the explicitly labeled fictional example:
    > Demo patient Tara-01. Aaj pregnancy follow-up visit hai. Patient ne thakan batayi. Pregnancy 24 weeks hai. Clinician review ke liye referral chahiye.
-3. Review the narrative. For predefined extraction, use **Use fictional Tara-01 example** to ensure exact fixture text, then Generate structured note.
+3. Review the narrative. For predefined extraction, use **Load fictional example** to ensure exact fixture text, then Generate structured note.
 4. Inspect the source for the reported concern and pregnancy context. SunoSure flags missing duration. Confirm duration as unknown; do not invent it. Enter the visit date and preferred language only as demo user input. Enter receiving facility “Demo PHC”. Correct any field if needed and verify each field, including unknowns.
 5. Save server draft, then Submit reviewed referral. Show the submitted timeline event.
 6. Switch to Clinician → Referrals → open Tara-01. Read source and note. Enter “Synthetic source and note reviewed; acknowledgement recorded.” Mark acknowledged.
@@ -83,3 +83,56 @@ Use synthetic patient information only. Browser localStorage and the local JSON 
 No official round-specific judging rules were supplied. Confirm eligibility, deadlines, required Flow-building evidence, whether installed-app dictation meets the particular round's definition, demo/video requirements and permitted services with the organizers. Product use of Flow alone does not prove rule compliance.
 
 Validation summary: production build, focused relay TypeScript check, SunoSure model test and running-server referral integration test passed. Repository-wide TypeScript validation fails on legacy errors. Actual Wispr and browser interaction checks remain manual; see VALIDATION.md. Legacy Firebase auth initialization now reports missing configuration when used, allowing the isolated demo to build without Firebase credentials.
+
+## Product redesign — voice-first experience
+
+The `/relay` entry now opens an original SehatRelay product landing page. It includes a manually controlled **scripted example** walkthrough, three-step explanation, a missing-duration example, clinician handoff, honest voice-input information and direct demo entry. The legacy CareFolio home remains at `/`.
+
+Try the demo creates an ASHA demo session when needed. Overview shows live workspace counts and offers a new visit or recovered draft. The visit workspace has three navigable stages: **Document**, **Review with SunoSure**, and **Referral & timeline**. The review screen groups fields into visit details, reported information and handoff. The source stays beside the fields on wide screens and above them on narrow screens. Every field retains an explicit verification control. Referral submission now opens a native confirmation dialog with the patient, facility and referral reason before sending. The clinician inbox opens records with their status, timeline and review actions.
+
+The design uses warm off-white surfaces, forest-green primary controls, amber review states, clear text status labels, rounded panels, large headings, visible focus rings and responsive grids. CSS tokens live in `app/relay/relay.css`. Motion is limited to short panel transitions and real request-loading feedback; reduced-motion preferences disable these effects. No visual identity, artwork or proprietary assets were copied from Wispr.
+
+Reference pages were read through web text access: https://wisprflow.ai/, https://wisprflow.ai/features and https://docs.wisprflow.ai/articles/6409258247-starting-your-first-dictation. **No browser-control tool was available, so their visual desktop/mobile layouts, typography, animation and interactions were not inspected.** The design is an original interpretation of concise messaging and product-led demonstration, not a claim of visual fidelity.
+
+### Input options and configuration
+
+- **Use Wispr Flow** selects the installed-app workflow, focuses the ordinary textarea and displays setup instructions. It does not start, control or detect Flow. Install/sign in to Flow, place the cursor in the field, invoke your own configured shortcut/keyboard, finish in Flow and review the text. Real Flow dictation has not been tested in this environment.
+- **Type or paste** focuses the same field. It is available without a voice service and preserves the entered script. Text is not silently translated. Drafts save on this device; server save status is shown separately.
+- No in-app microphone, transcription provider, voice-command intent handler, audio playback or voice-triggered actions are implemented. There is no microphone button or fabricated listening state. A future microphone feature needs a real supported provider, credentials, pricing/privacy review and hardware/browser testing before it is exposed.
+
+No provider API key is required for this redesign. There are no new transcription or AI API charges from SehatRelay; use of the separately installed Wispr product is subject to its own current plan and terms. No speech language or code-switching quality was tested. The fixture uses Hinglish text; automated API checks exercise a Devanagari/Hinglish arbitrary-text fallback, which does not establish speech recognition quality.
+
+All prior limitations were rechecked in code and remain: exact Tara-01 sample extraction, blank manual template for other narratives, no audio access, local JSON records, public demo role switching and synthetic-data-only use. Server validation, role checks and existing tests remain intact. No storage migration or deployment was performed. A persistent database adapter and real identity/tenant authorization remain prerequisites for shared or serverless hosting; do not deploy the JSON store to Vercel.
+
+### Updated demo sequence
+
+1. Open `/relay`, introduce the landing-page story and click the scripted walkthrough controls.
+2. Click **Try the demo**, then **Start a synthetic visit** (or resume a recovered draft).
+3. Select **Use Wispr Flow**, dictate through installed Flow and review the result, or select **Type or paste**. To demonstrate supported predefined extraction, use **Load fictional example** and confirm any replacement.
+4. Click **Generate structured note**. Inspect the source and missing-duration flag. Check every field, leaving unknown details blank and confirming them as not provided.
+5. Enter a synthetic identifier, referral reason and `Demo PHC` as facility; verify these details. Continue to Referral & timeline.
+6. Save a draft if desired. Click **Review & submit**, inspect the confirmation, then **Confirm submission**.
+7. Click **Open clinician inbox** or use the Demo role selector. Open the referral, read source/note, return to Referral & timeline, enter a clinician note and acknowledge.
+8. Show the timestamped timeline. Switch to ASHA and refresh Referrals to show the persisted acknowledgement.
+
+A new visit, example load, repeated generation and device-draft clearing ask before replacing existing work. Voice commands remain possible future work, not a current capability.
+
+For an isolated production check while another development server is running, set an optional build-output directory in PowerShell:
+
+```powershell
+$env:SEHATRELAY_BUILD_DIR = '.next-relay-check'
+npm run build
+node node_modules/next/dist/bin/next start --port=3001
+```
+
+Keep the same `SEHATRELAY_BUILD_DIR` value for build and start. Then open http://localhost:3001/relay. This changes only the generated Next.js output location; it does not change the local referral store. Ordinary `npm run dev` / `npm run build` still use `.next` when this variable is unset. Do not run a development server and production build against the same output directory.
+
+## Screenshot-led visual update and GSAP
+
+The landing page now uses the supplied Wispr website screenshot as a visual reference: pale cream (#fffdeb), deep teal (#00564b), charcoal (#1b1d1a), lavender (#edcfff), large system-serif headings and wide rounded sections. It retains original SehatRelay identity and healthcare copy. The screenshot was visually reviewed; the live site was accessible only as web text, with no browser-control tools available for live visual testing.
+
+GSAP 3.15.1 is the only new dependency. Core timelines, context/matchMedia cleanup and ScrollTrigger drive the hero entrance, once-per-section reveals, a short desktop scroll-linked ribbon, page progress and the manually selected example transitions. GSAP modules load dynamically on the landing page when motion is permitted. Navigating to the workspace reverts its animations and scroll triggers. Reduced-motion users get the full static page. Native scrolling is preserved. No autoplay video, canvas, scroll hijacking, perpetual animation or recording waveform was added. FAQ panels use native details/summary; demo controls remain keyboard-operable buttons.
+
+For performance, effects animate opacity and transforms, reveal once, use no React state updates per scroll frame, and skip decorative ribbon movement on small screens. System fonts avoid font downloads; original UI elements replace external images/video. Previous unused landing styles were removed and the stylesheet formatted for maintenance. These are implementation choices, not a measured guarantee of frame rate: actual mobile/desktop scroll smoothness and interaction performance still need browser/device verification.
+
+The palette also applies to the visit workspace; voice input, extraction, SunoSure logic, server validation and referral persistence were preserved. Wispr still inserts text via its installed app/keyboard, and no real dictation test was performed. No additional API keys are needed. Run npm install --legacy-peer-deps after pulling the GSAP dependency, then npm run dev and open /relay.
